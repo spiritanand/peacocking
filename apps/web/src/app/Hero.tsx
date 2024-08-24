@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@web/components/ui/dropdown-menu";
 import Link from "next/link";
+import { BadgeCheck } from "lucide-react";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -22,7 +23,7 @@ export default function Hero() {
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
           aria-label="Global"
-          className="flex max-w-7xl items-center justify-between p-6 lg:px-8"
+          className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         >
           <div className="flex">
             <a href="#" className="-m-1.5 p-1.5">
@@ -109,15 +110,22 @@ export default function Hero() {
             <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-                  <h1 className="flex flex-col gap-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    Your dating profile
-                    <span className="capitalize">re-imagined.</span>
+                  <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                    Your dating profile pictures
+                    <span className="ml-2 capitalize text-primary">
+                      Re-imagined.
+                    </span>
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                    Cupidatat minim id magna ipsum sint dolor qui. Sunt sit in
-                    quis cupidatat mollit aute velit. Et labore commodo nulla
-                    aliqua proident mollit ullamco exercitation tempor
+                    Upload 12 or more photos and{" "}
+                    <span className="font-bold text-primary">supercharge</span>{" "}
+                    your profile. Save yourself from embarassing low-quality
+                    photos.
                   </p>
+                  <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+                    <BadgeCheck className="text-emerald-700" /> Certified by
+                    dating experts
+                  </div>
                   <div className="mt-10 flex items-center gap-x-6">
                     <Link href={"/api/auth/signin"}>
                       <Button>Get Started</Button>
