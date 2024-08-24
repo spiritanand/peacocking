@@ -2,9 +2,10 @@
   "name": "peacocking",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "studio": "turbo run db:studio",
+    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
