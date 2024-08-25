@@ -10,7 +10,9 @@ const Dashboard = () => {
 
       <CreateModel />
 
-      <p>List of old models with an example image</p>
+      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+        List of previous photo shoots 😉
+      </h3>
     </main>
   );
 };

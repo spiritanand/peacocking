@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, type ChangeEvent, type FormEvent } from "react";
+import React, { useState, type FormEvent } from "react";
 import * as fal from "@fal-ai/serverless-client";
 import { Button } from "@web/components/ui/button";
+import { FileUpload } from "@web/components/ui/file-upload";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -28,32 +29,23 @@ interface GeneratedImageResponse {
 }
 
 function UploadZipForm() {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFile] = useState<File[]>([]);
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile && selectedFile.type === "application/zip") {
-      setFile(selectedFile);
-    } else {
-      setFile(null);
-      alert("Please select a ZIP file.");
-    }
+  const handleFileUpload = (files: File[]) => {
+    setFile(files);
+    console.log(files);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!file) {
+    if (!files) {
       alert("Please select a ZIP file before submitting.");
       return;
     }
 
     // Here you would typically send the file to your server
     // This is a placeholder for that process
-    console.log("Uploading file:", file.name);
-
-    // Example of creating FormData for upload
-    const formData = new FormData();
-    formData.append("zipFile", file);
+    console.log("Uploading file:", files);
 
     // Placeholder for API call
     try {
@@ -83,17 +75,18 @@ function UploadZipForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="zipFile">Select ZIP file:</label>
-        <input
-          type="file"
-          id="zipFile"
-          accept=".zip"
-          onChange={handleFileChange}
-        />
-      </div>
-      <Button type="submit" disabled={!file}>
+    <form
+      onSubmit={handleSubmit}
+      className="mb-10 flex flex-col items-center gap-2 border-b pb-5"
+    >
+      <FileUpload
+        onChange={handleFileUpload}
+        multiple={false}
+        label="Upload Zip of photos"
+        accept=".zip"
+      />
+
+      <Button type="submit" disabled={!files.length}>
         Upload ZIP
       </Button>
     </form>
