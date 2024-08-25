@@ -9,7 +9,7 @@ import { falRouter } from "./routers/fal";
  */
 export const appRouter = createTRPCRouter({
   s3: s3Router,
-  falRoute: falRouter,
+  fal: falRouter,
 });
 
 // export type definition of API

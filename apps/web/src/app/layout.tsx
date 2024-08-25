@@ -2,6 +2,7 @@ import "@web/styles/globals.css";
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "@web/trpc/react";
 import { Josefin_Sans } from "next/font/google";
+import { Toaster } from "@web/components/ui/sonner";
 
 const JS = Josefin_Sans({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en" className={`${JS.className}`}>
       <body className="">
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster richColors />
       </body>
     </html>
   );
