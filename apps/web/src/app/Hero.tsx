@@ -103,7 +103,7 @@ export default function Hero() {
                 clipPath:
                   "polygon(63.1% 29.5%, 100% 17.1%, 76.6% 3%, 48.4% 0%, 44.6% 4.7%, 54.5% 25.3%, 59.8% 49%, 55.2% 57.8%, 44.4% 57.2%, 27.8% 47.9%, 35.1% 81.5%, 0% 97.7%, 39.2% 100%, 35.2% 81.4%, 97.2% 52.8%, 63.1% 29.5%)",
               }}
-              className="aspect-[801/1036] w-[50.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
+              className="aspect-[801/1036] w-[50.0625rem] bg-primary opacity-40"
             />
           </div>
           <div className="overflow-hidden">
@@ -112,15 +112,19 @@ export default function Hero() {
                 <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                     Your dating profile pictures
-                    <span className="ml-2 capitalize text-primary">
-                      Re-imagined.
+                    <span className="ml-2 text-5xl text-primary sm:text-7xl">
+                      supercharged
                     </span>
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                    Upload 12 or more photos and{" "}
-                    <span className="font-bold text-primary">supercharge</span>{" "}
-                    your profile. Save yourself from embarassing low-quality
-                    photos.
+                    Upload{" "}
+                    <span className="font-bold text-primary">
+                      just 10 photos
+                    </span>{" "}
+                    and get{" "}
+                    <span className="font-bold text-primary">mesmerizing</span>{" "}
+                    results. Choose from a variety of poses and backgrounds that
+                    suit your style and never miss a beat.
                   </p>
                   <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                     <BadgeCheck className="text-emerald-700" /> Certified by

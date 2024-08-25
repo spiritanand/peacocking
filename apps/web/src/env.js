@@ -24,6 +24,11 @@ export const env = createEnv({
     ),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+    S3_BUCKET_NAME: z.string(),
+    S3_REGION: z.string(),
+    S3_ACCESS_SECRET: z.string(),
+    S3_ACCESS_KEY: z.string(),
+    FAL_KEY: z.string(),
   },
 
   /**
@@ -46,6 +51,11 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    S3_REGION: process.env.S3_REGION,
+    S3_ACCESS_SECRET: process.env.S3_ACCESS_SECRET,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    FAL_KEY: process.env.S3_ACCESS_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
