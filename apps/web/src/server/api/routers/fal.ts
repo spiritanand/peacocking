@@ -45,28 +45,10 @@ export const falRouter = createTRPCRouter({
       //   });
       //
       // const { request_id, response_url, status_url, cancel_url } =
-      //   response.data as EnqueueResponse;
-
-      const data = {
-        status: "IN_QUEUE",
-        request_id: "6df7e317-6639-4e01-a95f-354208f18d8b",
-        response_url:
-          "https://queue.fal.run/fal-ai/flux-lora-general-training/requests/6df7e317-6639-4e01-a95f-354208f18d8b",
-        status_url:
-          "https://queue.fal.run/fal-ai/flux-lora-general-training/requests/6df7e317-6639-4e01-a95f-354208f18d8b/status",
-        cancel_url:
-          "https://queue.fal.run/fal-ai/flux-lora-general-training/requests/6df7e317-6639-4e01-a95f-354208f18d8b/cancel",
-        logs: null,
-        metrics: {},
-        queue_position: 0,
-      };
-
-      // response_url: data.response_url,
-      //   status_url: data.status_url,
-      //   cancel_url: data.cancel_url,
+      //   response.data
 
       return {
-        requestId: data.request_id,
+        requestId: "6df7e317-6639-4e01-a95f-354208f18d8b",
       };
     }),
   getTrainingStatus: protectedProcedure

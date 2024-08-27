@@ -7,6 +7,7 @@
     "build": "next build",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:drop": "drizzle-kit drop",
     "db:studio": "drizzle-kit studio --verbose",
     "dev": "next dev",
     "lint": "next lint",

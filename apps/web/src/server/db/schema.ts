@@ -14,7 +14,9 @@ import { createId } from "@paralleldrive/cuid2";
 import {
   type GenerateImageFromLoRAInput,
   type GenerateImageFromLoRAOutput,
+  type Logs,
 } from "@web/lib/types";
+import { RequestStatus, type RequestType } from "@web/lib/constants";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -121,16 +123,21 @@ export const requests = createTable("request", {
     .notNull()
     .primaryKey()
     .$defaultFn(() => createId()),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => users.id),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   statusUrl: text("status_url").notNull(),
   cancelUrl: text("cancel_url").notNull(),
-  status: text("status", {
-    enum: ["IN_QUEUE", "IN_PROGRESS", "COMPLETED", "FAILED"],
-  })
-    .default("IN_QUEUE")
+  status: text("status")
+    .$type<RequestStatus>()
+    .default(RequestStatus.IN_QUEUE)
     .notNull(),
+  type: text("type").$type<RequestType>().notNull(),
+  queuePosition: integer("queue_position").default(-1).notNull(),
+  logs: json("logs").$type<Logs | null>(),
 });
 
 export const models = createTable("model", {
@@ -139,9 +146,6 @@ export const models = createTable("model", {
     .primaryKey()
     .$defaultFn(() => createId()),
   name: varchar("name", { length: 256 }),
-  userId: varchar("userId", { length: 255 })
-    .notNull()
-    .references(() => users.id),
   requestId: varchar("request_id", { length: 255 })
     .notNull()
     .references(() => requests.id),
@@ -172,6 +176,9 @@ export const gens = createTable("gen", {
 });
 
 // Relations
+export const requestsRelations = relations(requests, ({ one }) => ({
+  user: one(users, { fields: [requests.userId], references: [users.id] }),
+}));
 export const modelsRelations = relations(models, ({ one }) => ({
   request: one(requests, {
     fields: [models.requestId],
@@ -183,4 +190,5 @@ export const gensRelations = relations(gens, ({ one }) => ({
     fields: [gens.requestId],
     references: [requests.id],
   }),
+  model: one(models, { fields: [gens.modelId], references: [models.id] }),
 }));

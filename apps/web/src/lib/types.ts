@@ -1,3 +1,9 @@
+import {
+  type ImageSize,
+  type LogLevel,
+  type OutputFormat,
+} from "@web/lib/constants";
+
 interface Image {
   url: string;
   content_type: string;
@@ -7,18 +13,7 @@ interface Image {
 interface Timings {
   inference?: number;
 }
-enum ImageSize {
-  SQUARE_HD = "square_hd",
-  SQUARE = "square",
-  PORTRAIT_4_3 = "portrait_4_3",
-  PORTRAIT_16_9 = "portrait_16_9",
-  LANDSCAPE_4_3 = "landscape_4_3",
-  LANDSCAPE_16_9 = "landscape_16_9",
-}
-enum OutputFormat {
-  JPEG = "jpeg",
-  PNG = "png",
-}
+
 export interface GenerateImageFromLoRAInput {
   loras: {
     path: string;
@@ -53,3 +48,11 @@ export interface CreateNewModelResponse {
   debug_caption_files: FileDetails;
   experimental_multi_checkpoints: ExperimentalCheckpoint[];
 }
+
+type LogItem = {
+  message: string;
+  level: LogLevel;
+  source: string;
+  timestamp: string;
+};
+export type Logs = LogItem[];

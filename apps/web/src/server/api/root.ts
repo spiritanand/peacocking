@@ -1,6 +1,7 @@
 import { s3Router } from "@web/server/api/routers/s3";
 import { createCallerFactory, createTRPCRouter } from "@web/server/api/trpc";
 import { falRouter } from "./routers/fal";
+import { requestRouter } from "@web/server/api/routers/request";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { falRouter } from "./routers/fal";
 export const appRouter = createTRPCRouter({
   s3: s3Router,
   fal: falRouter,
+  request: requestRouter,
 });
 
 // export type definition of API
