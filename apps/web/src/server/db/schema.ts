@@ -2,14 +2,19 @@ import { relations, sql } from "drizzle-orm";
 import {
   index,
   integer,
+  json,
   pgTableCreator,
   primaryKey,
-  serial,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
+import { createId } from "@paralleldrive/cuid2";
+import {
+  type GenerateImageFromLoRAInput,
+  type GenerateImageFromLoRAOutput,
+} from "@web/lib/types";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -19,32 +24,13 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `peacocking_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("created_by", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
-      () => new Date(),
-    ),
-  },
-  (example) => ({
-    createdByIdIdx: index("created_by_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
+// Auth Schemas
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
     .notNull()
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("email_verified", {
@@ -128,3 +114,73 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
 );
+
+// App Schemas
+export const requests = createTable("request", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  statusUrl: text("status_url").notNull(),
+  cancelUrl: text("cancel_url").notNull(),
+  status: text("status", {
+    enum: ["IN_QUEUE", "IN_PROGRESS", "COMPLETED", "FAILED"],
+  })
+    .default("IN_QUEUE")
+    .notNull(),
+});
+
+export const models = createTable("model", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  name: varchar("name", { length: 256 }),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+  requestId: varchar("request_id", { length: 255 })
+    .notNull()
+    .references(() => requests.id),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  configFile: text("config_file"),
+  loraFile: text("lora_file"),
+  featurePhotoUrl: text("feature_photo_url"),
+});
+
+export const gens = createTable("gen", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  modelId: varchar("model_id", { length: 255 })
+    .notNull()
+    .references(() => models.id),
+  requestId: varchar("request_id", { length: 255 })
+    .notNull()
+    .references(() => requests.id),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  input: json("input").$type<GenerateImageFromLoRAInput>(),
+  output: json("output").$type<GenerateImageFromLoRAOutput>(),
+});
+
+// Relations
+export const modelsRelations = relations(models, ({ one }) => ({
+  request: one(requests, {
+    fields: [models.requestId],
+    references: [requests.id],
+  }),
+}));
+export const gensRelations = relations(gens, ({ one }) => ({
+  request: one(requests, {
+    fields: [gens.requestId],
+    references: [requests.id],
+  }),
+}));

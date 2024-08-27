@@ -7,7 +7,32 @@ interface Image {
 interface Timings {
   inference?: number;
 }
-export interface GeneratedImageResponse {
+enum ImageSize {
+  SQUARE_HD = "square_hd",
+  SQUARE = "square",
+  PORTRAIT_4_3 = "portrait_4_3",
+  PORTRAIT_16_9 = "portrait_16_9",
+  LANDSCAPE_4_3 = "landscape_4_3",
+  LANDSCAPE_16_9 = "landscape_16_9",
+}
+enum OutputFormat {
+  JPEG = "jpeg",
+  PNG = "png",
+}
+export interface GenerateImageFromLoRAInput {
+  loras: {
+    path: string;
+    scale: number;
+  }[];
+  prompt: string;
+  image_size: ImageSize;
+  num_images: number;
+  output_format: OutputFormat;
+  guidance_scale: number;
+  num_inference_steps: number;
+  enable_safety_checker: boolean;
+}
+export interface GenerateImageFromLoRAOutput {
   images: Image[];
   timings: Timings;
   seed: number;
