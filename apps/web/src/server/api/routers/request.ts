@@ -36,7 +36,7 @@ export const requestRouter = createTRPCRouter({
       if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
 
       const { data } = parsed;
-      const { status, response_url } = data;
+      const { status, response_url, queue_position } = data;
 
       if (status === RequestStatus.FAILED)
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -75,6 +75,7 @@ export const requestRouter = createTRPCRouter({
 
       return {
         status,
+        queuePosition: queue_position ?? -1,
       };
     }),
 });

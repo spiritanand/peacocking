@@ -91,6 +91,7 @@ const LogEntrySchema = z.object({
 export const LogsSchema = z.array(LogEntrySchema);
 export const ModelStatusSchema = z.object({
   status: z.nativeEnum(RequestStatus),
+  queue_position: z.number().int().positive().optional(),
   response_url: z.string().url(),
 });
 export const ModelTrainResponseSchema = z.object({

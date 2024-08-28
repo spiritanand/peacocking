@@ -1,8 +1,6 @@
 import { z } from "zod";
-import axios from "axios";
 
 import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
-import { env } from "@web/env";
 import { TRPCError } from "@trpc/server";
 import { falAxiosInstance } from "@web/data/axiosClient";
 import { EnqueueResponseSchema, type EnqueueResponse } from "@web/lib/types";
@@ -53,23 +51,6 @@ export const falRouter = createTRPCRouter({
 
       return {
         requestId: request_id,
-      };
-    }),
-  getTrainingStatus: protectedProcedure
-    .input(z.object({ statusUrl: z.string() }))
-    .query(async ({ input }) => {
-      const { statusUrl } = input;
-
-      const response = await axios(statusUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Key ${env.FAL_KEY}`,
-        },
-      });
-
-      return {
-        status: response.data.status,
-        queue_position: response.data.queue_position,
       };
     }),
 });

@@ -23,14 +23,16 @@ function TrainingStatus({ requestId }: { requestId: string }) {
 
   const { id, status, statusUrl, cancelUrl, queuePosition } = request;
 
-  // const { data } = api.request.getStatusByUrl.useQuery(
-  // { statusUrl },
-  // {
-  // refetchInterval: 10 * 1000,
-  // },
-  // );
+  const { data } = api.request.getStatusByUrl.useQuery(
+    { statusUrl },
+    {
+      refetchInterval: 10 * 1000,
+    },
+  );
 
-  // console.log({ data });
+  // Update the status and queue position if the data is available
+  const newStatus = data?.status ?? status;
+  const newQueuePosition = data?.queuePosition ?? queuePosition;
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -43,23 +45,24 @@ function TrainingStatus({ requestId }: { requestId: string }) {
           variant="secondary"
           className={cn(
             "mb-4 p-2",
-            status === RequestStatus.IN_QUEUE
+            newStatus === RequestStatus.IN_QUEUE
               ? "text-orange-500"
               : "text-green-700",
           )}
         >
           {status}
         </Badge>
-        {queuePosition > 0 ? (
+        {newQueuePosition > 0 ? (
           <p>
             Position Number{" "}
-            <span className="font-extrabold">{queuePosition}</span> in the Queue
+            <span className="font-extrabold">{newQueuePosition}</span> in the
+            Queue
           </p>
         ) : null}
       </CardContent>
       <CardFooter>
         <p>
-          {queuePosition > 0 ? (
+          {newQueuePosition > 0 ? (
             <Button
               variant="destructive"
               onClick={() => {
