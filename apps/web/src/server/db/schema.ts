@@ -12,8 +12,8 @@ import {
 import { type AdapterAccount } from "next-auth/adapters";
 import { createId } from "@paralleldrive/cuid2";
 import {
-  type GenerateImageFromLoRAInput,
-  type GenerateImageOutput,
+  type ImageGenerationOutput,
+  type ImageGenerationInput,
   type Logs,
 } from "@web/lib/types";
 import { RequestStatus, type RequestType } from "@web/lib/constants";
@@ -119,10 +119,7 @@ export const verificationTokens = createTable(
 
 // App Schemas
 export const requests = createTable("request", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => createId()),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 })
     .notNull()
     .references(() => users.id),
@@ -174,8 +171,8 @@ export const gens = createTable("gen", {
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  input: json("input").$type<GenerateImageFromLoRAInput>(),
-  output: json("output").$type<GenerateImageOutput>(),
+  input: json("input").$type<ImageGenerationInput>(),
+  output: json("output").$type<ImageGenerationOutput>(),
 });
 
 // Relations

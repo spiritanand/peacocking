@@ -5,6 +5,15 @@ import { db } from "@web/server/db";
 import { eq } from "drizzle-orm";
 import { requests } from "@web/server/db/schema";
 import { falAxiosInstance } from "@web/data/axiosClient";
+import {
+  type ModelStatus,
+  ModelStatusSchema,
+  type ModelTrainResponse,
+  ModelTrainResponseSchema,
+} from "@web/lib/types";
+import { TRPCError } from "@trpc/server";
+import { RequestStatus } from "@web/lib/constants";
+import { insertModel } from "@web/data/db";
 
 export const requestRouter = createTRPCRouter({
   getById: protectedProcedure
@@ -17,24 +26,55 @@ export const requestRouter = createTRPCRouter({
   getStatusByUrl: protectedProcedure
     .input(z.object({ statusUrl: z.string() }))
     .query(async ({ input }) => {
-      console.log({ input });
+      const getStatusRes = await falAxiosInstance.get<ModelStatus>(
+        input.statusUrl,
+      );
 
-      try {
-        const res = await falAxiosInstance.get(
-          "fal-ai/flux-lora-general-training/requests/6df7e317-6639-4e01-a95f-354208f18d8b",
-        );
-        const data = res.data;
+      // Validate the response data
+      const parsed = ModelStatusSchema.safeParse(getStatusRes.data);
 
-        console.log({ data });
-      } catch (e) {
-        console.log({ e });
+      if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
+
+      const { data } = parsed;
+      const { status, response_url } = data;
+
+      if (status === RequestStatus.FAILED)
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // If the request is completed, fetch the response data and update the database
+      if (status === RequestStatus.COMPLETED) {
+        const res =
+          await falAxiosInstance.get<ModelTrainResponse>(response_url);
+
+        const parsed = ModelTrainResponseSchema.safeParse(res.data);
+
+        if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
+
+        const { data } = parsed;
+        const { response } = data;
+
+        const urlParts = response_url.split("/");
+        // Extract the last segment
+        const requestId = urlParts[urlParts.length - 1];
+
+        if (!requestId) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+        // Update the request status
+        await db
+          .update(requests)
+          .set({ status: RequestStatus.COMPLETED })
+          .where(eq(requests.id, requestId));
+
+        // Insert the created model into the database
+        await insertModel({
+          requestId,
+          configFile: response.config_file.url,
+          loraFile: response.diffusers_lora_file.url,
+        });
       }
 
       return {
-        status: "IN_QUEUE",
-        queue_position: 0,
-        response_url:
-          "https://queue.fal.run/fal-ai/fast-sdxl/requests/80e732af-660e-45cd-bd63-580e4f2a94cc",
+        status,
       };
     }),
 });

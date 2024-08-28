@@ -12,11 +12,11 @@ export async function POST(request: NextRequest) {
 
     const parsed = ImageGenerationWebhookSchema.safeParse(rawData);
 
-    // TODO: Save the gen in DB
-    console.log({ parsed });
-
     if (!parsed.success)
-      return NextResponse.json({ success: false }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: parsed.error.message },
+        { status: 500 },
+      );
 
     const { data } = parsed;
     const { payload } = data;

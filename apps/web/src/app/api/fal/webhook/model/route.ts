@@ -1,4 +1,9 @@
+import { insertModel } from "@web/data/db";
+import { RequestStatus } from "@web/lib/constants";
 import { ModelCreationWebhookSchema } from "@web/lib/types";
+import { db } from "@web/server/db";
+import { requests } from "@web/server/db/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET() {
@@ -12,14 +17,27 @@ export async function POST(request: NextRequest) {
 
     const parsed = ModelCreationWebhookSchema.safeParse(raw);
 
-    // TODO: Save the gen in DB
-    console.log({ data: parsed });
-
     if (!parsed.success)
-      return NextResponse.json({ success: false }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: parsed.error.message },
+        { status: 500 },
+      );
 
     const { data } = parsed;
-    const { payload } = data;
+    const { request_id, payload } = data;
+
+    // Update the request status
+    await db
+      .update(requests)
+      .set({ status: RequestStatus.COMPLETED })
+      .where(eq(requests.id, request_id));
+
+    // Insert the created model into the database
+    await insertModel({
+      requestId: request_id,
+      configFile: payload.config_file.url,
+      loraFile: payload.diffusers_lora_file.url,
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

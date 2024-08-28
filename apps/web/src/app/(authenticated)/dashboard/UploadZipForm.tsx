@@ -23,17 +23,17 @@ function UploadZipForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const zipFile = files?.[0];
+    const zipFile = files?.[0];
 
-    // if (!zipFile) {
-    //   alert("Please select a ZIP file before submitting.");
-    //   return;
-    // }
+    if (!zipFile) {
+      alert("Please select a ZIP file before submitting.");
+      return;
+    }
 
-    // const zipUrl = await fal.storage.upload(zipFile);
+    const zipUrl = await fal.storage.upload(zipFile);
 
     createModel.mutate(
-      { zipUrl: "URL" },
+      { zipUrl },
       {
         onSuccess: ({ requestId }) => router.push(`/training/${requestId}`),
       },
@@ -53,21 +53,10 @@ function UploadZipForm() {
           accept=".zip"
         />
 
-        <Button
-          type="submit"
-          // disabled={!files.length}
-        >
+        <Button type="submit" disabled={!files.length}>
           Upload ZIP
         </Button>
       </form>
-
-      {/* <Button
-        onClick={async () => {
-          await fetch(cancelUrl, { method: "POST" });
-        }}
-      >
-        CANCEL
-      </Button> */}
     </>
   );
 }

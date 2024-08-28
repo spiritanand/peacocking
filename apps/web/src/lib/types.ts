@@ -1,5 +1,17 @@
 import { z } from "zod";
-import { ImageSize, LogLevel, OutputFormat } from "@web/lib/constants";
+import {
+  ImageSize,
+  LogLevel,
+  OutputFormat,
+  RequestStatus,
+} from "@web/lib/constants";
+
+export const EnqueueResponseSchema = z.object({
+  request_id: z.string(),
+  response_url: z.string().url(),
+  status_url: z.string().url(),
+  cancel_url: z.string().url(),
+});
 
 // Image Generation Schemas
 const GenerateImageSchema = z.object({
@@ -38,7 +50,7 @@ export const ImageGenerationOutputSchema = z.object({
 });
 
 // API Response Metadata Schema
-export const ApiResponseMetadataSchema = z.object({
+export const WebhookMetadataSchema = z.object({
   request_id: z.string(),
   gateway_request_id: z.string(),
   status: z.enum(["OK", "ERROR"]),
@@ -46,7 +58,7 @@ export const ApiResponseMetadataSchema = z.object({
 });
 
 // Image Generation API Response Schema
-export const ImageGenerationWebhookSchema = ApiResponseMetadataSchema.extend({
+export const ImageGenerationWebhookSchema = WebhookMetadataSchema.extend({
   payload: ImageGenerationOutputSchema,
 });
 
@@ -65,7 +77,7 @@ export const ModelCreationOutputSchema = z.object({
   experimental_multi_checkpoints: z.array(FileDetailsSchema),
 });
 
-export const ModelCreationWebhookSchema = ApiResponseMetadataSchema.extend({
+export const ModelCreationWebhookSchema = WebhookMetadataSchema.extend({
   payload: ModelCreationOutputSchema,
 });
 
@@ -76,10 +88,18 @@ const LogEntrySchema = z.object({
   source: z.string(),
   timestamp: z.string(),
 });
-
 export const LogsSchema = z.array(LogEntrySchema);
+export const ModelStatusSchema = z.object({
+  status: z.nativeEnum(RequestStatus),
+  response_url: z.string().url(),
+});
+export const ModelTrainResponseSchema = z.object({
+  status: z.literal(RequestStatus.COMPLETED),
+  response: ModelCreationOutputSchema,
+});
 
 // Types inferred from the schemas
+export type EnqueueResponse = z.infer<typeof EnqueueResponseSchema>;
 export type ImageGenerationInput = z.infer<typeof ImageGenerationInputSchema>;
 export type ImageGenerationOutput = z.infer<typeof ImageGenerationOutputSchema>;
 export type ImageGenerationApiResponse = z.infer<
@@ -89,6 +109,8 @@ export type ModelCreationOutput = z.infer<typeof ModelCreationOutputSchema>;
 export type ModelCreationApiResponse = z.infer<
   typeof ModelCreationWebhookSchema
 >;
-export type ApiResponseMetadata = z.infer<typeof ApiResponseMetadataSchema>;
+export type ApiResponseMetadata = z.infer<typeof WebhookMetadataSchema>;
 export type LogEntry = z.infer<typeof LogEntrySchema>;
 export type Logs = z.infer<typeof LogsSchema>;
+export type ModelStatus = z.infer<typeof ModelStatusSchema>;
+export type ModelTrainResponse = z.infer<typeof ModelTrainResponseSchema>;
