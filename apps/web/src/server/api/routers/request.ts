@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
 import { db } from "@web/server/db";
 import { eq } from "drizzle-orm";
@@ -24,11 +23,17 @@ export const requestRouter = createTRPCRouter({
       }),
     ),
   getStatusByUrl: protectedProcedure
-    .input(z.object({ statusUrl: z.string() }))
+    .input(
+      z.object({
+        id: z.string(),
+        statusUrl: z.string(),
+        prevStatus: z.nativeEnum(RequestStatus),
+      }),
+    )
     .query(async ({ input }) => {
-      const getStatusRes = await falAxiosInstance.get<ModelStatus>(
-        input.statusUrl,
-      );
+      const { id, statusUrl, prevStatus } = input;
+
+      const getStatusRes = await falAxiosInstance.get<ModelStatus>(statusUrl);
 
       // Validate the response data
       const parsed = ModelStatusSchema.safeParse(getStatusRes.data);
@@ -38,8 +43,9 @@ export const requestRouter = createTRPCRouter({
       const { data } = parsed;
       const { status, response_url, queue_position } = data;
 
-      if (status === RequestStatus.FAILED)
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      // Update the request status in the database if it has changed
+      if (prevStatus !== status)
+        await db.update(requests).set({ status }).where(eq(requests.id, id));
 
       // If the request is completed, fetch the response data and update the database
       if (status === RequestStatus.COMPLETED) {
@@ -53,21 +59,10 @@ export const requestRouter = createTRPCRouter({
         const { data } = parsed;
         const { response } = data;
 
-        const urlParts = response_url.split("/");
-        // Extract the last segment
-        const requestId = urlParts[urlParts.length - 1];
-
-        if (!requestId) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-
-        // Update the request status
-        await db
-          .update(requests)
-          .set({ status: RequestStatus.COMPLETED })
-          .where(eq(requests.id, requestId));
-
+        // TODO: Return model ID (for redirection)
         // Insert the created model into the database
         await insertModel({
-          requestId,
+          requestId: id,
           configFile: response.config_file.url,
           loraFile: response.diffusers_lora_file.url,
         });
