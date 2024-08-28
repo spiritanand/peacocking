@@ -47,6 +47,8 @@ export const requestRouter = createTRPCRouter({
       if (prevStatus !== status)
         await db.update(requests).set({ status }).where(eq(requests.id, id));
 
+      let modelId = "";
+
       // If the request is completed, fetch the response data and update the database
       if (status === RequestStatus.COMPLETED) {
         const res =
@@ -59,18 +61,20 @@ export const requestRouter = createTRPCRouter({
         const { data } = parsed;
         const { response } = data;
 
-        // TODO: Return model ID (for redirection)
         // Insert the created model into the database
-        await insertModel({
+        const insertedId = await insertModel({
           requestId: id,
           configFile: response.config_file.url,
           loraFile: response.diffusers_lora_file.url,
         });
+
+        modelId = insertedId.id;
       }
 
       return {
         status,
         queuePosition: queue_position ?? -1,
+        modelId,
       };
     }),
 });

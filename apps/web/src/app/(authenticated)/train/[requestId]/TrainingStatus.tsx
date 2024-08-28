@@ -29,7 +29,7 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   const { data } = api.request.getStatusByUrl.useQuery(
     { id, statusUrl, prevStatus: status },
     {
-      refetchInterval: 10 * 1000,
+      refetchInterval: 45 * 1000, // 45 seconds
     },
   );
 
@@ -37,7 +37,8 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   const newStatus = data?.status ?? status;
   const newQueuePosition = data?.queuePosition ?? queuePosition;
 
-  if (newStatus === RequestStatus.COMPLETED) router.push(`/model/${requestId}`);
+  if (newStatus === RequestStatus.COMPLETED)
+    router.push(`/model/${data?.modelId}`);
 
   return (
     <Card className="mx-auto max-w-sm">

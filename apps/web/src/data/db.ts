@@ -11,12 +11,17 @@ export async function insertModel({
   configFile: string;
   loraFile: string;
 }) {
-  await db
+  const id = await db
     .insert(models)
     .values({
       requestId,
       configFile,
       loraFile,
     })
-    .onConflictDoNothing();
+    .onConflictDoNothing()
+    .returning({ insertedId: models.id });
+
+  return {
+    id: id?.[0]?.insertedId ?? "",
+  };
 }

@@ -1,4 +1,5 @@
 import { ImageGenerationWebhookSchema } from "@web/lib/types";
+import { db } from "@web/server/db";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET() {
@@ -19,6 +20,7 @@ export async function POST(request: NextRequest) {
       );
 
     const { data } = parsed;
+
     const { payload } = data;
 
     return NextResponse.json({ success: true });
