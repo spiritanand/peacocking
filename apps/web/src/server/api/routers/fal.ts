@@ -17,8 +17,7 @@ export const falRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { zipUrl } = input;
 
-      const trainingQueueUrl =
-        "https://queue.fal.run/fal-ai/flux-lora-general-training";
+      const trainingQueueUrl = "fal-ai/flux-lora-general-training";
       const trigger = "peacocked";
 
       // const response = await axios({

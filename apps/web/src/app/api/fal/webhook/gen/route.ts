@@ -1,0 +1,33 @@
+import { ImageGenerationWebhookSchema } from "@web/lib/types";
+import { NextResponse, type NextRequest } from "next/server";
+
+export async function GET() {
+  return Response.json({ message: "Hello Gena" });
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const rawData = await request.json();
+
+    const parsed = ImageGenerationWebhookSchema.safeParse(rawData);
+
+    // TODO: Save the gen in DB
+    console.log({ parsed });
+
+    if (!parsed.success)
+      return NextResponse.json({ success: false }, { status: 500 });
+
+    const { data } = parsed;
+    const { payload } = data;
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
+}

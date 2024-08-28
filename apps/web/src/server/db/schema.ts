@@ -13,7 +13,7 @@ import { type AdapterAccount } from "next-auth/adapters";
 import { createId } from "@paralleldrive/cuid2";
 import {
   type GenerateImageFromLoRAInput,
-  type GenerateImageFromLoRAOutput,
+  type GenerateImageOutput,
   type Logs,
 } from "@web/lib/types";
 import { RequestStatus, type RequestType } from "@web/lib/constants";
@@ -129,6 +129,7 @@ export const requests = createTable("request", {
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
+  responseUrl: text("response_url").notNull(),
   statusUrl: text("status_url").notNull(),
   cancelUrl: text("cancel_url").notNull(),
   status: text("status")
@@ -148,7 +149,8 @@ export const models = createTable("model", {
   name: varchar("name", { length: 256 }),
   requestId: varchar("request_id", { length: 255 })
     .notNull()
-    .references(() => requests.id),
+    .references(() => requests.id)
+    .unique(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -167,12 +169,13 @@ export const gens = createTable("gen", {
     .references(() => models.id),
   requestId: varchar("request_id", { length: 255 })
     .notNull()
-    .references(() => requests.id),
+    .references(() => requests.id)
+    .unique(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   input: json("input").$type<GenerateImageFromLoRAInput>(),
-  output: json("output").$type<GenerateImageFromLoRAOutput>(),
+  output: json("output").$type<GenerateImageOutput>(),
 });
 
 // Relations
