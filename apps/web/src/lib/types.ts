@@ -63,7 +63,17 @@ const FileDetailsSchema = z.object({
   file_size: z.number().int().positive(),
 });
 
-export const ModelCreationOutputSchema = z.object({
+export const ModelTrainInputSchema = z.object({
+  rank: z.number().int().positive(),
+  steps: z.number().int().positive(),
+  trigger_word: z.string(),
+  learning_rate: z.number().positive(),
+  images_data_url: z.string().url(),
+  experimental_optimizers: z.string(),
+  experimental_multi_checkpoints_count: z.number().int().nonnegative(),
+});
+
+export const ModelTrainOutputSchema = z.object({
   diffusers_lora_file: FileDetailsSchema,
   config_file: FileDetailsSchema,
   // debug_caption_files: FileDetailsSchema,
@@ -71,7 +81,7 @@ export const ModelCreationOutputSchema = z.object({
 });
 
 export const ModelCreationWebhookSchema = WebhookMetadataSchema.extend({
-  payload: ModelCreationOutputSchema,
+  payload: ModelTrainOutputSchema,
 });
 
 // Logging Schema
@@ -94,7 +104,8 @@ export type ImageGenerationOutput = z.infer<typeof ImageGenerationOutputSchema>;
 export type ImageGenerationApiResponse = z.infer<
   typeof ImageGenerationWebhookSchema
 >;
-export type ModelCreationOutput = z.infer<typeof ModelCreationOutputSchema>;
+export type ModelTrainInput = z.infer<typeof ModelTrainInputSchema>;
+export type ModelCreationOutput = z.infer<typeof ModelTrainOutputSchema>;
 export type ModelCreationApiResponse = z.infer<
   typeof ModelCreationWebhookSchema
 >;

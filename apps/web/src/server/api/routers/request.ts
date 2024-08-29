@@ -6,7 +6,7 @@ import { requests } from "@web/server/db/schema";
 import { falAxiosInstance } from "@web/data/axiosClient";
 import {
   type ModelCreationOutput,
-  ModelCreationOutputSchema,
+  ModelTrainOutputSchema,
   type ModelStatus,
   ModelStatusSchema,
 } from "@web/lib/types";
@@ -54,7 +54,7 @@ export const requestRouter = createTRPCRouter({
         const res =
           await falAxiosInstance.get<ModelCreationOutput>(response_url);
 
-        const parsed = ModelCreationOutputSchema.safeParse(res.data);
+        const parsed = ModelTrainOutputSchema.safeParse(res.data);
 
         if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
 

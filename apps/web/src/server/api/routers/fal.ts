@@ -8,12 +8,56 @@ import { ImageSize, OutputFormat, RequestType } from "@web/lib/constants";
 import { eq } from "drizzle-orm";
 import * as fal from "@fal-ai/serverless-client";
 import { env } from "@web/env";
+import {
+  type ModelTrainInput,
+  type ImageGenerationInput,
+} from "@web/lib/types";
 
 const hostedUrl = "https://0l2pfp74-3000.inc1.devtunnels.ms";
 
 fal.config({
   credentials: env.FAL_KEY,
 });
+
+async function submitToFalQueue({
+  appId,
+  input,
+  webhookPath,
+  userId,
+  requestType,
+}: {
+  appId: string;
+  input: ModelTrainInput | ImageGenerationInput;
+  webhookPath: string;
+  userId: string;
+  requestType: RequestType;
+}) {
+  const webhookUrl = new URL(webhookPath, hostedUrl).toString(); //TODO: Make dynamic
+
+  const res = await fal.queue.submit(appId, {
+    input,
+    // webhookUrl: `${env.WEBHOOK_BASE_URL}${webhookPath}`,
+    webhookUrl,
+  });
+
+  const { request_id } = res;
+  const statusUrl = `https://queue.fal.run/${appId}/requests/${request_id}/status`;
+  const responseUrl = `https://queue.fal.run/${appId}/requests/${request_id}`;
+  const cancelUrl = `https://queue.fal.run/${appId}/requests/${request_id}/cancel`;
+
+  await db.insert(requests).values({
+    id: request_id,
+    userId,
+    statusUrl,
+    responseUrl,
+    cancelUrl,
+    type: requestType,
+  });
+
+  return {
+    requestId: request_id,
+  };
+}
 
 export const falRouter = createTRPCRouter({
   createModel: protectedProcedure
@@ -22,42 +66,24 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
 
       const { zipUrl } = input;
-
-      const trigger = "peacocked";
+      const trigger_word = "peacocked";
       const steps = 1;
 
-      const appId = "fal-ai/flux-lora-general-training";
-
-      const res = await fal.queue.submit(appId, {
+      return submitToFalQueue({
+        appId: "fal-ai/flux-lora-general-training",
         input: {
           images_data_url: zipUrl,
           steps,
-          trigger_word: trigger,
+          trigger_word,
           rank: 16,
           learning_rate: 0.0004,
           experimental_optimizers: "adamw8bit",
           experimental_multi_checkpoints_count: 1,
         },
-        webhookUrl: `${hostedUrl}/api/fal/webhook/model`, //TODO: Make dynamic,
-      });
-
-      const { request_id } = res;
-      const statusUrl = `https://queue.fal.run/${appId}/requests/${request_id}/status`;
-      const responseUrl = `https://queue.fal.run/${appId}/requests/${request_id}`;
-      const cancelUrl = `https://queue.fal.run/${appId}/requests/${request_id}/cancel`;
-
-      await db.insert(requests).values({
-        id: request_id,
+        webhookPath: "api/fal/webhook/model",
         userId,
-        statusUrl,
-        responseUrl,
-        cancelUrl,
-        type: RequestType.MODEL,
+        requestType: RequestType.MODEL,
       });
-
-      return {
-        requestId: request_id,
-      };
     }),
   createImage: protectedProcedure
     .input(z.object({ modelId: z.string(), prompt: z.string().optional() }))
@@ -82,9 +108,8 @@ export const falRouter = createTRPCRouter({
         throw new TRPCError({ code: "UNAUTHORIZED" });
       if (!model.loraFile) throw new TRPCError({ code: "NOT_FOUND" });
 
-      const appId = "fal-ai/flux-lora";
-
-      const res = await fal.queue.submit(appId, {
+      return submitToFalQueue({
+        appId: "fal-ai/flux-lora",
         input: {
           loras: [{ path: model.loraFile, scale: 1 }],
           prompt: prompt ?? "Portrait of peacocked man person",
@@ -95,25 +120,9 @@ export const falRouter = createTRPCRouter({
           guidance_scale: 3.5,
           enable_safety_checker: true,
         },
-        webhookUrl: `${hostedUrl}/api/fal/webhook/gen`, //TODO: Make dynamic
-      });
-
-      const { request_id } = res;
-      const statusUrl = `https://queue.fal.run/${appId}/requests/${request_id}/status`;
-      const responseUrl = `https://queue.fal.run/${appId}/requests/${request_id}`;
-      const cancelUrl = `https://queue.fal.run/${appId}/requests/${request_id}/cancel`;
-
-      await db.insert(requests).values({
-        id: request_id,
+        webhookPath: "api/fal/webhook/gen",
         userId,
-        statusUrl,
-        responseUrl,
-        cancelUrl,
-        type: RequestType.GEN,
+        requestType: RequestType.GEN,
       });
-
-      return {
-        requestId: request_id,
-      };
     }),
 });
