@@ -6,13 +6,6 @@ import {
   RequestStatus,
 } from "@web/lib/constants";
 
-export const EnqueueResponseSchema = z.object({
-  request_id: z.string(),
-  response_url: z.string().url(),
-  status_url: z.string().url(),
-  cancel_url: z.string().url(),
-});
-
 // Image Generation Schemas
 const GenerateImageSchema = z.object({
   url: z.string().url(),
@@ -49,7 +42,7 @@ export const ImageGenerationOutputSchema = z.object({
   prompt: z.string(),
 });
 
-// API Response Metadata Schema
+// Webhook Metadata Schema
 export const WebhookMetadataSchema = z.object({
   request_id: z.string(),
   gateway_request_id: z.string(),
@@ -57,7 +50,7 @@ export const WebhookMetadataSchema = z.object({
   error: z.null().or(z.string()),
 });
 
-// Image Generation API Response Schema
+// Image Generation Webhook Schema
 export const ImageGenerationWebhookSchema = WebhookMetadataSchema.extend({
   payload: ImageGenerationOutputSchema,
 });
@@ -73,8 +66,8 @@ const FileDetailsSchema = z.object({
 export const ModelCreationOutputSchema = z.object({
   diffusers_lora_file: FileDetailsSchema,
   config_file: FileDetailsSchema,
-  debug_caption_files: FileDetailsSchema,
-  experimental_multi_checkpoints: z.array(FileDetailsSchema),
+  // debug_caption_files: FileDetailsSchema,
+  // experimental_multi_checkpoints: z.array(FileDetailsSchema),
 });
 
 export const ModelCreationWebhookSchema = WebhookMetadataSchema.extend({
@@ -94,13 +87,8 @@ export const ModelStatusSchema = z.object({
   queue_position: z.number().int().positive().optional(),
   response_url: z.string().url(),
 });
-export const ModelTrainResponseSchema = z.object({
-  status: z.literal(RequestStatus.COMPLETED),
-  response: ModelCreationOutputSchema,
-});
 
 // Types inferred from the schemas
-export type EnqueueResponse = z.infer<typeof EnqueueResponseSchema>;
 export type ImageGenerationInput = z.infer<typeof ImageGenerationInputSchema>;
 export type ImageGenerationOutput = z.infer<typeof ImageGenerationOutputSchema>;
 export type ImageGenerationApiResponse = z.infer<
@@ -114,4 +102,3 @@ export type ApiResponseMetadata = z.infer<typeof WebhookMetadataSchema>;
 export type LogEntry = z.infer<typeof LogEntrySchema>;
 export type Logs = z.infer<typeof LogsSchema>;
 export type ModelStatus = z.infer<typeof ModelStatusSchema>;
-export type ModelTrainResponse = z.infer<typeof ModelTrainResponseSchema>;

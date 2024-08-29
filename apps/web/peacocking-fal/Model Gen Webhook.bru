@@ -1,0 +1,26 @@
+meta {
+  name: Model Gen Webhook
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/fal/webhook/model
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "request_id": "67356b7a-894d-41f5-ab0b-67edfe346f79",
+    "gateway_request_id": "67356b7a-894d-41f5-ab0b-67edfe346f79",
+    "status": "OK",
+    "error": null,
+    "payload": {
+      "diffusers_lora_file": {},
+      "config_file": {},
+      "debug_caption_files": null,
+      "experimental_multi_checkpoints": null
+    }
+  }
+}

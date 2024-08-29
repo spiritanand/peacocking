@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
 
     const parsed = ModelCreationWebhookSchema.safeParse(raw);
 
+    console.log({ parsed });
+
     if (!parsed.success)
       return NextResponse.json(
         { success: false, message: parsed.error.message },
@@ -25,6 +27,8 @@ export async function POST(request: NextRequest) {
 
     const { data } = parsed;
     const { request_id, payload } = data;
+
+    console.log("updating request status");
 
     // Update the request status
     await db
@@ -41,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
+    console.error({ error });
 
     return NextResponse.json({ success: false }, { status: 500 });
   }

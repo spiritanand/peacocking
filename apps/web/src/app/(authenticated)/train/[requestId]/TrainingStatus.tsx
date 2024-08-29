@@ -33,6 +33,8 @@ function TrainingStatus({ requestId }: { requestId: string }) {
     },
   );
 
+  console.log({ data });
+
   // Update the status and queue position if data is available
   const newStatus = data?.status ?? status;
   const newQueuePosition = data?.queuePosition ?? queuePosition;
@@ -56,7 +58,7 @@ function TrainingStatus({ requestId }: { requestId: string }) {
               : "text-green-700",
           )}
         >
-          {status}
+          {newStatus}
         </Badge>
         {newQueuePosition > 0 ? (
           <p>

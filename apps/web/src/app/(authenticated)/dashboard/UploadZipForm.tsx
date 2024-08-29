@@ -14,6 +14,7 @@ fal.config({
 function UploadZipForm() {
   const router = useRouter();
   const [files, setFile] = useState<File[]>([]);
+  const [isPending, setIsPending] = useState(false);
 
   const createModel = api.fal.createModel.useMutation();
 
@@ -23,6 +24,7 @@ function UploadZipForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsPending(true);
     const zipFile = files?.[0];
 
     if (!zipFile) {
@@ -35,7 +37,8 @@ function UploadZipForm() {
     createModel.mutate(
       { zipUrl },
       {
-        onSuccess: ({ requestId }) => router.push(`/training/${requestId}`),
+        onSuccess: ({ requestId }) => router.push(`/train/${requestId}`),
+        onSettled: () => setIsPending(false),
       },
     );
   };
@@ -53,7 +56,7 @@ function UploadZipForm() {
           accept=".zip"
         />
 
-        <Button type="submit" disabled={!files.length}>
+        <Button type="submit" disabled={!files.length || isPending}>
           Upload ZIP
         </Button>
       </form>

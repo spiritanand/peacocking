@@ -5,10 +5,10 @@ import { eq } from "drizzle-orm";
 import { requests } from "@web/server/db/schema";
 import { falAxiosInstance } from "@web/data/axiosClient";
 import {
+  type ModelCreationOutput,
+  ModelCreationOutputSchema,
   type ModelStatus,
   ModelStatusSchema,
-  type ModelTrainResponse,
-  ModelTrainResponseSchema,
 } from "@web/lib/types";
 import { TRPCError } from "@trpc/server";
 import { RequestStatus } from "@web/lib/constants";
@@ -52,20 +52,20 @@ export const requestRouter = createTRPCRouter({
       // If the request is completed, fetch the response data and update the database
       if (status === RequestStatus.COMPLETED) {
         const res =
-          await falAxiosInstance.get<ModelTrainResponse>(response_url);
+          await falAxiosInstance.get<ModelCreationOutput>(response_url);
 
-        const parsed = ModelTrainResponseSchema.safeParse(res.data);
+        const parsed = ModelCreationOutputSchema.safeParse(res.data);
 
         if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
 
         const { data } = parsed;
-        const { response } = data;
+        const { config_file, diffusers_lora_file } = data;
 
         // Insert the created model into the database
         const insertedId = await insertModel({
           requestId: id,
-          configFile: response.config_file.url,
-          loraFile: response.diffusers_lora_file.url,
+          configFile: config_file.url,
+          loraFile: diffusers_lora_file.url,
         });
 
         modelId = insertedId.id;

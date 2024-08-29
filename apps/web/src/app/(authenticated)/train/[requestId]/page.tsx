@@ -4,8 +4,6 @@ import { RequestStatus, RequestType } from "@web/lib/constants";
 import { api, HydrateClient } from "@web/trpc/server";
 import { getServerAuthSession } from "@web/server/auth";
 
-// const desc =
-
 export default async function Page({
   params,
 }: {
