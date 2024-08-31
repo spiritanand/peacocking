@@ -1,33 +1,64 @@
-import { falAxiosInstance } from "@web/data/axiosClient";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { z } from "zod";
+import { db } from "@web/server/db";
+import { gens, requests } from "@web/server/db/schema";
+import { and, desc, eq } from "drizzle-orm";
+import { RequestStatus } from "@web/lib/constants";
+import { falAxiosInstance } from "@web/data/axiosClient";
+import {
+  type ImageGenerationOutput,
+  ImageGenerationOutputSchema,
+} from "@web/lib/types";
 
 export const genRouter = createTRPCRouter({
-  generateImage: protectedProcedure.mutation(async () => {
-    try {
-      const res = await falAxiosInstance.post(
-        "/fal-ai/flux/schnell",
-        {
-          prompt:
-            'Extreme close-up of a single tiger eye, direct frontal view. Detailed iris and pupil. Sharp focus on eye texture and color. Natural lighting to capture authentic eye shine and depth. The word "SPIRIT" is painted over it in big, white brush strokes with visible texture.',
-          image_size: "landscape_4_3",
-          num_inference_steps: 4,
-          num_images: 1,
-          enable_safety_checker: true,
+  getMyGensByModelId: protectedProcedure
+    .input(z.object({ modelId: z.string() }))
+    .query(async ({ ctx, input }) =>
+      db.query.gens.findMany({
+        orderBy: desc(gens.createdAt),
+        where: and(
+          eq(gens.modelId, input.modelId),
+          eq(gens.userId, ctx.session.user.id),
+        ),
+        with: {
+          model: true,
         },
-        {
-          params: {
-            // fal_webhook: "http://localhost:3000/api/fal/webhook",
-          },
-        },
-      );
+      }),
+    ),
+  updateGen: protectedProcedure
+    .input(z.object({ requestId: z.string(), responseUrl: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const { requestId, responseUrl } = input;
 
-      console.log({ res });
-    } catch (e) {
-      console.log({ e });
-    }
+      try {
+        const res =
+          await falAxiosInstance.get<ImageGenerationOutput>(responseUrl);
 
-    return {
-      url: "https://example.com",
-    };
-  }),
+        const parsed = ImageGenerationOutputSchema.safeParse(res.data);
+
+        if (!parsed.success) return false;
+
+        const data = parsed.data;
+
+        await db
+          .update(requests)
+          .set({
+            status: RequestStatus.COMPLETED,
+          })
+          .where(and(eq(requests.id, requestId), eq(requests.userId, userId)));
+
+        await db
+          .update(gens)
+          .set({
+            output: data,
+          })
+          .where(and(eq(gens.requestId, requestId), eq(gens.userId, userId)));
+
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    }),
 });

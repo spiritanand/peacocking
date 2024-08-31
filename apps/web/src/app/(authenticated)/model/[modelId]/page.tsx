@@ -1,17 +1,17 @@
-import { getMyGensByModelId } from "@web/data/db";
 import { redirect } from "next/navigation";
 import CustomGenerateForm from "./CustomGenerateForm";
+import { api, HydrateClient } from "@web/trpc/server";
+import GensList from "./GensList";
 
 export default async function page({
   params,
 }: {
   params: { modelId: string };
 }) {
-  const gens = await getMyGensByModelId(params.modelId);
+  const gens = await api.gen.getMyGensByModelId({ modelId: params.modelId });
+  void api.gen.getMyGensByModelId.prefetch({ modelId: params.modelId });
 
   if (!gens) redirect("/dashboard");
-
-  console.log({ gens });
 
   return (
     <main className="container my-10">
@@ -20,6 +20,10 @@ export default async function page({
       </h1>
 
       <CustomGenerateForm />
+
+      <HydrateClient>
+        <GensList modelId={params.modelId} />
+      </HydrateClient>
     </main>
   );
 }

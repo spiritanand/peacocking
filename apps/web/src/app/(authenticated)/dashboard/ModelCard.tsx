@@ -13,8 +13,6 @@ const ModelCard = ({ model, index }: { model: Model; index: number }) => {
   const { id, name, featurePhotoUrl, createdAt } = model;
   const creationDistance = formatDistance(new Date(), new Date(createdAt));
 
-  console.log({ creationDistance });
-
   return (
     <Link href={`/model/${id}`}>
       <Card

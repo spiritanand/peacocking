@@ -1,10 +1,10 @@
 "use client";
 
-import React, { type FormEvent, useState } from "react";
+import React, { useState } from "react";
 import * as fal from "@fal-ai/serverless-client";
 import { Button } from "@web/components/ui/button";
 import { api } from "@web/trpc/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -18,32 +18,49 @@ import {
 import { Input } from "@web/components/ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  prompt: z
-    .string()
-    // .min(5, {
-    //   message: "Must be at least 5 characters",
-    // })
-    // .max(50, {
-    //   message: "Must be at most 50 characters",
-    // })
-    .optional(),
+  prompt: z.string().min(5, {
+    message: "Must be at least 5 characters",
+  }),
 });
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
 });
 
+async function periodicFetch({
+  endpointId,
+  requestId,
+  runOnSuccess,
+}: {
+  endpointId: string;
+  requestId: string;
+  runOnSuccess?: () => Promise<void>;
+}) {
+  async function fetchData() {
+    const res = await fal.queue.status(endpointId, {
+      requestId,
+    });
+
+    if (res.status === "COMPLETED") {
+      await runOnSuccess?.();
+      return;
+    }
+
+    setTimeout(() => void fetchData(), 3000);
+  }
+
+  await fetchData();
+}
+
 function CustomGenerateForm() {
   const params = useParams<{ modelId: string }>();
   const { modelId } = params;
+  const [isPending, setIsPending] = useState(false);
 
-  const createImage = api.fal.createImage.useMutation({
-    onSuccess: ({ responseUrl }) => {
-      console.log("success", responseUrl);
-    },
-  });
+  const utils = api.useUtils();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,10 +69,36 @@ function CustomGenerateForm() {
     },
   });
 
+  const updateGen = api.gen.updateGen.useMutation();
+
+  const createImage = api.fal.createImage.useMutation({
+    onSuccess: async ({ requestId, responseUrl }) => {
+      await periodicFetch({
+        requestId,
+        endpointId: "fal-ai/flux-lora",
+        runOnSuccess: async () => {
+          // Update the gen with the response
+          await updateGen.mutateAsync({ requestId, responseUrl });
+          // Invalidate the generated images
+          await utils.gen.getMyGensByModelId.invalidate({ modelId });
+
+          setIsPending(false);
+          form.reset();
+          toast.success("Image generated successfully");
+        },
+      });
+    },
+    onError: () => {
+      setIsPending(false);
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { prompt } = values;
 
+    setIsPending(true);
     createImage.mutate({ modelId, prompt });
+    toast.info("Generating image...");
   }
 
   return (
@@ -85,10 +128,10 @@ function CustomGenerateForm() {
           <div className="mt-8 flex flex-col items-center">
             <Button
               type="submit"
-              disabled={createImage.isPending}
+              disabled={createImage.isPending || isPending}
               className="scale-[1.25]"
             >
-              Generate More
+              Generate
             </Button>
             <p className="mt-4 text-sm text-gray-500">
               Make sure you have at least{" "}

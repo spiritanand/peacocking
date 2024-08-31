@@ -14,6 +14,7 @@ import {
 } from "@web/lib/types";
 
 const hostedUrl = "https://0l2pfp74-3000.inc1.devtunnels.ms";
+const trigger_word = "peacockedproender";
 
 fal.config({
   credentials: env.FAL_KEY,
@@ -67,7 +68,6 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
 
       const { zipUrl } = input;
-      const trigger_word = "peacockedproender";
       const steps = 1;
 
       return submitToFalQueue({
@@ -87,7 +87,7 @@ export const falRouter = createTRPCRouter({
       });
     }),
   createImage: protectedProcedure
-    .input(z.object({ modelId: z.string(), prompt: z.string().optional() }))
+    .input(z.object({ modelId: z.string(), prompt: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const { modelId, prompt } = input;
@@ -101,9 +101,14 @@ export const falRouter = createTRPCRouter({
       if (!model.loraFile) throw new TRPCError({ code: "NOT_FOUND" });
 
       const inputImageGen: ImageGenerationInput = {
-        loras: [{ path: model.loraFile, scale: 1 }],
-        prompt:
-          "man, red hair, light colored eyes, smiling, dark red knit sweater, leaning up against a large tree, bright sunny day, extremely intricate details, masterpiece, epic, clear shadows and highlights, realistic, intense, enhanced contrast, highly detailed skin",
+        loras: [
+          { path: model.loraFile, scale: 1 },
+          // {
+          //   path: "https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors",
+          //   scale: 0.4,
+          // },
+        ],
+        prompt: `${trigger_word} ${prompt}`,
         image_size: ImageSize.LANDSCAPE_4_3,
         num_images: 1,
         output_format: OutputFormat.JPEG,

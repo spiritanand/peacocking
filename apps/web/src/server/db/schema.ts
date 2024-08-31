@@ -125,8 +125,8 @@ export const requests = createTable("request", {
   userId: varchar("user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
+  createdAt: timestamp("created_at", { mode: "string", withTimezone: true })
+    .$defaultFn(() => new Date().toISOString())
     .notNull(),
   responseUrl: text("response_url").notNull(),
   statusUrl: text("status_url").notNull(),
@@ -153,8 +153,8 @@ export const models = createTable("model", {
     .notNull()
     .references(() => requests.id)
     .unique(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
+  createdAt: timestamp("created_at", { mode: "string", withTimezone: true })
+    .$defaultFn(() => new Date().toISOString())
     .notNull(),
   configFile: text("config_file"),
   loraFile: text("lora_file"),
@@ -180,8 +180,8 @@ export const gens = createTable("gen", {
     .notNull()
     .references(() => requests.id)
     .unique(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
+  createdAt: timestamp("created_at", { mode: "string", withTimezone: true })
+    .$defaultFn(() => new Date().toISOString())
     .notNull(),
   input: json("input").$type<ImageGenerationInput>(),
   output: json("output").$type<ImageGenerationOutput>(),
