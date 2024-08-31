@@ -10,7 +10,7 @@ import Link from "next/link";
 export const navigation = [
   { name: "How It Works", href: "#how-it-works" },
   { name: "Pricing", href: "#pricing" },
-  { name: "FAQ", href: "#faq" },
+  // { name: "FAQ", href: "#faq" },
 ];
 
 export default function Header() {
