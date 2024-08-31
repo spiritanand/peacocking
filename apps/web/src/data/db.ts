@@ -1,7 +1,7 @@
 import "server-only";
 import { db } from "@web/server/db";
-import { models } from "@web/server/db/schema";
-import { eq } from "drizzle-orm";
+import { gens, models } from "@web/server/db/schema";
+import { and, eq } from "drizzle-orm";
 import { getServerAuthSession } from "@web/server/auth";
 
 export async function insertModel({
@@ -42,5 +42,18 @@ export async function getAllModelsByUser() {
 
   return await db.query.models.findMany({
     where: eq(models.userId, session.user.id),
+  });
+}
+
+export async function getMyGensByModelId(modelId: string) {
+  const session = await getServerAuthSession();
+
+  if (!session) return null;
+
+  return await db.query.gens.findMany({
+    where: and(eq(gens.modelId, modelId), eq(gens.userId, session.user.id)),
+    with: {
+      model: true,
+    },
   });
 }
