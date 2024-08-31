@@ -23,7 +23,7 @@ export default async function Page({
   )
     redirect("/dashboard");
 
-  if (request.status === RequestStatus.COMPLETED) redirect(`/dashboard`); // TODO: Redirect to specific model page
+  if (request.status === RequestStatus.COMPLETED) redirect(`/dashboard`);
 
   return (
     <main className="container mt-10">

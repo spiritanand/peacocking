@@ -13,7 +13,6 @@ import {
   type ImageGenerationInput,
 } from "@web/lib/types";
 
-const hostedUrl = "https://0l2pfp74-3000.inc1.devtunnels.ms";
 const trigger_word = "peacockedproender";
 
 fal.config({
@@ -33,11 +32,10 @@ async function submitToFalQueue({
   userId: string;
   requestType: RequestType;
 }) {
-  const webhookUrl = new URL(webhookPath, hostedUrl).toString(); //TODO: Make dynamic
+  const webhookUrl = new URL(webhookPath, env.WEBHOOK_BASE_URL).toString();
 
   const res = await fal.queue.submit(appId, {
     input,
-    // webhookUrl: `${env.WEBHOOK_BASE_URL}${webhookPath}`,
     webhookUrl,
   });
 
