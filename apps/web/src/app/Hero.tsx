@@ -75,7 +75,7 @@ export default function Hero() {
                     dating experts
                   </div>
                   <div className="mt-10 flex items-center gap-x-6">
-                    <Link href={"/api/auth/signin"}>
+                    <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
                       <Button>Get Started</Button>
                     </Link>
                     {/* <a

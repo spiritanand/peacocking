@@ -37,7 +37,10 @@ export default function Header() {
             </a>
           ))}
         </div>
-        <Link href={"/api/auth/signin"} className="hidden lg:block">
+        <Link
+          href={"/api/auth/signin?callbackUrl=/dashboard"}
+          className="hidden lg:block"
+        >
           <Button>Sign In</Button>
         </Link>
 
@@ -54,7 +57,7 @@ export default function Header() {
                 <DropdownMenuItem>{item.name}</DropdownMenuItem>
               </a>
             ))}
-            <Link href={"/api/auth/signin"}>
+            <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
               <Button>Sign In</Button>
             </Link>
           </DropdownMenuContent>
