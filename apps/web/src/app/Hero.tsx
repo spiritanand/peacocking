@@ -1,67 +1,12 @@
 import { Button } from "@web/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@web/components/ui/dropdown-menu";
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
-
-const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
-];
+import Header from "./Header";
 
 export default function Hero() {
   return (
     <div className="bg-white">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav
-          aria-label="Global"
-          className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-        >
-          <div className="flex">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Peacocking</span>
-              <img alt="" src="/logo.png" className="h-12 w-auto" />
-            </a>
-          </div>
-          <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
-          <Link href={"/api/auth/signin"} className="hidden lg:block">
-            <Button>Sign In</Button>
-          </Link>
-
-          {/* Mobile Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="lg:hidden">
-              Open
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </nav>
-      </header>
+      <Header />
 
       <main>
         <div className="relative isolate">
@@ -111,7 +56,7 @@ export default function Hero() {
               <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
                 <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                   <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                    Your dating profile pictures
+                    Your dating profile <br />
                     <span className="ml-2 text-5xl text-primary sm:text-7xl">
                       supercharged
                     </span>
@@ -123,8 +68,7 @@ export default function Hero() {
                     </span>{" "}
                     and get{" "}
                     <span className="font-bold text-primary">mesmerizing</span>{" "}
-                    results. Choose from a variety of poses and backgrounds that
-                    suit your style and never miss a beat.
+                    results. Never miss a beat.
                   </p>
                   <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
                     <BadgeCheck className="text-emerald-700" /> Certified by
@@ -134,12 +78,12 @@ export default function Hero() {
                     <Link href={"/api/auth/signin"}>
                       <Button>Get Started</Button>
                     </Link>
-                    <a
+                    {/* <a
                       href="#"
                       className="text-sm font-semibold leading-6 text-gray-900"
                     >
                       Demo <span aria-hidden="true">→</span>
-                    </a>
+                    </a> */}
                   </div>
                 </div>
                 <div className="mt-14 hidden justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:flex lg:pl-0">

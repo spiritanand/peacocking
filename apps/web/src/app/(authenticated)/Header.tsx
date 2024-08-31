@@ -41,7 +41,9 @@ export default async function Header() {
             </Tooltip>
           </TooltipProvider>
 
-          <Button>Sign Out</Button>
+          <Link href="/api/auth/signout">
+            <Button>Sign Out</Button>
+          </Link>
         </div>
       </nav>
     </header>
