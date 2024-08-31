@@ -28,8 +28,6 @@ export async function POST(request: NextRequest) {
     const { data } = parsed;
     const { request_id, payload } = data;
 
-    console.log("updating request status");
-
     // Update the request status
     await db
       .update(requests)

@@ -68,7 +68,7 @@ export const requestRouter = createTRPCRouter({
           loraFile: diffusers_lora_file.url,
         });
 
-        modelId = insertedId.id;
+        modelId = insertedId?.id ?? "";
       }
 
       return {

@@ -5,7 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { db } from "@web/server/db";
 import { models, requests } from "@web/server/db/schema";
 import { ImageSize, OutputFormat, RequestType } from "@web/lib/constants";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import * as fal from "@fal-ai/serverless-client";
 import { env } from "@web/env";
 import {
@@ -92,20 +92,11 @@ export const falRouter = createTRPCRouter({
       const { modelId, prompt } = input;
 
       const model = await db.query.models.findFirst({
-        where: eq(models.id, modelId),
-        with: {
-          request: {
-            columns: {
-              userId: true,
-            },
-          },
-        },
+        where: and(eq(models.id, modelId), eq(models.userId, userId)),
       });
 
       // Check if the model exists and belongs to the user
       if (!model) throw new TRPCError({ code: "NOT_FOUND" });
-      if (model.request.userId !== userId)
-        throw new TRPCError({ code: "UNAUTHORIZED" });
       if (!model.loraFile) throw new TRPCError({ code: "NOT_FOUND" });
 
       return submitToFalQueue({

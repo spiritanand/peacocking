@@ -45,6 +45,8 @@ export const users = createTable("user", {
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
 }));
+export type User = typeof users.$inferSelect; // return type when queried
+export type NewUser = typeof users.$inferInsert; // insert type
 
 export const accounts = createTable(
   "account",
@@ -120,7 +122,7 @@ export const verificationTokens = createTable(
 // App Schemas
 export const requests = createTable("request", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  userId: varchar("userId", { length: 255 })
+  userId: varchar("user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
   createdAt: timestamp("created_at", { withTimezone: true })
@@ -144,6 +146,9 @@ export const models = createTable("model", {
     .primaryKey()
     .$defaultFn(() => createId()),
   name: varchar("name", { length: 256 }),
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id),
   requestId: varchar("request_id", { length: 255 })
     .notNull()
     .references(() => requests.id)
@@ -155,6 +160,8 @@ export const models = createTable("model", {
   loraFile: text("lora_file"),
   featurePhotoUrl: text("feature_photo_url"),
 });
+export type Model = typeof models.$inferSelect; // return type when queried
+export type NewModel = typeof models.$inferInsert; // insert type
 
 export const gens = createTable("gen", {
   id: varchar("id", { length: 255 })
@@ -164,6 +171,9 @@ export const gens = createTable("gen", {
   modelId: varchar("model_id", { length: 255 })
     .notNull()
     .references(() => models.id),
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id),
   requestId: varchar("request_id", { length: 255 })
     .notNull()
     .references(() => requests.id)
@@ -184,6 +194,7 @@ export const modelsRelations = relations(models, ({ one }) => ({
     fields: [models.requestId],
     references: [requests.id],
   }),
+  user: one(users, { fields: [models.userId], references: [users.id] }),
 }));
 export const gensRelations = relations(gens, ({ one }) => ({
   request: one(requests, {
@@ -191,4 +202,5 @@ export const gensRelations = relations(gens, ({ one }) => ({
     references: [requests.id],
   }),
   model: one(models, { fields: [gens.modelId], references: [models.id] }),
+  user: one(users, { fields: [gens.userId], references: [users.id] }),
 }));
