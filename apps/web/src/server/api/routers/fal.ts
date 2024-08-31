@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@web/server/db";
-import { models, requests } from "@web/server/db/schema";
+import { gens, models, requests } from "@web/server/db/schema";
 import { ImageSize, OutputFormat, RequestType } from "@web/lib/constants";
 import { and, eq } from "drizzle-orm";
 import * as fal from "@fal-ai/serverless-client";
@@ -56,6 +56,7 @@ async function submitToFalQueue({
 
   return {
     requestId: request_id,
+    responseUrl,
   };
 }
 
@@ -66,7 +67,7 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
 
       const { zipUrl } = input;
-      const trigger_word = "peacocked";
+      const trigger_word = "peacockedproender";
       const steps = 1;
 
       return submitToFalQueue({
@@ -95,25 +96,37 @@ export const falRouter = createTRPCRouter({
         where: and(eq(models.id, modelId), eq(models.userId, userId)),
       });
 
-      // Check if the model exists and belongs to the user
+      // Check if the model exists
       if (!model) throw new TRPCError({ code: "NOT_FOUND" });
       if (!model.loraFile) throw new TRPCError({ code: "NOT_FOUND" });
 
-      return submitToFalQueue({
+      const inputImageGen: ImageGenerationInput = {
+        loras: [{ path: model.loraFile, scale: 1 }],
+        prompt:
+          "man, red hair, light colored eyes, smiling, dark red knit sweater, leaning up against a large tree, bright sunny day, extremely intricate details, masterpiece, epic, clear shadows and highlights, realistic, intense, enhanced contrast, highly detailed skin",
+        image_size: ImageSize.LANDSCAPE_4_3,
+        num_images: 1,
+        output_format: OutputFormat.JPEG,
+        num_inference_steps: 28,
+        guidance_scale: 3.5,
+        enable_safety_checker: true,
+      };
+
+      const { requestId, responseUrl } = await submitToFalQueue({
         appId: "fal-ai/flux-lora",
-        input: {
-          loras: [{ path: model.loraFile, scale: 1 }],
-          prompt: prompt ?? "Portrait of peacocked man person",
-          image_size: ImageSize.LANDSCAPE_4_3,
-          num_images: 1,
-          output_format: OutputFormat.JPEG,
-          num_inference_steps: 28,
-          guidance_scale: 3.5,
-          enable_safety_checker: true,
-        },
+        input: inputImageGen,
         webhookPath: "api/fal/webhook/gen",
         userId,
         requestType: RequestType.GEN,
       });
+
+      await db.insert(gens).values({
+        modelId,
+        requestId,
+        userId,
+        input: inputImageGen,
+      });
+
+      return { requestId, responseUrl };
     }),
 });

@@ -10,7 +10,7 @@ import { formatDistance } from "date-fns";
 import { Badge } from "@web/components/ui/badge";
 
 const ModelCard = ({ model, index }: { model: Model; index: number }) => {
-  const { id, name, createdAt } = model;
+  const { id, name, featurePhotoUrl, createdAt } = model;
   const creationDistance = formatDistance(new Date(), new Date(createdAt));
 
   console.log({ creationDistance });
@@ -20,7 +20,7 @@ const ModelCard = ({ model, index }: { model: Model; index: number }) => {
       <Card
         className="relative h-[400px] overflow-hidden rounded-xl border-2 bg-cover bg-center hover:border-primary"
         style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1724888861686-ad3f706ab067?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+          backgroundImage: `url(${featurePhotoUrl})`,
         }}
       >
         <div className="absolute inset-x-0 bottom-0 bg-black/40 p-4 backdrop-blur-md">

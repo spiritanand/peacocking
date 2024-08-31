@@ -11,6 +11,8 @@ export default async function page({
 
   if (!gens) redirect("/dashboard");
 
+  console.log({ gens });
+
   return (
     <main className="container my-10">
       <h1 className="mx-auto my-10 w-fit scroll-m-20 border-b pb-2 text-4xl font-semibold tracking-tight lg:text-5xl">

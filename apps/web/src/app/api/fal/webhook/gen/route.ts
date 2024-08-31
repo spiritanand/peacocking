@@ -1,4 +1,8 @@
+import { RequestStatus } from "@web/lib/constants";
 import { ImageGenerationWebhookSchema } from "@web/lib/types";
+import { db } from "@web/server/db";
+import { gens, requests } from "@web/server/db/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET() {
@@ -21,6 +25,20 @@ export async function POST(request: NextRequest) {
     const { data } = parsed;
 
     const { payload, request_id } = data;
+
+    await db
+      .update(requests)
+      .set({
+        status: RequestStatus.COMPLETED,
+      })
+      .where(eq(requests.id, request_id));
+
+    await db
+      .update(gens)
+      .set({
+        output: payload,
+      })
+      .where(eq(gens.requestId, request_id));
 
     return NextResponse.json({ success: true });
   } catch (error) {

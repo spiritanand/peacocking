@@ -158,7 +158,9 @@ export const models = createTable("model", {
     .notNull(),
   configFile: text("config_file"),
   loraFile: text("lora_file"),
-  featurePhotoUrl: text("feature_photo_url"),
+  featurePhotoUrl: text("feature_photo_url").default(
+    "https://images.unsplash.com/photo-1724888861686-ad3f706ab067?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ),
 });
 export type Model = typeof models.$inferSelect; // return type when queried
 export type NewModel = typeof models.$inferInsert; // insert type
