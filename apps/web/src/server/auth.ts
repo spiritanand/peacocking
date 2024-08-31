@@ -51,6 +51,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
+  session: {
+    strategy: "jwt",
+  },
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,

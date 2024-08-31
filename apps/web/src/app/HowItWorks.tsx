@@ -36,7 +36,7 @@ const imageData = [
 
 export default function HowItWorks() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8" id="how-it-works">
+    <div className="relative mx-auto max-w-4xl px-4 py-8" id="how-it-works">
       <h2 className="mb-8 text-center text-4xl font-extrabold tracking-tight">
         How it works
       </h2>
