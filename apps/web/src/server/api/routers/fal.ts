@@ -66,7 +66,7 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
 
       const { zipUrl } = input;
-      const steps = 1;
+      const steps = 1000;
 
       return submitToFalQueue({
         appId: "fal-ai/flux-lora-general-training",
@@ -107,7 +107,7 @@ export const falRouter = createTRPCRouter({
           // },
         ],
         prompt: `${trigger_word} ${prompt}`,
-        image_size: ImageSize.LANDSCAPE_4_3,
+        image_size: ImageSize.PORTRAIT_4_3,
         num_images: 1,
         output_format: OutputFormat.JPEG,
         num_inference_steps: 28,

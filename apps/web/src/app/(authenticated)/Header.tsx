@@ -7,7 +7,6 @@ import {
   TooltipTrigger,
 } from "@web/components/ui/tooltip";
 import { getServerAuthSession } from "@web/server/auth";
-import { Home } from "lucide-react";
 import Link from "next/link";
 
 export default async function Header() {
@@ -31,7 +30,9 @@ export default async function Header() {
               <TooltipTrigger>
                 <Avatar>
                   <AvatarImage src={session?.user.image ?? ""} />
-                  <AvatarFallback>U</AvatarFallback>
+                  <AvatarFallback>
+                    {session?.user.name?.[0] ?? "U"}
+                  </AvatarFallback>
                 </Avatar>
               </TooltipTrigger>
               <TooltipContent>
