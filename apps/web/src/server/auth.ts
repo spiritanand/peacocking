@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import {
   getServerSession,
@@ -51,7 +53,7 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
         // TODO: Remove
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        credits: user.credits,
+        credits: (user as any).credits,
       },
     }),
   },

@@ -6,6 +6,10 @@ import React, { useState } from "react";
 import { type Session } from "next-auth";
 import { Button } from "@web/components/ui/button";
 
+interface Window {
+  Razorpay: any;
+}
+
 const PaymentButton = ({
   key,
   session,
@@ -36,7 +40,11 @@ const PaymentButton = ({
           setIsLoading(false);
         },
       },
-      handler: async function (response) {
+      handler: async function (response: {
+        razorpay_payment_id: any;
+        razorpay_order_id: any;
+        razorpay_signature: any;
+      }) {
         const data = await fetch("/api/order/verify", {
           method: "POST",
           body: JSON.stringify({
@@ -56,10 +64,10 @@ const PaymentButton = ({
       },
     };
 
-    const paymentObject = new window.Razorpay(options);
+    const paymentObject = new (window as any).Razorpay(options);
     paymentObject.open();
 
-    paymentObject.on("payment.failed", function (response) {
+    paymentObject.on("payment.failed", function (response: any) {
       alert("Payment failed. Please try again.");
       setIsLoading(false);
     });
