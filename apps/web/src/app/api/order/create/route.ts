@@ -1,14 +1,16 @@
 import { createId } from "@paralleldrive/cuid2";
-// import { env } from "@web/env";
+import { env } from "@web/env";
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
-export async function GET(request: Request) {
-  const instance = new Razorpay({
-    key_id: process.env.RAZORPAY_ID!,
-    key_secret: process.env.RAZORPAY_KEY!,
-  });
+export const dynamic = "force-dynamic";
 
+const instance = new Razorpay({
+  key_id: env.RAZORPAY_ID,
+  key_secret: env.RAZORPAY_KEY,
+});
+
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const totalAmount = Number(searchParams.get("amount"));
 
