@@ -146,7 +146,7 @@ export const falRouter = createTRPCRouter({
 
       await db
         .update(users)
-        .set({ credits: currentCredits - 1 })
+        .set({ credits: currentCredits - 0.25 })
         .where(eq(users.id, userId));
 
       return { requestId, responseUrl };

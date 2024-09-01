@@ -119,7 +119,12 @@ function CustomGenerateForm() {
                   <Input placeholder="hottest me" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is what we will use to generate your photo
+                  Tip: Start with{" "}
+                  <span className="font-semibold text-primary">{"man..."}</span>{" "}
+                  or{" "}
+                  <span className="font-semibold text-primary">
+                    {"woman..."}
+                  </span>
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -135,8 +140,8 @@ function CustomGenerateForm() {
               Generate
             </Button>
             <p className="mt-4 text-sm text-gray-500">
-              Make sure you have at least{" "}
-              <span className="text-primary">1 credit</span> to generate photos
+              It costs{" "}
+              <span className="text-primary">0.25 credits per image</span>.
             </p>
           </div>
         </form>
