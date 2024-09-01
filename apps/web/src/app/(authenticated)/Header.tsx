@@ -26,8 +26,6 @@ export default async function Header() {
 
         <div className="flex items-center gap-6">
           <Link href="/dashboard">Dashboard</Link>
-
-          <PaymentButton session={session} amount={999} key={env.RAZORPAY_ID} />
         </div>
 
         <div className="flex items-center gap-2">
@@ -47,7 +45,14 @@ export default async function Header() {
             </Tooltip>
           </TooltipProvider>
 
-          <p>Credits: {session?.user.credits}</p>
+          <span className="flex items-center gap-2">
+            Credits: {session?.user.credits}{" "}
+            <PaymentButton
+              session={session}
+              amount={999}
+              key={env.RAZORPAY_ID}
+            />
+          </span>
 
           <Link href="/api/auth/signout?callbackUrl=/">
             <Button variant="secondary">Sign Out</Button>

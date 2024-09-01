@@ -76,12 +76,8 @@ const PaymentButton = ({
   return (
     <>
       <div className="">
-        <Button
-          disabled={isLoading}
-          onClick={makePayment}
-          className="scale-[1.2]"
-        >
-          Pay Now
+        <Button disabled={isLoading} onClick={makePayment}>
+          Add Credits
         </Button>
       </div>
     </>
