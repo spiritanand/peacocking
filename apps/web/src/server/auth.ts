@@ -25,6 +25,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      credits: number;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -48,6 +49,9 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        // TODO: Remove
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        credits: user.credits,
       },
     }),
   },

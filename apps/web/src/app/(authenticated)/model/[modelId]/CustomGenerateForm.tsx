@@ -88,7 +88,8 @@ function CustomGenerateForm() {
         },
       });
     },
-    onError: () => {
+    onError: (error) => {
+      toast.error(error.message);
       setIsPending(false);
     },
   });

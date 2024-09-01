@@ -8,9 +8,13 @@ import {
 } from "@web/components/ui/tooltip";
 import { getServerAuthSession } from "@web/server/auth";
 import Link from "next/link";
+import PaymentButton from "../PaymentButton";
+import { env } from "@web/env";
 
 export default async function Header() {
   const session = await getServerAuthSession();
+
+  if (!session) return null;
 
   return (
     <header className="p-4">
@@ -20,8 +24,10 @@ export default async function Header() {
           <img alt="" src="/logo.png" className="h-12 w-auto" />
         </Link>
 
-        <div>
+        <div className="flex items-center gap-6">
           <Link href="/dashboard">Dashboard</Link>
+
+          <PaymentButton session={session} amount={999} key={env.RAZORPAY_ID} />
         </div>
 
         <div className="flex items-center gap-2">
@@ -41,8 +47,10 @@ export default async function Header() {
             </Tooltip>
           </TooltipProvider>
 
-          <Link href="/api/auth/signout">
-            <Button>Sign Out</Button>
+          <p>Credits: {session?.user.credits}</p>
+
+          <Link href="/api/auth/signout?callbackUrl=/">
+            <Button variant="secondary">Sign Out</Button>
           </Link>
         </div>
       </nav>

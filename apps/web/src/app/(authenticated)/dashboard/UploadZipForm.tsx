@@ -6,6 +6,7 @@ import { Button } from "@web/components/ui/button";
 import { FileUpload } from "@web/components/ui/file-upload";
 import { api } from "@web/trpc/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -38,6 +39,9 @@ function UploadZipForm() {
       { zipUrl },
       {
         onSuccess: ({ requestId }) => router.push(`/train/${requestId}`),
+        onError: (error) => {
+          toast.error(error.message);
+        },
         onSettled: () => setIsPending(false),
       },
     );
@@ -57,7 +61,7 @@ function UploadZipForm() {
         />
 
         <Button type="submit" disabled={!files.length || isPending}>
-          Upload ZIP
+          Upload ZIP (requires 5 credits)
         </Button>
       </form>
     </>

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@web/server/db";
-import { gens, models, requests } from "@web/server/db/schema";
+import { gens, models, requests, users } from "@web/server/db/schema";
 import { ImageSize, OutputFormat, RequestType } from "@web/lib/constants";
 import { and, eq } from "drizzle-orm";
 import * as fal from "@fal-ai/serverless-client";
@@ -64,11 +64,14 @@ export const falRouter = createTRPCRouter({
     .input(z.object({ zipUrl: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      const currentCredits = ctx.session.user.credits;
+
+      if (currentCredits < 5) throw new TRPCError({ code: "FORBIDDEN" });
 
       const { zipUrl } = input;
       const steps = 1000;
 
-      return submitToFalQueue({
+      const result = await submitToFalQueue({
         appId: "fal-ai/flux-lora-general-training",
         input: {
           images_data_url: zipUrl,
@@ -83,11 +86,22 @@ export const falRouter = createTRPCRouter({
         userId,
         requestType: RequestType.MODEL,
       });
+
+      await db
+        .update(users)
+        .set({ credits: currentCredits - 5 })
+        .where(eq(users.id, userId));
+
+      return result;
     }),
   createImage: protectedProcedure
     .input(z.object({ modelId: z.string(), prompt: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      const currentCredits = ctx.session.user.credits;
+
+      if (currentCredits < 1) throw new TRPCError({ code: "FORBIDDEN" });
+
       const { modelId, prompt } = input;
 
       const model = await db.query.models.findFirst({
@@ -129,6 +143,11 @@ export const falRouter = createTRPCRouter({
         userId,
         input: inputImageGen,
       });
+
+      await db
+        .update(users)
+        .set({ credits: currentCredits - 1 })
+        .where(eq(users.id, userId));
 
       return { requestId, responseUrl };
     }),

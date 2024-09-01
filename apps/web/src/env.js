@@ -30,6 +30,8 @@ export const env = createEnv({
     S3_ACCESS_KEY: z.string(),
     FAL_KEY: z.string(),
     WEBHOOK_BASE_URL: z.string().url(),
+    RAZORPAY_ID: z.string(),
+    RAZORPAY_KEY: z.string(),
   },
 
   /**
@@ -58,6 +60,8 @@ export const env = createEnv({
     S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
     FAL_KEY: process.env.FAL_KEY,
     WEBHOOK_BASE_URL: process.env.WEBHOOK_BASE_URL,
+    RAZORPAY_KEY: process.env.RAZORPAY_KEY,
+    RAZORPAY_ID: process.env.RAZORPAY_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
