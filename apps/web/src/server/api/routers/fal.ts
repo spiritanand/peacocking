@@ -13,7 +13,7 @@ import {
   type ImageGenerationInput,
 } from "@web/lib/types";
 
-const trigger_word = "peacockedproender";
+const trigger_word = "";
 
 fal.config({
   credentials: env.FAL_KEY,

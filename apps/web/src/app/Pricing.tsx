@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const includedFeatures = [
   "Train your own AI model",
-  "Generate photos on-demand",
+  "Generate upto 20 photos on-demand",
   "Own your photos forever",
 ];
 
