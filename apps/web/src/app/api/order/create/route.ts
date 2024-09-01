@@ -3,12 +3,12 @@ import { env } from "@web/env";
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
-const instance = new Razorpay({
-  key_id: env.RAZORPAY_ID,
-  key_secret: env.RAZORPAY_KEY,
-});
-
 export async function GET(request: Request) {
+  const instance = new Razorpay({
+    key_id: env.RAZORPAY_ID,
+    key_secret: env.RAZORPAY_KEY,
+  });
+
   const { searchParams } = new URL(request.url);
   const totalAmount = Number(searchParams.get("amount"));
 
