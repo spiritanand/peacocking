@@ -63,9 +63,6 @@ export const authOptions: NextAuthOptions = {
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
   }) as Adapter,
-  session: {
-    strategy: "database",
-  },
   providers: [
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
