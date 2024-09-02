@@ -2,7 +2,7 @@
 
 function Page() {
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-2 p-10">
+    <main className="mx-auto mt-20 flex max-w-5xl flex-col gap-2 p-10">
       <h1 className="text-center text-3xl font-black">
         Privacy Policy for Vyags Technologies (Peacocking)
       </h1>
