@@ -50,14 +50,14 @@ const faqs: {
   {
     question: "What payment methods do you accept?",
     answer:
-      "Our payments are handled through Razorpay which accepts certain Visa/Mastercard depending on your country.",
+      "Payments are handled through Razorpay which accepts certain Visa/Mastercard depending on your country.",
   },
 ];
 
 export default function FAQ() {
   return (
     <div className="mx-auto mb-20 max-w-7xl px-6 py-10">
-      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
             Frequently asked questions
@@ -65,7 +65,7 @@ export default function FAQ() {
           <p className="mt-4 text-base leading-7 text-gray-600">
             Can’t find the answer you’re looking for? Reach out to our{" "}
             <a
-              href="mailto:support@peacoking.pro"
+              href="mailto:support@peacocking.pro"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               customer support
@@ -75,7 +75,7 @@ export default function FAQ() {
           <img
             src="/man-book-faq.jpeg"
             alt="faq guy"
-            className="rounded-md"
+            className="mt-8 rounded-md"
             loading="lazy"
           />
         </div>
@@ -83,7 +83,7 @@ export default function FAQ() {
           <dl className="space-y-8">
             {faqs.map((faq) => (
               <div key={faq.question}>
-                <dt className="text-base font-semibold leading-7 text-gray-900">
+                <dt className="text-base text-xl font-semibold leading-7 text-gray-900">
                   {faq.question}
                 </dt>
                 <dd className="mt-2 text-base leading-7 text-gray-600">
