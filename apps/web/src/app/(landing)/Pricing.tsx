@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 
 const includedFeatures = [
+  "10 credits to get started with",
   "Train your own AI model",
   "Generate upto 20 photos on-demand",
   "Own your photos forever",
