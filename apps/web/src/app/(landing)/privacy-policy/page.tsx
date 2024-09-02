@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+
 function Page() {
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-2 p-10">
