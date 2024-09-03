@@ -116,8 +116,8 @@ export const falRouter = createTRPCRouter({
         loras: [
           { path: model.loraFile, scale: 1 },
           // {
-          //   path: "https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors",
-          //   scale: 0.4,
+          //   path: "https://civitai.com/api/download/models/763697?type=Model&format=SafeTensor",
+          //   scale: 0.7,
           // },
         ],
         prompt: `${trigger_word} ${prompt}`,
