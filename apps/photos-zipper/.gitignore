@@ -1,5 +1,6 @@
 dist
 node_modules
 
-# Ignore all the files in the uploads directory
+# Ignore all the files in the uploads and zipped directory
 uploads/*
+zipped/*
