@@ -3,17 +3,19 @@ import { upload } from "./middleware/multer.js";
 import { Archiver } from "./lib/archiver.js";
 import fs from "fs";
 import { promisify } from "util";
-import multer from "multer";
+import { MulterError } from "multer";
+import S3 from "./lib/s3.js";
 const unlinkFile = promisify(fs.unlink);
 
 const app = express();
 const port = 8080;
 
 app.get("/", (_req, res) => {
-  res.send("Hello, from Photos Zipper!");
+  res.json({ hi: "Hello, from Photos Zipper!" });
 });
 
 app.post("/zip", upload.array("photos", 30), async (req, res) => {
+  let zipPath = "";
   const files = req.files;
 
   const archiverInstance = new Archiver();
@@ -25,19 +27,27 @@ app.post("/zip", upload.array("photos", 30), async (req, res) => {
     if (files && Array.isArray(files))
       for (const file of files) archiverInstance.appendFile(file.path, file.originalname);
 
-    const zipPath = await archiverInstance.finalizeArchive();
+    zipPath = await archiverInstance.finalizeArchive();
+    const zipFileData = fs.createReadStream(zipPath);
 
-    // Remove the uploaded files after they are zipped using Promise.allSettled
+    const s3 = new S3();
+    await s3.upload(zipPath, zipFileData);
+
+    const signedUrl = await s3.getSignedUrl(zipPath);
+
+    return res.json({ zipUrl: signedUrl });
+  } catch (err) {
+    console.log({ err });
+
+    if (err instanceof MulterError) return res.status(500).json({ error: "Multer error" });
+
+    return res.status(500).json({ error: (err as Error)?.message ?? "Something went wrong" });
+  } finally {
+    // Remove the uploaded and zipped files
     if (files && Array.isArray(files))
       await Promise.allSettled(files.map((file) => unlinkFile(file.path)));
 
-    await unlinkFile(zipPath);
-
-    return res.json({ zipUrl: zipPath });
-  } catch (err) {
-    if (err instanceof multer.MulterError) return res.status(500).json({ error: "Multer error" });
-
-    return res.status(500).json({ error: (err as Error)?.message ?? "Something went wrong" });
+    if (zipPath) await unlinkFile(zipPath);
   }
 });
 

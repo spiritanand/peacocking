@@ -20,9 +20,18 @@ importers:
 
   apps/photos-zipper:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.637.0
+        version: 3.637.0
+      '@aws-sdk/s3-request-presigner':
+        specifier: ^3.637.0
+        version: 3.637.0
       archiver:
         specifier: ^7.0.1
         version: 7.0.1
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -60,12 +69,6 @@ importers:
       '@auth/drizzle-adapter':
         specifier: ^1.1.0
         version: 1.4.2
-      '@aws-sdk/client-s3':
-        specifier: ^3.637.0
-        version: 3.637.0
-      '@aws-sdk/s3-request-presigner':
-        specifier: ^3.637.0
-        version: 3.637.0
       '@fal-ai/serverless-client':
         specifier: ^0.14.2
         version: 0.14.2
@@ -5099,6 +5102,11 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+    engines: {node: '>=12'}
+    dev: false
 
   /drizzle-kit@0.24.2:
     resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}

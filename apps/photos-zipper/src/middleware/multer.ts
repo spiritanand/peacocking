@@ -1,4 +1,4 @@
-import multer, { type FileFilterCallback } from "multer";
+import multer from "multer";
 import { nanoid } from "nanoid";
 import fs from "fs";
 

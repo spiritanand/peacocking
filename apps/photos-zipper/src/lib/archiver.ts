@@ -25,9 +25,7 @@ export class Archiver {
     this.output = fs.createWriteStream(this.outputPath);
 
     // Initialize the archiver instance
-    this.archive = archiver("zip", {
-      zlib: { level: 9 }, // Sets the compression level
-    });
+    this.archive = archiver("zip");
 
     // Listen for various events
     this.setupEventListeners();
