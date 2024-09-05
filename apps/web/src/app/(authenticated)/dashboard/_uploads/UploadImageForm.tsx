@@ -12,7 +12,7 @@ fal.config({
   proxyUrl: "/api/fal/proxy",
 });
 
-function UploadZipForm() {
+function UploadImageForm() {
   const router = useRouter();
   const [files, setFile] = useState<File[]>([]);
   const [isPending, setIsPending] = useState(false);
@@ -26,25 +26,24 @@ function UploadZipForm() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsPending(true);
-    const zipFile = files?.[0];
 
-    if (!zipFile) {
-      alert("Please select a ZIP file before submitting.");
+    if (files.length < 10) {
+      toast.error("Please select atleast 10 photos.");
       return;
     }
 
-    const zipUrl = await fal.storage.upload(zipFile);
+    // const zipUrl = await fal.storage.upload(zipFile);
 
-    createModel.mutate(
-      { zipUrl },
-      {
-        onSuccess: ({ requestId }) => router.push(`/train/${requestId}`),
-        onError: (error) => {
-          toast.error(error.message);
-        },
-        onSettled: () => setIsPending(false),
-      },
-    );
+    // createModel.mutate(
+    //   { zipUrl },
+    //   {
+    //     onSuccess: ({ requestId }) => router.push(`/train/${requestId}`),
+    //     onError: (error) => {
+    //       toast.error(error.message);
+    //     },
+    //     onSettled: () => setIsPending(false),
+    //   },
+    // );
   };
 
   return (
@@ -55,17 +54,17 @@ function UploadZipForm() {
       >
         <FileUpload
           onChange={handleFileUpload}
-          multiple={false}
-          label="Upload Zip of photos"
-          accept=".zip"
+          label="Upload Images"
+          multiple
+          accept="image/*"
         />
 
-        <Button type="submit" disabled={!files.length || isPending}>
-          Upload ZIP (requires 5 credits)
+        <Button type="submit" disabled={files.length < 10 || isPending}>
+          Upload Images (requires 5 credits)
         </Button>
       </form>
     </>
   );
 }
 
-export default UploadZipForm;
+export default UploadImageForm;

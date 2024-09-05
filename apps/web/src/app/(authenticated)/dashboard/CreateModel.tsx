@@ -1,5 +1,5 @@
 import React from "react";
-import UploadZipForm from "./UploadZipForm";
+import UploadAsset from "./_uploads/UploadAsset";
 
 const CreateModel = () => {
   return (
@@ -8,7 +8,7 @@ const CreateModel = () => {
         Upload a new set of photos 📸
       </h3>
 
-      <UploadZipForm />
+      <UploadAsset />
     </div>
   );
 };

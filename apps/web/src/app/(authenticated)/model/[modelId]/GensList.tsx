@@ -18,7 +18,7 @@ export default function GensList({ modelId }: { modelId: string }) {
   });
 
   return (
-    <ul className="mt-10 flex flex-wrap gap-2">
+    <ul className="mt-10 flex flex-wrap justify-center gap-2">
       {gensList?.map((gen) =>
         gen.output?.images.map((image) => (
           <li key={image.url} className="relative">
