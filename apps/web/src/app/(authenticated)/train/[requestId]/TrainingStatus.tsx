@@ -40,8 +40,11 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   const newQueuePosition = data?.queuePosition ?? queuePosition;
 
   if (newStatus === RequestStatus.COMPLETED) {
-    return router.push(`/dashboard`);
+    router.push(`/dashboard`);
+
+    return null;
   }
+
   // router.push(`/model/${data?.modelId}`);
 
   return (

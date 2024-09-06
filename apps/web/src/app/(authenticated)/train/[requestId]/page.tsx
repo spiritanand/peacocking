@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import TrainingStatus from "@web/app/(authenticated)/train/[requestId]/TrainingStatus";
 import { RequestStatus, RequestType } from "@web/lib/constants";
 import { api, HydrateClient } from "@web/trpc/server";
 import { getServerAuthSession } from "@web/server/auth";
+import TrainingStatus from "./TrainingStatus";
 
 export default async function Page({
   params,
