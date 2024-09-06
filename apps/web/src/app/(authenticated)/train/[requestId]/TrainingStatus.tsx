@@ -39,8 +39,10 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   const newStatus = data?.status ?? status;
   const newQueuePosition = data?.queuePosition ?? queuePosition;
 
-  if (newStatus === RequestStatus.COMPLETED)
-    router.push(`/model/${data?.modelId}`);
+  if (newStatus === RequestStatus.COMPLETED) {
+    return router.push(`/dashboard`);
+  }
+  // router.push(`/model/${data?.modelId}`);
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -68,27 +70,22 @@ function TrainingStatus({ requestId }: { requestId: string }) {
           </p>
         ) : null}
       </CardContent>
-      <CardFooter>
-        <p>
-          {newQueuePosition > 0 ? (
-            <Button
-              variant="destructive"
-              onClick={() => {
-                console.log({ cancelUrl });
-              }}
-            >
-              Cancel
-            </Button>
-          ) : null}
-        </p>
-        <Button
-          onClick={() => {
-            console.log({ id });
-          }}
-        >
-          Gen an image
-        </Button>
-      </CardFooter>
+      {newQueuePosition > 0 ? (
+        <CardFooter>
+          <p>
+            {
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  console.log({ cancelUrl });
+                }}
+              >
+                Cancel
+              </Button>
+            }
+          </p>
+        </CardFooter>
+      ) : null}
     </Card>
   );
 }

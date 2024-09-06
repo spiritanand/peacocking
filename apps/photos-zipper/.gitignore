@@ -1,6 +1,8 @@
 dist
 node_modules
 
+.env*
+
 # Ignore all the files in the uploads and zipped directory
 uploads/*
 zipped/*

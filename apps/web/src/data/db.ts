@@ -31,7 +31,7 @@ export async function insertModel({
     .returning({ insertedId: models.id });
 
   return {
-    id: id?.[0]?.insertedId ?? "",
+    id: id[0]?.insertedId ?? "",
   };
 }
 

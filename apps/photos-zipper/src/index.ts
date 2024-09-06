@@ -2,40 +2,86 @@ import express from "express";
 import { upload } from "./middleware/multer.js";
 import { Archiver } from "./lib/archiver.js";
 import fs from "fs";
-import { promisify } from "util";
+import dotenv from "dotenv";
 import { MulterError } from "multer";
-import S3 from "./lib/s3.js";
+import cors, { type CorsOptions } from "cors";
+import * as fal from "@fal-ai/serverless-client";
+import { promisify } from "util";
+import { createSignedUrl, uploadToS3 } from "./lib/s3.js";
 const unlinkFile = promisify(fs.unlink);
+
+dotenv.config();
+
+fal.config({
+  credentials: process.env.FAL_KEY,
+});
+
+const isProduction = process.env.NODE_ENV === "production";
+
+// CORS configuration
+const corsOptions: CorsOptions = {
+  origin: function (origin, callback) {
+    if (!origin && !isProduction) return callback(null, true); // Allow non-browser requests in local development
+
+    if (isProduction) {
+      const allowedDomains = ["https://peacocking.pro"]; // Add your production domains
+      if (origin && allowedDomains.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    } else {
+      // Allow localhost:3000 in development
+      if (origin === "http://localhost:3000") {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    }
+  },
+};
 
 const app = express();
 const port = 8080;
+
+app.use(cors(corsOptions));
 
 app.get("/", (_req, res) => {
   res.json({ hi: "Hello, from Photos Zipper!" });
 });
 
 app.post("/zip", upload.array("photos", 30), async (req, res) => {
-  let zipPath = "";
+  let localZipPath = "";
   const files = req.files;
+
+  if (!files || (Array.isArray(files) && files.length === 0))
+    return res.status(415).json({ error: "No valid file uploaded" });
 
   const archiverInstance = new Archiver();
 
   try {
-    if (!files || (Array.isArray(files) && files.length === 0))
-      return res.status(415).json({ error: "No valid file uploaded" });
-
     if (files && Array.isArray(files))
       for (const file of files) archiverInstance.appendFile(file.path, file.originalname);
 
-    zipPath = await archiverInstance.finalizeArchive();
-    const zipFileData = fs.createReadStream(zipPath);
+    localZipPath = await archiverInstance.finalizeArchive();
 
-    const s3 = new S3();
-    await s3.upload(zipPath, zipFileData);
+    // Read in the file, convert it to base64, store to S3
+    const fileStream = fs.createReadStream(localZipPath);
+    fileStream.on("error", function (err) {
+      if (err) throw err;
+    });
+    fileStream.on("open", async function () {
+      await uploadToS3(localZipPath, fileStream);
 
-    const signedUrl = await s3.getSignedUrl(zipPath);
+      const zipUrl = await createSignedUrl(localZipPath);
+      return res.json({ success: true, zipUrl });
+    });
 
-    return res.json({ zipUrl: signedUrl });
+    // FAL
+    // const zipFileBuffer = fs.readFileSync(localZipPath);
+    // const zipFileBlob = new Blob([zipFileBuffer], { type: "application/zip" });
+    // const zipUrl = await fal.storage.upload(zipFileBlob);
+    // return res.json({ success: true, zipUrl });
   } catch (err) {
     console.log({ err });
 
@@ -47,7 +93,7 @@ app.post("/zip", upload.array("photos", 30), async (req, res) => {
     if (files && Array.isArray(files))
       await Promise.allSettled(files.map((file) => unlinkFile(file.path)));
 
-    if (zipPath) await unlinkFile(zipPath);
+    // if (zipPath) await unlinkFile(zipPath);
   }
 });
 
