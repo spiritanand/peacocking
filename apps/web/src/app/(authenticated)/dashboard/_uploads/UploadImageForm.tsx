@@ -28,8 +28,8 @@ function UploadImageForm() {
     event.preventDefault();
 
     if (files.length < 10) {
-      // toast.error("Please select atleast 10 photos.");
-      // return;
+      toast.error("Please select atleast 10 photos.");
+      return;
     }
 
     setIsPending(true);
@@ -67,7 +67,7 @@ function UploadImageForm() {
         { zipUrl },
         {
           onSuccess: ({ requestId }) => {
-            toast.info("Starting training model...");
+            toast.info("Training model...");
 
             router.push(`/train/${requestId}`);
           },
@@ -99,10 +99,7 @@ function UploadImageForm() {
           accept="image/*"
         />
 
-        <Button
-          type="submit"
-          //  disabled={files.length < 10 || isPending}
-        >
+        <Button type="submit" disabled={files.length < 10 || isPending}>
           Upload Images (requires 5 credits)
         </Button>
       </form>

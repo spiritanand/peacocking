@@ -71,7 +71,8 @@ export const falRouter = createTRPCRouter({
       const steps = 1; // TODO: Make standard 1000 steps
 
       const result = await submitToFalQueue({
-        appId: "fal-ai/flux-lora-general-training",
+        // appId: "fal-ai/flux-lora-general-training",
+        appId: "fal-ai/flux-lora-fast-training",
         input: {
           images_data_url: zipUrl,
           steps,
