@@ -8,8 +8,6 @@ import {
 } from "@web/components/ui/tooltip";
 import { getServerAuthSession } from "@web/server/auth";
 import Link from "next/link";
-import PaymentButton from "../PaymentButton";
-import { env } from "@web/env";
 
 export default async function Header() {
   const session = await getServerAuthSession();
@@ -47,11 +45,11 @@ export default async function Header() {
 
           <span className="flex items-center gap-2">
             Credits: {session?.user.credits}{" "}
-            <PaymentButton
+            {/* <PaymentButton
               session={session}
               amount={999}
               key={env.RAZORPAY_ID}
-            />
+            /> */}
           </span>
 
           <Link href="/api/auth/signout?callbackUrl=/">

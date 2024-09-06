@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <>
       <html lang="en" className={`${JS.className}`}>
-        <body className="">
+        <body>
           <TRPCReactProvider>{children}</TRPCReactProvider>
           <Toaster richColors theme="light" />
         </body>

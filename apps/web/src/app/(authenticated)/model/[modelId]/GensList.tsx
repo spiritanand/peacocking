@@ -18,14 +18,14 @@ export default function GensList({ modelId }: { modelId: string }) {
   });
 
   return (
-    <ul className="mt-10 flex flex-wrap gap-2">
+    <ul className="mt-10 flex flex-wrap justify-center gap-2">
       {gensList?.map((gen) =>
         gen.output?.images.map((image) => (
           <li key={image.url} className="relative">
             <img
               src={image.url}
               alt="Peacocked"
-              className="h-72 w-auto rounded-lg border border-transparent object-cover hover:border-primary"
+              className="h-72 w-auto min-w-[216.5px] rounded-lg border border-transparent object-cover hover:border-primary"
             />
             <TooltipProvider>
               <Tooltip>

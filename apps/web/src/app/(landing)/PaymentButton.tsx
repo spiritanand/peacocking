@@ -6,10 +6,6 @@ import React, { useState } from "react";
 import { type Session } from "next-auth";
 import { Button } from "@web/components/ui/button";
 
-interface Window {
-  Razorpay: any;
-}
-
 const PaymentButton = ({
   key,
   session,

@@ -1,0 +1,15 @@
+meta {
+  name: zip
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/zip
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  photos: @file(/Users/spirit/AI/spiritanand_training_set/sfts2/fr3.jpg|/Users/spirit/AI/spiritanand_training_set/sfts2/IMG_0334.JPG|/Users/spirit/AI/spiritanand_training_set/sfts2/IMG_0601.jpg|/Users/spirit/AI/spiritanand_training_set/sfts2/IMG_0700.jpg)
+}

@@ -1,0 +1,113 @@
+"use client";
+
+import React, { type FormEvent, useState } from "react";
+import * as fal from "@fal-ai/serverless-client";
+import { Button } from "@web/components/ui/button";
+import { FileUpload } from "@web/components/ui/file-upload";
+import { api } from "@web/trpc/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import axios from "axios";
+
+fal.config({
+  proxyUrl: "/api/fal/proxy",
+});
+
+function UploadImageForm() {
+  const router = useRouter();
+  const [files, setFile] = useState<File[]>([]);
+  const [isPending, setIsPending] = useState(false);
+
+  const createModel = api.fal.createModel.useMutation();
+
+  const handleFileUpload = (files: File[]) => {
+    setFile((prevFiles) => [...prevFiles, ...files]);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (files.length < 10) {
+      // toast.error("Please select atleast 10 photos.");
+      // return;
+    }
+
+    setIsPending(true);
+
+    toast.info("Uploading images...");
+
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append("photos", file); // 'photos' is the key used for all images
+    });
+
+    try {
+      const res = await axios.post<{ zipUrl: string }>(
+        "http://localhost:8080/zip",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (!res.data.zipUrl) {
+        setIsPending(false);
+        toast.error("Failed to upload images.");
+        return;
+      }
+
+      const zipUrl = res.data.zipUrl;
+
+      console.log({ zipUrl });
+
+      createModel.mutate(
+        { zipUrl },
+        {
+          onSuccess: ({ requestId }) => {
+            toast.info("Starting training model...");
+
+            router.push(`/train/${requestId}`);
+          },
+          onError: (error) => {
+            toast.error(error.message);
+          },
+          onSettled: () => setIsPending(false),
+        },
+      );
+    } catch (e) {
+      console.log({ e });
+
+      toast.error("Failed to upload images.");
+      setIsPending(false);
+    }
+  };
+
+  return (
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className="mb-10 flex flex-col items-center gap-2 border-b pb-5"
+        encType="multipart/form-data"
+      >
+        <FileUpload
+          onChange={handleFileUpload}
+          label="Upload Images"
+          multiple
+          accept="image/*"
+        />
+
+        <Button
+          type="submit"
+          //  disabled={files.length < 10 || isPending}
+        >
+          Upload Images (requires 5 credits)
+        </Button>
+      </form>
+    </>
+  );
+}
+
+export default UploadImageForm;

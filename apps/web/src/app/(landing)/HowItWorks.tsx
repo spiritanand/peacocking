@@ -66,7 +66,7 @@ export default function HowItWorks() {
         </p>
         <p className="text-gray-600">
           It is that <span className="font-semibold text-primary">simple</span>.
-          Our AI does the rest. .
+          Our AI does the rest.
         </p>
       </div>
 

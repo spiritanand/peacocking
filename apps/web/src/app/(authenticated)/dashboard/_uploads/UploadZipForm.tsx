@@ -29,7 +29,7 @@ function UploadZipForm() {
     const zipFile = files?.[0];
 
     if (!zipFile) {
-      alert("Please select a ZIP file before submitting.");
+      toast.error("Please select a ZIP file before submitting.");
       return;
     }
 

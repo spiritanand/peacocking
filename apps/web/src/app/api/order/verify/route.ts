@@ -7,6 +7,8 @@ import { db } from "@web/server/db";
 import { users } from "@web/server/db/schema";
 import { eq } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const {
     razorpayOrderId,

@@ -57,7 +57,10 @@ export const FileUpload = ({
                 return file.name.endsWith(type);
               } else {
                 // Otherwise, assume it's a MIME type (e.g., 'image/jpeg') and check the file type
-                return file.type === type;
+                return (
+                  file.type === type ||
+                  file.type.startsWith(type.split("/")[0] + "/")
+                );
               }
             });
           });
@@ -120,7 +123,7 @@ export const FileUpload = ({
                   key={"file" + idx}
                   layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
                   className={cn(
-                    "relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 dark:bg-neutral-900 md:h-24",
+                    "relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 md:h-24 dark:bg-neutral-900",
                     "shadow-sm",
                   )}
                 >
@@ -143,7 +146,7 @@ export const FileUpload = ({
                     </motion.p>
                   </div>
 
-                  <div className="mt-2 flex w-full flex-col items-start justify-between text-sm text-neutral-600 dark:text-neutral-400 md:flex-row md:items-center">
+                  <div className="mt-2 flex w-full flex-col items-start justify-between text-sm text-neutral-600 md:flex-row md:items-center dark:text-neutral-400">
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

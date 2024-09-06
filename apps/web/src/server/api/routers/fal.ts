@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@web/server/db";
@@ -69,7 +68,7 @@ export const falRouter = createTRPCRouter({
       if (currentCredits < 5) throw new TRPCError({ code: "FORBIDDEN" });
 
       const { zipUrl } = input;
-      const steps = 1000;
+      const steps = 1; // TODO: Make standard 1000 steps
 
       const result = await submitToFalQueue({
         appId: "fal-ai/flux-lora-general-training",
@@ -116,8 +115,8 @@ export const falRouter = createTRPCRouter({
         loras: [
           { path: model.loraFile, scale: 1 },
           // {
-          //   path: "https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors",
-          //   scale: 0.4,
+          //   path: "https://civitai.com/api/download/models/763697?type=Model&format=SafeTensor",
+          //   scale: 0.7,
           // },
         ],
         prompt: `${trigger_word} ${prompt}`,
