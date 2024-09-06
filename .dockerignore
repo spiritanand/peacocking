@@ -1,0 +1,7 @@
+# Ignore other apps in the monorepo
+apps/*
+!apps/photos-zipper
+
+# Ignore node_modules and dist folders in all directories
+**/node_modules
+**/dist

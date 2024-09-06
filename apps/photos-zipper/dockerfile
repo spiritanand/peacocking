@@ -1,0 +1,31 @@
+# Base image
+FROM node:20-alpine3.20
+
+# Set working directory inside the container
+WORKDIR /server
+
+# Copy package.json and pnpm lockfile for the photos-zipper app
+COPY package.json ./
+COPY pnpm*.yaml ./
+
+COPY apps/photos-zipper/package.json ./apps/photos-zipper/
+
+RUN corepack enable pnpm
+
+# Install dependencies for photos-zipper app
+RUN pnpm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Set the environment variable
+COPY apps/photos-zipper/.env.production ./apps/photos-zipper/.env 
+
+# Build the app with verbose logging
+RUN pnpm run build
+
+# Expose the port your app runs on
+EXPOSE 8080
+
+# Command to run your app
+CMD [ "pnpm", "start" , "-F=photos-zipper"]

@@ -17,6 +17,10 @@
     "db:studio": {
       "cache": false,
       "persistent": true
+    },
+    "start": {
+      "cache": true,
+      "persistent": true
     }
   }
 }

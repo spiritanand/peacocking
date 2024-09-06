@@ -5,16 +5,11 @@ import fs from "fs";
 import dotenv from "dotenv";
 import { MulterError } from "multer";
 import cors, { type CorsOptions } from "cors";
-import * as fal from "@fal-ai/serverless-client";
 import { promisify } from "util";
 import { createSignedUrl, uploadToS3 } from "./lib/s3.js";
 const unlinkFile = promisify(fs.unlink);
 
 dotenv.config();
-
-fal.config({
-  credentials: process.env.FAL_KEY,
-});
 
 const isProduction = process.env.NODE_ENV === "production";
 

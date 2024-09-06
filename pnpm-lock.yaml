@@ -26,9 +26,6 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.637.0
         version: 3.637.0
-      '@fal-ai/serverless-client':
-        specifier: ^0.14.2
-        version: 0.14.2
       archiver:
         specifier: ^7.0.1
         version: 7.0.1
