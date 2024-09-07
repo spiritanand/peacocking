@@ -68,7 +68,7 @@ export const falRouter = createTRPCRouter({
       if (currentCredits < 5) throw new TRPCError({ code: "FORBIDDEN" });
 
       const { zipUrl } = input;
-      const steps = 1; // TODO: Make standard 1000 steps
+      const steps = 1000; // TODO: Make standard 1000 steps
 
       const result = await submitToFalQueue({
         // appId: "fal-ai/flux-lora-general-training",

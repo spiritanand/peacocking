@@ -36,7 +36,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_BACKEND_BASE_URL: z.string(),
   },
 
   /**
@@ -54,6 +54,7 @@ export const env = createEnv({
     WEBHOOK_BASE_URL: process.env.WEBHOOK_BASE_URL,
     RAZORPAY_KEY: process.env.RAZORPAY_KEY,
     RAZORPAY_ID: process.env.RAZORPAY_ID,
+    NEXT_PUBLIC_BACKEND_BASE_URL: process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

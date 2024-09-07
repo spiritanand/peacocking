@@ -8,6 +8,7 @@ import { api } from "@web/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import axios from "axios";
+import { env } from "@web/env";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -44,7 +45,7 @@ function UploadImageForm() {
 
     try {
       const res = await axios.post<{ zipUrl: string }>(
-        "http://localhost:8080/zip",
+        `${env.NEXT_PUBLIC_BACKEND_BASE_URL}/zip`,
         formData,
         {
           headers: {
@@ -60,8 +61,6 @@ function UploadImageForm() {
       }
 
       const zipUrl = res.data.zipUrl;
-
-      console.log({ zipUrl });
 
       createModel.mutate(
         { zipUrl },
