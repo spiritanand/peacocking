@@ -22,7 +22,7 @@ function UploadImageForm() {
   const createModel = api.fal.createModel.useMutation();
 
   const handleFileUpload = (files: File[]) => {
-    setFile((prevFiles) => [...prevFiles, ...files]);
+    setFile(files);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
