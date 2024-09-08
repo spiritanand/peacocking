@@ -70,8 +70,26 @@
 
 .hero-photos-grid {
   grid-template-areas:
-    "suit    .    street"
-    "suit red street"
-    "water red hiker"
-    "water . hiker";
+    "suit    red     hiker"
+    "suit    street  hiker"
+    "water   street  hiker";
+  gap: 10px;
+
+  @media (min-width: 1064px) {
+    gap: 20px;
+    grid-template-areas:
+      "suit    .    street"
+      "suit red street"
+      "water red hiker"
+      "water red hiker"
+      "water . hiker";
+  }
+}
+
+.hero-photos-grid img {
+  min-height: 280px;
+
+  @media (min-width: 1064px) {
+    min-height: 280px;
+  }
 }

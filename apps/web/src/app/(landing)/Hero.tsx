@@ -46,86 +46,81 @@ export default function Hero() {
           className="aspect-[801/1036] w-[50.0625rem] bg-primary opacity-40"
         />
       </div>
-      <div className="overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
-          <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-            <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Your dating profile <br />
-                <span className="ml-2 text-5xl text-primary sm:text-7xl">
-                  supercharged
-                </span>
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                Upload{" "}
-                <span className="font-bold text-primary">just 10 photos</span>{" "}
-                and get{" "}
-                <span className="font-bold text-primary">mesmerizing</span>{" "}
-                results. Never miss a beat.
-              </p>
-              <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                <BadgeCheck className="text-emerald-700" /> Certified by dating
-                experts
-              </div>
-              <div className="mt-10 flex items-center gap-x-6">
-                <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
-                  <Button>Get Started</Button>
-                </Link>
-                {/* <a
+      <div className="container flex flex-col items-center justify-center pb-20 pt-32 lg:flex-row lg:py-32">
+        {/* hero text */}
+        <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
+          <h1 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-left">
+            Your dating profile <br />
+            <span className="text-5xl text-primary sm:text-7xl lg:ml-2">
+              supercharged
+            </span>
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
+            Upload{" "}
+            <span className="font-bold text-primary">just 10 photos</span> and
+            get <span className="font-bold text-primary">mesmerizing</span>{" "}
+            results. Never miss a beat.
+          </p>
+          <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+            <BadgeCheck className="text-emerald-700" /> Certified by dating
+            experts
+          </div>
+          <div className="mt-10 flex items-center gap-x-6">
+            <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
+              <Button>Get Started</Button>
+            </Link>
+            {/* <a
                       href="#"
                       className="text-sm font-semibold leading-6 text-gray-900"
                     >
                       Demo <span aria-hidden="true">→</span>
                     </a> */}
-              </div>
-            </div>
-            <div className="hero-photos-grid grid grid-cols-3 gap-[15px]">
-              {/* First Column */}
-              <div className="relative" style={{ gridArea: "suit" }}>
-                <img
-                  alt="man in suit"
-                  src="/man-in-suit.jpeg"
-                  className="h-[300px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                />
-              </div>
+          </div>
+        </div>
 
-              <div className="relative" style={{ gridArea: "water" }}>
-                <img
-                  alt="man water"
-                  src="/man-water.jpeg"
-                  className="h-[300px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                />
-              </div>
+        {/* hero grid */}
+        <div className="hero-photos-grid mt-14 grid grid-cols-3">
+          {/* First Column */}
+          <div className="relative" style={{ gridArea: "suit" }}>
+            <img
+              alt="man in suit"
+              src="/man-in-suit.jpeg"
+              className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+            />
+          </div>
 
-              {/* Second Column */}
-              <div className="relative" style={{ gridArea: "red" }}>
-                <img
-                  alt="red hair"
-                  src="/red-hair.jpeg"
-                  className="h-[300px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                />
-              </div>
+          <div className="relative" style={{ gridArea: "water" }}>
+            <img
+              alt="man water"
+              src="/man-water.jpeg"
+              className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+            />
+          </div>
 
-              {/* Third Column */}
-              <div className="relative" style={{ gridArea: "street" }}>
-                <img
-                  alt="man street art"
-                  src="/man-street-art.jpeg"
-                  className="h-[300px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                />
-              </div>
+          {/* Second Column */}
+          <div className="relative" style={{ gridArea: "red" }}>
+            <img
+              alt="red hair"
+              src="/red-hair.jpeg"
+              className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+            />
+          </div>
 
-              <div className="relative" style={{ gridArea: "hiker" }}>
-                <img
-                  alt="hiker"
-                  src="/hike-man.jpeg"
-                  className="h-[300px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
-                  style={{
-                    objectPosition: "73% 50%",
-                  }}
-                />
-              </div>
-            </div>
+          {/* Third Column */}
+          <div className="relative" style={{ gridArea: "street" }}>
+            <img
+              alt="man street art"
+              src="/man-street-art.jpeg"
+              className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+            />
+          </div>
+
+          <div className="relative" style={{ gridArea: "hiker" }}>
+            <img
+              alt="hiker"
+              src="/hike-man.jpeg"
+              className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+            />
           </div>
         </div>
       </div>
