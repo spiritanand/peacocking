@@ -42,7 +42,7 @@ export default function GensList({ modelId }: { modelId: string }) {
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p className="max-w-xs text-sm">{gen.input?.prompt}</p>
+                  <p className="max-w-xs text-sm">{gen.input?.prompt.trim()}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

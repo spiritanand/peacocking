@@ -47,7 +47,7 @@ export const WebhookMetadataSchema = z.object({
   request_id: z.string(),
   gateway_request_id: z.string(),
   status: z.enum(["OK", "ERROR"]),
-  error: z.null().or(z.string()),
+  error: z.string().nullable(),
 });
 
 // Image Generation Webhook Schema
@@ -80,9 +80,27 @@ export const ModelTrainOutputSchema = z.object({
   // experimental_multi_checkpoints: z.array(FileDetailsSchema),
 });
 
-export const ModelCreationWebhookSchema = WebhookMetadataSchema.extend({
-  payload: ModelTrainOutputSchema,
+const ModelTrainErrorSchema = z.object({
+  loc: z.array(z.string()), // Location of the error
+  msg: z.string(), // Error message
+  type: z.string(), // Error type
 });
+
+const ValidationErrorPayloadSchema = z.object({
+  detail: z.array(ModelTrainErrorSchema),
+});
+
+// Define the main webhook schema using discriminated unions and extending the base schema
+export const ModelCreationWebhookSchema = z.discriminatedUnion("status", [
+  WebhookMetadataSchema.extend({
+    status: z.literal("ERROR"),
+    payload: ValidationErrorPayloadSchema,
+  }),
+  WebhookMetadataSchema.extend({
+    status: z.literal("OK"),
+    payload: ModelTrainOutputSchema,
+  }),
+]);
 
 // Logging Schema
 const LogEntrySchema = z.object({

@@ -1,8 +1,8 @@
-import { getAllModelsByUser } from "@web/data/db";
 import ModelCard from "./ModelCard";
+import { api } from "@web/trpc/server";
 
 async function PreviousModels() {
-  const allModels = await getAllModelsByUser();
+  const allModels = await api.model.getAllModelsByUser();
 
   return (
     <>

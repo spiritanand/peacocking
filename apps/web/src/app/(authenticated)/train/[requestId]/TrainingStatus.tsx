@@ -14,38 +14,44 @@ import { Badge } from "@web/components/ui/badge";
 import { RequestStatus } from "@web/lib/constants";
 import { cn } from "@web/lib/utils";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function TrainingStatus({ requestId }: { requestId: string }) {
   const router = useRouter();
+  const utils = api.useUtils();
 
-  const [request] = api.request.getById.useSuspenseQuery({
-    requestId,
-  });
-
-  if (!request) return null;
-
-  const { id, status, statusUrl, cancelUrl, queuePosition } = request;
-
-  const { data } = api.request.getStatusByUrl.useQuery(
-    { id, statusUrl, prevStatus: status },
+  const [request] = api.request.getById.useSuspenseQuery(
+    {
+      requestId,
+    },
     {
       refetchInterval: 45 * 1000, // 45 seconds
     },
   );
 
-  console.log({ data });
+  if (!request) return null;
 
-  // Update the status and queue position if data is available
-  const newStatus = data?.status ?? status;
-  const newQueuePosition = data?.queuePosition ?? queuePosition;
+  const { id, status, cancelUrl, queuePosition } = request;
 
-  if (newStatus === RequestStatus.COMPLETED) {
-    router.push(`/dashboard`);
+  if (status === RequestStatus.COMPLETED) {
+    utils.model.getAllModelsByUser
+      .invalidate()
+      .catch(() => {
+        router.push(`/dashboard`);
+      })
+      .finally(() => {
+        toast.success("Model has been trained successfully 🎉");
+        router.push(`/dashboard`);
+      });
 
     return null;
   }
 
-  // router.push(`/model/${data?.modelId}`);
+  if (status === RequestStatus.FAILED) {
+    toast.error("Model training failed 😬. Please contact support.");
+    router.push(`/dashboard`);
+    return null;
+  }
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -58,22 +64,21 @@ function TrainingStatus({ requestId }: { requestId: string }) {
           variant="secondary"
           className={cn(
             "mb-4 p-2",
-            newStatus === RequestStatus.IN_QUEUE
+            status === RequestStatus.IN_QUEUE
               ? "text-orange-500"
               : "text-green-700",
           )}
         >
-          {newStatus}
+          {status}
         </Badge>
-        {newQueuePosition > 0 ? (
+        {queuePosition > 0 ? (
           <p>
             Position Number{" "}
-            <span className="font-extrabold">{newQueuePosition}</span> in the
-            Queue
+            <span className="font-extrabold">{queuePosition}</span> in the Queue
           </p>
         ) : null}
       </CardContent>
-      {newQueuePosition > 0 ? (
+      {queuePosition > 0 ? (
         <CardFooter>
           <p>
             {
