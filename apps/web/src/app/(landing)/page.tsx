@@ -2,7 +2,7 @@ import FAQ from "./FAQ";
 import Hero from "./Hero";
 import HowItWorks from "./HowItWorks";
 import Pricing from "./Pricing";
-import { YouAndAI } from "./YouAndAI";
+import { Footer } from "./Footer";
 
 export default async function Home() {
   return (
@@ -16,7 +16,7 @@ export default async function Home() {
       <FAQ />
 
       {/* Footer */}
-      <YouAndAI />
+      <Footer />
     </main>
   );
 }

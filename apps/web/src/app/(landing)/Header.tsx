@@ -5,6 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@web/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 
 export const navigation = [
@@ -46,7 +47,9 @@ export default function Header() {
 
         {/* Mobile Menu */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="lg:hidden">Open</DropdownMenuTrigger>
+          <DropdownMenuTrigger className="lg:hidden">
+            <Menu />
+          </DropdownMenuTrigger>
           <DropdownMenuContent>
             {navigation.map((item) => (
               <a

@@ -162,7 +162,7 @@ export const FileUpload = ({
                       <img
                         src={URL.createObjectURL(file)}
                         alt={file.name}
-                        className="h-32 w-full rounded-md object-cover"
+                        className="h-32 w-full object-contain"
                       />
                     )}
 

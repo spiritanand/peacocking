@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.hero-photos-grid {
+  grid-template-areas:
+    "suit    .    street"
+    "suit red street"
+    "water red hiker"
+    "water . hiker";
+}
