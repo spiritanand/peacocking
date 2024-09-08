@@ -25,7 +25,7 @@ function TrainingStatus({ requestId }: { requestId: string }) {
       requestId,
     },
     {
-      refetchInterval: 45 * 1000, // 45 seconds
+      refetchInterval: 20 * 1000, // 20 seconds
     },
   );
 

@@ -130,7 +130,7 @@ export const FileUpload = ({
             {files.length > 0 && (
               <motion.div
                 className={cn(
-                  files.length > 1 &&
+                  multiple &&
                     "grid grid-cols-2 gap-4 md:grid-cols-3 md:grid-cols-4",
                   "",
                 )}

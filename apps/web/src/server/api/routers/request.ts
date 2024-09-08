@@ -4,15 +4,9 @@ import { db } from "@web/server/db";
 import { eq } from "drizzle-orm";
 import { requests } from "@web/server/db/schema";
 import { falAxiosInstance } from "@web/data/axiosClient";
-import {
-  type ModelCreationOutput,
-  ModelTrainOutputSchema,
-  type ModelStatus,
-  ModelStatusSchema,
-} from "@web/lib/types";
+import { type ModelStatus, ModelStatusSchema } from "@web/lib/types";
 import { TRPCError } from "@trpc/server";
 import { RequestStatus } from "@web/lib/constants";
-import { insertModel } from "@web/data/db";
 
 export const requestRouter = createTRPCRouter({
   getById: protectedProcedure
@@ -41,40 +35,15 @@ export const requestRouter = createTRPCRouter({
       if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
 
       const { data } = parsed;
-      const { status, response_url, queue_position } = data;
+      const { status, queue_position } = data;
 
       // Update the request status in the database if it has changed
       if (prevStatus !== status)
         await db.update(requests).set({ status }).where(eq(requests.id, id));
 
-      let modelId = "";
-
-      // If the request is completed, fetch the response data and update the database
-      if (status === RequestStatus.COMPLETED) {
-        const res =
-          await falAxiosInstance.get<ModelCreationOutput>(response_url);
-
-        const parsed = ModelTrainOutputSchema.safeParse(res.data);
-
-        if (!parsed.success) throw new TRPCError({ code: "PARSE_ERROR" });
-
-        const { data } = parsed;
-        const { config_file, diffusers_lora_file } = data;
-
-        // Insert the created model into the database
-        const insertedId = await insertModel({
-          requestId: id,
-          configFile: config_file.url,
-          loraFile: diffusers_lora_file.url,
-        });
-
-        modelId = insertedId?.id ?? "";
-      }
-
       return {
         status,
         queuePosition: queue_position ?? -1,
-        modelId,
       };
     }),
 });

@@ -2,8 +2,8 @@ import { insertModel } from "@web/data/db";
 import { RequestStatus } from "@web/lib/constants";
 import { ModelCreationWebhookSchema } from "@web/lib/types";
 import { db } from "@web/server/db";
-import { models, requests, users } from "@web/server/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { requests, users } from "@web/server/db/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET() {
@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
       // Update the user's credits
       const user = await db.query.users.findFirst({
         where: eq(users.id, userId),
-        orderBy: desc(models.createdAt),
       });
 
       if (!user)
