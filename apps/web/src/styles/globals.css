@@ -70,13 +70,12 @@
 
 .hero-photos-grid {
   grid-template-areas:
-    "suit    red     hiker"
-    "suit    street  hiker"
-    "water   street  hiker";
+    "suit    red     water"
+    "suit    red  water"
+    "hiker   street  water";
   gap: 10px;
 
   @media (min-width: 1064px) {
-    gap: 20px;
     grid-template-areas:
       "suit    .    street"
       "suit red street"

@@ -1,7 +1,7 @@
 import React from "react";
 import { Check, X } from "lucide-react";
 
-const imageData = [
+const uploadGuideImages = [
   {
     src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     alt: "Woman",
@@ -40,9 +40,8 @@ export default function HowItWorks() {
       <h2 className="mb-8 text-center text-4xl font-extrabold tracking-tight">
         How it works
       </h2>
-
       <div className="mb-8">
-        <h3 className="mb-4 text-2xl font-bold">Upload guide</h3>
+        <h3 className="mb-4 text-2xl font-bold">1. Upload</h3>
         <p className="mb-2 text-gray-600">
           Upload a minimum of{" "}
           <span className="font-semibold text-primary">
@@ -64,14 +63,9 @@ export default function HowItWorks() {
           </span>{" "}
           like sunglasses in the images.
         </p>
-        <p className="text-gray-600">
-          It is that <span className="font-semibold text-primary">simple</span>.
-          Our AI does the rest.
-        </p>
       </div>
-
       <div className="grid gap-4 md:grid-cols-3">
-        {imageData.map((img, index) => (
+        {uploadGuideImages.map((img, index) => (
           <div key={index} className="relative">
             <img
               src={img.src}
@@ -89,6 +83,79 @@ export default function HowItWorks() {
             </div>
           </div>
         ))}
+      </div>
+      <h3 className="my-8 text-2xl font-bold">2. AI Trains for 5 mins</h3>
+      <h3 className="my-8 text-2xl font-bold">
+        3. Enter prompt to generate desired image.
+      </h3>
+      <p className="text-gray-600">
+        Et Voila. It is that{" "}
+        <span className="font-semibold text-primary">simple</span>.
+      </p>
+
+      <div className="my-14">
+        <h1 className="mb-4 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          <span className="text-primary">Much More</span>, than just dating...
+        </h1>
+        <p className="mb-2 text-gray-600">
+          Get <span className="font-semibold text-primary">Professional</span>{" "}
+          headshots
+        </p>
+        <p className="mb-2 text-gray-600">
+          Become a <span className="font-semibold text-primary">superhero</span>{" "}
+        </p>
+        <p className="mb-2 text-gray-600">
+          Dress up as favorite{" "}
+          <span className="font-semibold text-primary">TV show characters</span>
+        </p>
+        <p className="mb-2 text-gray-600">
+          Become a{" "}
+          <span className="font-semibold text-primary">sports superstar</span>
+        </p>
+      </div>
+      <div className="hero-photos-grid mt-14 grid grid-cols-3">
+        {/* First Column */}
+        <div className="relative" style={{ gridArea: "suit" }}>
+          <img
+            alt="green-lantern"
+            src="/green-lantern.jpg"
+            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+          />
+        </div>
+
+        <div className="relative" style={{ gridArea: "water" }}>
+          <img
+            alt="model"
+            src="/model.jpg"
+            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+          />
+        </div>
+
+        {/* Second Column */}
+        <div className="relative" style={{ gridArea: "red" }}>
+          <img
+            alt="professional"
+            src="/professional.jpg"
+            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+          />
+        </div>
+
+        {/* Third Column */}
+        <div className="relative" style={{ gridArea: "street" }}>
+          <img
+            alt="footballer"
+            src="/footballer.jpg"
+            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+          />
+        </div>
+
+        <div className="relative" style={{ gridArea: "hiker" }}>
+          <img
+            alt="GOT"
+            src="/got.jpg"
+            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
+          />
+        </div>
       </div>
     </div>
   );
