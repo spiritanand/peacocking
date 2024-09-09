@@ -92,7 +92,6 @@ export default function HowItWorks() {
         Et Voila. It is that{" "}
         <span className="font-semibold text-primary">simple</span>.
       </p>
-
       <div className="my-14">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight lg:text-5xl">
           <span className="text-primary">Much More</span>, than just dating...
@@ -157,6 +156,7 @@ export default function HowItWorks() {
           />
         </div>
       </div>
+      ``
     </div>
   );
 }
