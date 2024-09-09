@@ -3,6 +3,8 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
+import { Button } from "./button";
+import { CircleX } from "lucide-react";
 
 const mainVariant = {
   initial: {
@@ -38,6 +40,14 @@ export const FileUpload = ({
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFileDelete(index: number) {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+
+    setFiles(newFiles);
+    onChange?.(newFiles);
+  }
 
   const handleFileChange = (newFiles: File[]) => {
     if (!newFiles.length) return;
@@ -116,57 +126,81 @@ export const FileUpload = ({
             Drag and drop your {multiple ? "files" : "file"} here or click to
             upload
           </p>
-          <div className="relative mx-auto mt-10 w-full max-w-xl">
-            {files.length > 0 &&
-              files.map((file, idx) => (
-                <motion.div
-                  key={"file" + idx}
-                  layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
-                  className={cn(
-                    "relative z-40 mx-auto mt-4 flex w-full flex-col items-start justify-start overflow-hidden rounded-md bg-white p-4 md:h-24 dark:bg-neutral-900",
-                    "shadow-sm",
-                  )}
-                >
-                  <div className="flex w-full items-center justify-between gap-4">
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      layout
-                      className="max-w-xs truncate text-base text-neutral-700 dark:text-neutral-300"
+          <div className="relative mx-auto mt-10 w-full max-w-screen-md">
+            {files.length > 0 && (
+              <motion.div
+                className={cn(
+                  multiple &&
+                    "grid grid-cols-2 gap-4 md:grid-cols-3 md:grid-cols-4",
+                  "",
+                )}
+              >
+                {files.map((file, idx) => (
+                  <motion.div
+                    key={"file" + idx}
+                    layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
+                    className={cn(
+                      "relative z-40 flex flex-col items-center justify-center overflow-hidden rounded-md bg-white p-4 dark:bg-neutral-900",
+                      "shadow-sm",
+                    )}
+                  >
+                    {/* Cross Button to delete the image */}
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFileDelete(idx);
+                      }}
+                      className="absolute right-0 top-0 z-50 h-8 w-8 rounded-full bg-gray-400 p-0 text-gray-700"
                     >
-                      {file.name}
-                    </motion.p>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      layout
-                      className="w-fit flex-shrink-0 rounded-lg px-2 py-1 text-sm text-neutral-600 shadow-input dark:bg-neutral-800 dark:text-white"
-                    >
-                      {(file.size / (1024 * 1024)).toFixed(2)} MB
-                    </motion.p>
-                  </div>
+                      <CircleX />
+                    </Button>
 
-                  <div className="mt-2 flex w-full flex-col items-start justify-between text-sm text-neutral-600 md:flex-row md:items-center dark:text-neutral-400">
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      layout
-                      className="rounded-md bg-gray-100 px-1 py-0.5 dark:bg-neutral-800"
-                    >
-                      {file.type}
-                    </motion.p>
+                    {/* Preview the image if the file is an image */}
+                    {file.type.startsWith("image/") && (
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={file.name}
+                        className="h-32 w-full object-contain"
+                      />
+                    )}
 
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      layout
-                    >
-                      modified{" "}
-                      {new Date(file.lastModified).toLocaleDateString()}
-                    </motion.p>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="mt-2 flex w-full items-center justify-between gap-4">
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        layout
+                        className="truncate text-base text-neutral-700 dark:text-neutral-300"
+                      >
+                        {file.name}
+                      </motion.p>
+                    </div>
+
+                    <div className="flex w-full flex-col items-start justify-between text-sm text-neutral-600 md:flex-row md:items-center dark:text-neutral-400">
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        layout
+                        className="rounded-md bg-gray-100 dark:bg-neutral-800"
+                      >
+                        {file.type}
+                      </motion.p>
+
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        layout
+                        className="w-fit flex-shrink-0 rounded-lg text-sm text-neutral-600 shadow-input dark:bg-neutral-800 dark:text-white"
+                      >
+                        {(file.size / (1024 * 1024)).toFixed(2)} MB
+                      </motion.p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+
             {!files.length && (
               <motion.div
                 layoutId="file-upload"

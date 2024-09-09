@@ -5,7 +5,7 @@ import { ShootingStars } from "@web/components/ui/shooting-stars";
 import { StarsBackground } from "@web/components/ui/stars-background";
 import Link from "next/link";
 
-export function YouAndAI() {
+export function Footer() {
   return (
     <div className="relative flex h-[30rem] w-full flex-col items-center justify-around rounded-tl-md rounded-tr-md bg-neutral-900">
       <div className="flex flex-col items-center justify-center">

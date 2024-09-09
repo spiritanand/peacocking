@@ -12,7 +12,7 @@ export default function UploadAsset() {
   return (
     <Tabs
       defaultValue="images"
-      className="mx-auto w-[90vw] items-center sm:w-[600px]"
+      className="mx-auto max-w-[95vw] items-center sm:max-w-screen-lg"
     >
       <TabsList className="flex items-center">
         <TabsTrigger

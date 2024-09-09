@@ -2,7 +2,7 @@ import { insertModel } from "@web/data/db";
 import { RequestStatus } from "@web/lib/constants";
 import { ModelCreationWebhookSchema } from "@web/lib/types";
 import { db } from "@web/server/db";
-import { requests } from "@web/server/db/schema";
+import { requests, users } from "@web/server/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
 
     const parsed = ModelCreationWebhookSchema.safeParse(raw);
 
-    console.log({ parsed });
-
     if (!parsed.success)
       return NextResponse.json(
         { success: false, message: parsed.error.message },
@@ -26,8 +24,52 @@ export async function POST(request: NextRequest) {
       );
 
     const { data } = parsed;
-    const { request_id, payload } = data;
+    const { request_id, payload, status } = data;
 
+    // Model Creation failed
+    if (status === "ERROR") {
+      const updatedUserIds = await db
+        .update(requests)
+        .set({ status: RequestStatus.FAILED })
+        .where(eq(requests.id, request_id))
+        .returning({ updatedUserId: requests.userId });
+
+      const updatedUserId = updatedUserIds[0];
+      const userId = updatedUserId?.updatedUserId;
+
+      if (!userId)
+        return NextResponse.json(
+          { success: false, message: "No valid user/request" },
+          { status: 500 },
+        );
+
+      // TODO: Shift credits updates to a utility function
+
+      // Update the user's credits
+      const user = await db.query.users.findFirst({
+        where: eq(users.id, userId),
+      });
+
+      if (!user)
+        return NextResponse.json(
+          { success: false, message: "No valid user" },
+          { status: 500 },
+        );
+
+      const currentCredits = user?.credits;
+
+      await db
+        .update(users)
+        .set({ credits: currentCredits + 5 }) // TODO: Shift costed credits value to constants
+        .where(eq(users.id, userId));
+
+      return NextResponse.json({
+        success: true,
+        message: "Failed model creation",
+      });
+    }
+
+    // Status is OK => Model creation was successful
     // Update the request status
     await db
       .update(requests)
