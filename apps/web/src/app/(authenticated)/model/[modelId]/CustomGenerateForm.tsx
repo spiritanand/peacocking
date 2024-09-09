@@ -98,6 +98,7 @@ function CustomGenerateForm() {
     const { prompt } = values;
 
     setIsPending(true);
+    await utils.user.getUser.invalidate();
     createImage.mutate({ modelId, prompt });
     toast.info("Generating image...");
   }

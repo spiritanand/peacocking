@@ -34,7 +34,7 @@ export default function GensList({ modelId }: { modelId: string }) {
                     className="absolute bottom-2 right-2 h-10 w-10 rounded-full bg-opacity-50 p-0 hover:bg-opacity-75"
                     aria-label="Show prompt"
                     onClick={() => {
-                      void copyToClipboard(gen.input?.prompt);
+                      void copyToClipboard(gen.input?.prompt.trim());
                       toast.success("Prompt copied to clipboard");
                     }}
                   >

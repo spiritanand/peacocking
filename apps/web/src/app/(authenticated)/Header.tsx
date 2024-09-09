@@ -6,13 +6,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@web/components/ui/tooltip";
-import { getServerAuthSession } from "@web/server/auth";
+import { api } from "@web/trpc/server";
 import Link from "next/link";
+import Credits from "./Credits";
 
 export default async function Header() {
-  const session = await getServerAuthSession();
+  const data = await api.user.getUser(null);
+  const { user } = data;
 
-  if (!session) return null;
+  if (!user) return null;
 
   return (
     <header className="p-4">
@@ -31,26 +33,17 @@ export default async function Header() {
             <Tooltip>
               <TooltipTrigger>
                 <Avatar>
-                  <AvatarImage src={session?.user.image ?? ""} />
-                  <AvatarFallback>
-                    {session?.user.name?.[0] ?? "U"}
-                  </AvatarFallback>
+                  <AvatarImage src={user.image ?? ""} />
+                  <AvatarFallback>{user.name?.[0] ?? "U"}</AvatarFallback>
                 </Avatar>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-xs">{session?.user.email}</p>
+                <p className="text-xs">{user.email}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          <span className="flex items-center gap-2">
-            Credits: {session?.user.credits}{" "}
-            {/* <PaymentButton
-              session={session}
-              amount={999}
-              key={env.RAZORPAY_ID}
-            /> */}
-          </span>
+          {<Credits placeholderData={data} />}
 
           <Link href="/api/auth/signout?callbackUrl=/">
             <Button variant="secondary">Sign Out</Button>

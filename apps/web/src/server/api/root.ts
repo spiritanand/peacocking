@@ -4,6 +4,8 @@ import { falRouter } from "./routers/fal";
 import { requestRouter } from "@web/server/api/routers/request";
 import { genRouter } from "./routers/gen";
 import { modelRouter } from "./routers/model";
+import { userRouter } from "./routers/user";
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 
 /**
  * This is the primary router for your server.
@@ -16,10 +18,13 @@ export const appRouter = createTRPCRouter({
   request: requestRouter,
   gen: genRouter,
   model: modelRouter,
+  user: userRouter,
 });
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+export type RouterInput = inferRouterInputs<AppRouter>;
+export type RouterOutput = inferRouterOutputs<AppRouter>;
 
 /**
  * Create a server-side caller for the tRPC API.
