@@ -1,6 +1,7 @@
 import { Button } from "@web/components/ui/button";
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
+import CustomImage from "@web/components/ui/custom-image";
 
 export default function Hero() {
   return (
@@ -82,7 +83,7 @@ export default function Hero() {
         <div className="hero-photos-grid mt-14 grid grid-cols-3">
           {/* First Column */}
           <div className="relative" style={{ gridArea: "suit" }}>
-            <img
+            <CustomImage
               alt="man in suit"
               src="/man-in-suit.jpeg"
               className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -90,7 +91,7 @@ export default function Hero() {
           </div>
 
           <div className="relative" style={{ gridArea: "water" }}>
-            <img
+            <CustomImage
               alt="man water"
               src="/man-water.jpeg"
               className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -99,7 +100,7 @@ export default function Hero() {
 
           {/* Second Column */}
           <div className="relative" style={{ gridArea: "red" }}>
-            <img
+            <CustomImage
               alt="red hair"
               src="/red-hair.jpeg"
               className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -108,7 +109,7 @@ export default function Hero() {
 
           {/* Third Column */}
           <div className="relative" style={{ gridArea: "street" }}>
-            <img
+            <CustomImage
               alt="man street art"
               src="/man-street-art.jpeg"
               className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -116,7 +117,7 @@ export default function Hero() {
           </div>
 
           <div className="relative" style={{ gridArea: "hiker" }}>
-            <img
+            <CustomImage
               alt="hiker"
               src="/hike-man.jpeg"
               className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"

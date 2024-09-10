@@ -1,3 +1,5 @@
+import CustomImage from "@web/components/ui/custom-image";
+
 const faqs: {
   question: string;
   answer: string;
@@ -72,10 +74,10 @@ export default function FAQ() {
             </a>{" "}
             team.
           </p>
-          <img
+          <CustomImage
             src="/man-book-faq.jpeg"
             alt="faq guy"
-            className="mt-8 rounded-md"
+            className="mt-8 h-auto rounded-md"
             loading="lazy"
           />
         </div>

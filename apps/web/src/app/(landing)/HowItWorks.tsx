@@ -1,5 +1,6 @@
 import React from "react";
 import { Check, X } from "lucide-react";
+import CustomImage from "@web/components/ui/custom-image";
 
 const uploadGuideImages = [
   {
@@ -67,7 +68,7 @@ export default function HowItWorks() {
       <div className="grid gap-4 md:grid-cols-3">
         {uploadGuideImages.map((img, index) => (
           <div key={index} className="relative">
-            <img
+            <CustomImage
               src={img.src}
               alt={img.alt}
               className="h-80 w-full rounded-lg object-cover shadow-md"
@@ -115,7 +116,7 @@ export default function HowItWorks() {
       <div className="hero-photos-grid mt-14 grid grid-cols-3">
         {/* First Column */}
         <div className="relative" style={{ gridArea: "suit" }}>
-          <img
+          <CustomImage
             alt="green-lantern"
             src="/green-lantern.jpg"
             className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -123,7 +124,7 @@ export default function HowItWorks() {
         </div>
 
         <div className="relative" style={{ gridArea: "water" }}>
-          <img
+          <CustomImage
             alt="model"
             src="/model.jpg"
             className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -132,7 +133,7 @@ export default function HowItWorks() {
 
         {/* Second Column */}
         <div className="relative" style={{ gridArea: "red" }}>
-          <img
+          <CustomImage
             alt="professional"
             src="/professional.jpg"
             className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -141,7 +142,7 @@ export default function HowItWorks() {
 
         {/* Third Column */}
         <div className="relative" style={{ gridArea: "street" }}>
-          <img
+          <CustomImage
             alt="footballer"
             src="/footballer.jpg"
             className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
@@ -149,7 +150,7 @@ export default function HowItWorks() {
         </div>
 
         <div className="relative" style={{ gridArea: "hiker" }}>
-          <img
+          <CustomImage
             alt="GOT"
             src="/got.jpg"
             className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
