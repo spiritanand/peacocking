@@ -15,10 +15,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@web/components/ui/form";
-import { Input } from "@web/components/ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Textarea } from "@web/components/ui/textarea";
 
 const formSchema = z.object({
   prompt: z.string().min(5, {
@@ -117,7 +117,7 @@ function CustomGenerateForm() {
               <FormItem>
                 <FormLabel>Your thought</FormLabel>
                 <FormControl>
-                  <Input placeholder="hottest me" {...field} />
+                  <Textarea placeholder="hottest me" {...field} />
                 </FormControl>
                 <FormDescription>
                   Tip: Start with{" "}

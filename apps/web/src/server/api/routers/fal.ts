@@ -18,6 +18,21 @@ fal.config({
   credentials: env.FAL_KEY,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LoRAs = {
+  SCOOBY_DOO: {
+    path: "https://civitai.com/api/download/models/787488?type=Model&format=SafeTensor",
+    keyPrompt: "SD99style",
+  },
+  CRYSTAL: {
+    path: "https://civitai.com/api/download/models/763697?type=Model&format=SafeTensor",
+  },
+  VAMPIRE: {
+    path: "https://civitai.com/api/download/models/781821?type=Model&format=SafeTensor",
+    keyPrompt: "Vampire",
+  },
+};
+
 async function submitToFalQueue({
   appId,
   input,
@@ -116,11 +131,11 @@ export const falRouter = createTRPCRouter({
         loras: [
           { path: model.loraFile, scale: 1 },
           // {
-          //   path: "https://civitai.com/api/download/models/763697?type=Model&format=SafeTensor",
+          //   path: LoRAs.VAMPIRE.path,
           //   scale: 0.7,
           // },
         ],
-        prompt: `${trigger_word} ${prompt}`,
+        prompt: `${trigger_word}${prompt}`,
         image_size: ImageSize.PORTRAIT_4_3,
         num_images: 1,
         output_format: OutputFormat.JPEG,
