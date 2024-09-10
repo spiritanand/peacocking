@@ -132,7 +132,7 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
       const currentCredits = ctx.session.user.credits;
 
-      if (currentCredits < 1) throw new TRPCError({ code: "FORBIDDEN" });
+      if (currentCredits < 0.25) throw new TRPCError({ code: "FORBIDDEN" });
 
       const { modelId, prompt } = input;
 
