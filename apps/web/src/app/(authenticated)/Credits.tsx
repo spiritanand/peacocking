@@ -13,14 +13,5 @@ export default function Credits({
   });
   const user = data.data?.user;
 
-  return (
-    <span className="flex items-center gap-2">
-      Credits: {user?.credits}{" "}
-      {/* <PaymentButton
-              session={session}
-              amount={999}
-              key={env.RAZORPAY_ID}
-            /> */}
-    </span>
-  );
+  return <>Credits: {user?.credits} </>;
 }

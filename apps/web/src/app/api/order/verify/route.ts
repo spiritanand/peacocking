@@ -38,7 +38,6 @@ export async function POST(req: NextRequest) {
     .update(users)
     .set({ credits: previousBal + credits })
     .where(eq(users.email, email));
-  console.log({ email, razorpayOrderId, razorpayPaymentId, razorpaySignature });
 
   return NextResponse.json(
     { message: "payment success", error: false },

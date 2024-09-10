@@ -9,11 +9,16 @@ import {
 import { api } from "@web/trpc/server";
 import Link from "next/link";
 import Credits from "./Credits";
+import PaymentButton from "./PaymentButton";
+import { getServerAuthSession } from "@web/server/auth";
+import { env } from "@web/env";
 
 export default async function Header() {
+  const session = await getServerAuthSession();
   const data = await api.user.getUser(null);
   const { user } = data;
 
+  if (!session) return null;
   if (!user) return null;
 
   return (
@@ -43,7 +48,15 @@ export default async function Header() {
             </Tooltip>
           </TooltipProvider>
 
-          {<Credits placeholderData={data} />}
+          <span className="flex items-center gap-2">
+            <Credits placeholderData={data} />
+
+            <PaymentButton
+              session={session}
+              amount={999}
+              key={env.RAZORPAY_ID}
+            />
+          </span>
 
           <Link href="/api/auth/signout?callbackUrl=/">
             <Button variant="secondary">Sign Out</Button>

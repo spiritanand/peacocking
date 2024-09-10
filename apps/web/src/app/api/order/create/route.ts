@@ -6,7 +6,7 @@ import Razorpay from "razorpay";
 export const dynamic = "force-dynamic";
 
 const instance = new Razorpay({
-  key_id: "rzp_live_Rz0puPKDAgoiuy", //TODO: Replace with your env
+  key_id: env.RAZORPAY_ID,
   key_secret: env.RAZORPAY_KEY,
 });
 
