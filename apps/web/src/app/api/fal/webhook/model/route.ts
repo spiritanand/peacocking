@@ -1,4 +1,4 @@
-import { insertModel } from "@web/data/db";
+import { updateModelWithFiles } from "@web/data/db";
 import { RequestStatus } from "@web/lib/constants";
 import { ModelCreationWebhookSchema } from "@web/lib/types";
 import { db } from "@web/server/db";
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
       .where(eq(requests.id, request_id));
 
     // Insert the created model into the database
-    await insertModel({
+    await updateModelWithFiles({
       requestId: request_id,
       configFile: payload.config_file.url,
       loraFile: payload.diffusers_lora_file.url,

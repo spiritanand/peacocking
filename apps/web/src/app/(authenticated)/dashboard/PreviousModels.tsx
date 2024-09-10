@@ -2,7 +2,7 @@ import ModelCard from "./ModelCard";
 import { api } from "@web/trpc/server";
 
 async function PreviousModels() {
-  const allModels = await api.model.getAllModelsByUser();
+  const allModels = await api.model.getAllCompletedModelsByUser();
 
   return (
     <>

@@ -107,6 +107,11 @@ export const falRouter = createTRPCRouter({
         .set({ credits: currentCredits - 5 })
         .where(eq(users.id, userId));
 
+      await db.insert(models).values({
+        requestId: result.requestId,
+        userId,
+      });
+
       return result;
     }),
   createImage: protectedProcedure

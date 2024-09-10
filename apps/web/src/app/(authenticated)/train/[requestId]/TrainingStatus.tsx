@@ -34,7 +34,7 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   const { id, status, cancelUrl, queuePosition } = request;
 
   if (status === RequestStatus.COMPLETED) {
-    utils.model.getAllModelsByUser
+    utils.model.getAllCompletedModelsByUser
       .invalidate()
       .catch(() => {
         router.push(`/dashboard`);
@@ -50,6 +50,7 @@ function TrainingStatus({ requestId }: { requestId: string }) {
   if (status === RequestStatus.FAILED) {
     toast.error("Model training failed 😬. Please contact support.");
     router.push(`/dashboard`);
+
     return null;
   }
 

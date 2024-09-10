@@ -3,8 +3,9 @@ import { db } from "@web/server/db";
 import { models } from "@web/server/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { getServerAuthSession } from "@web/server/auth";
+import { RequestStatus } from "@web/lib/constants";
 
-export async function insertModel({
+export async function updateModelWithFiles({
   requestId,
   configFile,
   loraFile,
@@ -13,35 +14,39 @@ export async function insertModel({
   configFile: string;
   loraFile: string;
 }) {
-  const session = await getServerAuthSession();
-
-  if (!session) return null;
-
-  const setValue = {
+  const updateValue = {
     requestId,
     configFile,
     loraFile,
-    userId: session.user.id,
   };
 
   const id = await db
-    .insert(models)
-    .values(setValue)
-    .onConflictDoUpdate({ target: models.requestId, set: setValue })
-    .returning({ insertedId: models.id });
+    .update(models)
+    .set(updateValue)
+    .where(eq(models.requestId, requestId))
+    .returning({ updatedId: models.id });
 
   return {
-    id: id[0]?.insertedId ?? "",
+    id: id[0]?.updatedId,
   };
 }
 
-export async function getAllModelsByUser() {
+export async function getAllCompletedModelsByUser() {
   const session = await getServerAuthSession();
 
   if (!session) return null;
 
-  return await db.query.models.findMany({
+  const allModels = await db.query.models.findMany({
     where: eq(models.userId, session.user.id),
+    with: {
+      request: true,
+    },
     orderBy: desc(models.createdAt),
   });
+
+  const completedModel = allModels.filter(
+    (m) => m.request.status === RequestStatus.COMPLETED,
+  );
+
+  return completedModel;
 }
