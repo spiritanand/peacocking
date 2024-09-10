@@ -1,11 +1,19 @@
 import "@web/styles/globals.css";
 import { type Metadata } from "next";
-import { TRPCReactProvider } from "@web/trpc/react";
 import { Josefin_Sans } from "next/font/google";
 import { Toaster } from "@web/components/ui/sonner";
 import Script from "next/script";
+import { Providers } from "./providers";
+import dynamic from "next/dynamic";
 
 const JS = Josefin_Sans({ subsets: ["latin"] });
+
+const PostHogPageView = dynamic(
+  () => import("../components/analytics/PageView"),
+  {
+    ssr: false,
+  },
+);
 
 export const metadata: Metadata = {
   title: "Peacocking",
@@ -20,7 +28,10 @@ export default function RootLayout({
     <>
       <html lang="en" className={`${JS.className}`}>
         <body>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Providers>
+            <PostHogPageView />
+            {children}
+          </Providers>
           <Toaster richColors theme="light" />
         </body>
       </html>

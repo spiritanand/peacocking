@@ -11,6 +11,7 @@ import {
   type ModelTrainInput,
   type ImageGenerationInput,
 } from "@web/lib/types";
+import PostHogClient from "@web/data/posthog";
 
 const trigger_word = "";
 
@@ -82,6 +83,17 @@ export const falRouter = createTRPCRouter({
 
       if (currentCredits < 5) throw new TRPCError({ code: "FORBIDDEN" });
 
+      const posthog = PostHogClient();
+      posthog.capture({
+        distinctId: userId,
+        event: "create person model",
+        properties: {
+          $set: { email: ctx.session.user.email, name: ctx.session.user.name },
+          login_type: "email",
+        },
+      });
+      await posthog.shutdown();
+
       const { zipUrl } = input;
       const steps = 1000; // TODO: Make standard 1000 steps
 
@@ -131,6 +143,17 @@ export const falRouter = createTRPCRouter({
       // Check if the model exists
       if (!model) throw new TRPCError({ code: "NOT_FOUND" });
       if (!model.loraFile) throw new TRPCError({ code: "NOT_FOUND" });
+
+      const posthog = PostHogClient();
+      posthog.capture({
+        distinctId: userId,
+        event: "create image",
+        properties: {
+          $set: { email: ctx.session.user.email, name: ctx.session.user.name },
+          login_type: "email",
+        },
+      });
+      await posthog.shutdown();
 
       const inputImageGen: ImageGenerationInput = {
         loras: [
