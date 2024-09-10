@@ -19,6 +19,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Textarea } from "@web/components/ui/textarea";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   prompt: z.string().min(5, {
@@ -138,7 +139,14 @@ function CustomGenerateForm() {
               disabled={createImage.isPending || isPending}
               className="scale-[1.25]"
             >
-              Generate
+              {isPending ? (
+                <>
+                  Generating{" "}
+                  <LoaderCircle className="ml-2 h-5 w-5 animate-spin" />
+                </>
+              ) : (
+                "Generate"
+              )}
             </Button>
             <p className="mt-4 text-sm text-gray-500">
               It costs{" "}
