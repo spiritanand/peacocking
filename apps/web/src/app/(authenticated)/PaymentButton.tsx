@@ -5,16 +5,9 @@
 import React, { useState } from "react";
 import { type Session } from "next-auth";
 import { Button } from "@web/components/ui/button";
+import { isIndianTimeZone } from "@web/lib/utils";
 
-const PaymentButton = ({
-  key,
-  session,
-  amount,
-}: {
-  session: Session;
-  amount: number;
-  key: string;
-}) => {
+const PaymentButton = ({ key, session }: { session: Session; key: string }) => {
   const userEmail = session?.user?.email;
   const previousBal = session.user?.credits;
 
@@ -23,7 +16,21 @@ const PaymentButton = ({
   const makePayment = async () => {
     setIsLoading(true);
 
-    const data = await fetch("/api/order/create?amount=" + amount);
+    // Create URL based on timezone
+    const url = new URL("/api/order/create", window.location.origin);
+    const INRParams = {
+      amount: "999",
+      currency: "INR",
+    };
+    const i18Params = {
+      amount: "10",
+      currency: "USD",
+    };
+    const isIndian = isIndianTimeZone();
+    const searchParams = new URLSearchParams(isIndian ? INRParams : i18Params);
+    url.search = searchParams.toString();
+
+    const data = await fetch(url.toString());
     const { order } = await data?.json();
     const options = {
       key: key,
@@ -52,8 +59,6 @@ const PaymentButton = ({
             previousBal,
           }),
         });
-
-        const res = await data.json();
       },
       prefill: {
         email: userEmail,
@@ -63,20 +68,16 @@ const PaymentButton = ({
     const paymentObject = new (window as any).Razorpay(options);
     paymentObject.open();
 
-    paymentObject.on("payment.failed", function (response: any) {
+    paymentObject.on("payment.failed", function () {
       alert("Payment failed. Please try again.");
       setIsLoading(false);
     });
   };
 
   return (
-    <>
-      <div className="">
-        <Button disabled={isLoading} onClick={makePayment}>
-          Add Credits
-        </Button>
-      </div>
-    </>
+    <Button disabled={isLoading} onClick={makePayment}>
+      Add Credits
+    </Button>
   );
 };
 

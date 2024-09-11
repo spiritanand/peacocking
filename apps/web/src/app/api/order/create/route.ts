@@ -13,11 +13,12 @@ const instance = new Razorpay({
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const totalAmount = Number(searchParams.get("amount"));
+  const currency = searchParams.get("currency");
 
   const amount = totalAmount * 100;
   const options = {
     amount: amount.toString(),
-    currency: "INR",
+    currency: currency ?? "INR",
     receipt: createId(),
   };
 

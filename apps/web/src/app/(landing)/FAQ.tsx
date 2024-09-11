@@ -11,7 +11,7 @@ const faqs: {
   },
   {
     question: "How long does the whole process take?",
-    answer: "It takes around 20 minutes for the model to train",
+    answer: "It takes less than 5 minutes for the model to train.",
   },
   {
     question: "What file formats of images are accepted?",

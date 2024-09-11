@@ -23,15 +23,15 @@ export default async function Header() {
 
   return (
     <header className="p-4">
-      <nav className="container mx-auto flex items-center justify-between">
+      <nav className="container mx-auto flex items-center justify-between gap-4">
         <Link href="/dashboard">
           <span className="sr-only">Peacocking</span>
           <img alt="" src="/logo.png" className="h-12 w-auto" />
         </Link>
 
-        <div className="flex items-center gap-6">
-          <Link href="/dashboard">Dashboard</Link>
-        </div>
+        <Link href="/dashboard" className="hidden lg:block">
+          Dashboard
+        </Link>
 
         <div className="flex items-center gap-2">
           <TooltipProvider>
@@ -51,14 +51,13 @@ export default async function Header() {
           <span className="flex items-center gap-2">
             <Credits placeholderData={data} />
 
-            <PaymentButton
-              session={session}
-              amount={999}
-              key={env.RAZORPAY_ID}
-            />
+            <PaymentButton session={session} key={env.RAZORPAY_ID} />
           </span>
 
-          <Link href="/api/auth/signout?callbackUrl=/">
+          <Link
+            href="/api/auth/signout?callbackUrl=/"
+            className="hidden lg:block"
+          >
             <Button variant="secondary">Sign Out</Button>
           </Link>
         </div>

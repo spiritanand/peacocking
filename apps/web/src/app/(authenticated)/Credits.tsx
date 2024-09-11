@@ -13,5 +13,10 @@ export default function Credits({
   });
   const user = data.data?.user;
 
-  return <>Credits: {user?.credits} </>;
+  return (
+    <>
+      <span className="hidden lg:block">Credits: </span>
+      {user?.credits}{" "}
+    </>
+  );
 }

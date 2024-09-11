@@ -24,3 +24,9 @@ export async function copyToClipboard(text?: string): Promise<boolean> {
 
   return false;
 }
+
+export function isIndianTimeZone() {
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const indianTimeZones = ["Asia/Calcutta", "Asia/Kolkata", "Asia/Delhi"];
+  return indianTimeZones.includes(userTimeZone);
+}
