@@ -22,6 +22,8 @@ function UploadImageForm() {
 
   const createModel = api.fal.createModel.useMutation();
 
+  console.log({ files });
+
   const handleFileUpload = (files: File[]) => {
     setFile(files);
   };
@@ -93,7 +95,8 @@ function UploadImageForm() {
         encType="multipart/form-data"
       >
         <FileUpload
-          onChange={handleFileUpload}
+          files={files}
+          setFiles={handleFileUpload}
           label="Upload Images"
           multiple
           accept="image/*"

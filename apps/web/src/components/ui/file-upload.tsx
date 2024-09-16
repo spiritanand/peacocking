@@ -1,5 +1,5 @@
 import { cn } from "@web/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
@@ -28,17 +28,18 @@ const secondaryVariant = {
 };
 
 export const FileUpload = ({
+  files,
+  setFiles,
   label = "Upload file",
   multiple = true,
-  onChange,
   accept = "*",
 }: {
+  files: File[];
+  setFiles: (files: File[]) => void;
   label?: string;
   multiple?: boolean;
-  onChange?: (files: File[]) => void;
   accept?: string;
 }) => {
-  const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   function handleFileDelete(index: number) {
@@ -46,7 +47,6 @@ export const FileUpload = ({
     newFiles.splice(index, 1);
 
     setFiles(newFiles);
-    onChange?.(newFiles);
   }
 
   const handleFileChange = (newFiles: File[]) => {
@@ -75,13 +75,11 @@ export const FileUpload = ({
             });
           });
 
-    setFiles((prevFiles) => {
-      if (!multiple) return [...filteredFiles]; // only keep the last file, if multiple is false
+    let updatedFiles: File[] = [];
+    if (!multiple) updatedFiles = [...filteredFiles];
+    else updatedFiles = [...files, ...filteredFiles];
 
-      return [...prevFiles, ...filteredFiles]; // keep all files
-    });
-
-    onChange?.(filteredFiles);
+    setFiles(updatedFiles);
   };
 
   const handleClick = () => {

@@ -19,6 +19,8 @@ function UploadZipForm() {
 
   const createModel = api.fal.createModel.useMutation();
 
+  console.log({ files });
+
   const handleFileUpload = (files: File[]) => {
     setFile(files);
   };
@@ -54,7 +56,8 @@ function UploadZipForm() {
         className="mb-10 flex flex-col items-center gap-2 border-b pb-5"
       >
         <FileUpload
-          onChange={handleFileUpload}
+          files={files}
+          setFiles={handleFileUpload}
           multiple={false}
           label="Upload Zip of photos"
           accept=".zip"
