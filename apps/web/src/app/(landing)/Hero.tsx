@@ -69,7 +69,6 @@ export default function Hero() {
                     </a> */}
           </div>
         </div>
-
         {/* hero grid */}
         <div className="hero-photos-grid mt-14 grid grid-cols-3">
           {/* First Column */}
