@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://peacocking.pro/images/og-wide.png",
+        url: "https://peacocking.pro/images/og.png",
         alt: "Generate your Photos | Peacocking",
       },
     ],
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: "Get more dates and jobs with your generated photographs.",
     images: [
       {
-        url: "https://peacocking.pro/images/og-wide.png",
+        url: "https://peacocking.pro/images/og.png",
         alt: "Generate your Photos | Peacocking",
       },
     ],
