@@ -1,6 +1,5 @@
 import { Button } from "@web/components/ui/button";
 import Link from "next/link";
-import { BadgeCheck } from "lucide-react";
 import CustomImage from "@web/components/ui/custom-image";
 import AnimatedHero from "@web/components/ui/animated-hero";
 
@@ -58,10 +57,6 @@ export default function Hero() {
             get <span className="font-bold text-primary">mesmerizing</span>{" "}
             results. Never miss a beat.
           </p>
-          <div className="mt-2 flex items-center justify-center gap-2 text-sm text-gray-500 sm:justify-start">
-            <BadgeCheck className="text-emerald-700" /> Certified by dating
-            experts
-          </div>
           <div className="mt-10 flex items-center justify-center gap-x-6 sm:justify-start">
             <Link href={"/dashboard"}>
               <Button>Click pics now</Button>

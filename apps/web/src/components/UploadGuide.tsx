@@ -62,9 +62,9 @@ export default function UploadGuide({
         <p className="mb-2 text-gray-600">
           Do{" "}
           <span className="font-semibold text-primary">
-            NOT include other accessories
+            NOT include accessories
           </span>{" "}
-          like sunglasses.
+          like sunglasses
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
