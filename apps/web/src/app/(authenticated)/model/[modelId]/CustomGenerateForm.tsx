@@ -118,7 +118,7 @@ function CustomGenerateForm() {
               <FormItem>
                 <FormLabel>Your thought</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="hottest me" {...field} />
+                  <Textarea placeholder="man in a suit" {...field} />
                 </FormControl>
                 <FormDescription>
                   Tip: Start with{" "}

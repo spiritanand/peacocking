@@ -23,7 +23,7 @@ const PaymentButton = ({ key, session }: { session: Session; key: string }) => {
       currency: "INR",
     };
     const i18Params = {
-      amount: "10",
+      amount: "9.99",
       currency: "USD",
     };
     const isIndian = isIndianTimeZone();
