@@ -2,6 +2,7 @@ import { Button } from "@web/components/ui/button";
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
 import CustomImage from "@web/components/ui/custom-image";
+import AnimatedHero from "@web/components/ui/animated-hero";
 
 export default function Hero() {
   return (
@@ -50,12 +51,7 @@ export default function Hero() {
       <div className="container flex flex-col items-center justify-center pb-20 pt-32 lg:flex-row lg:py-32">
         {/* hero text */}
         <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-          <h1 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-left">
-            Your dating profile <br />
-            <span className="text-5xl text-primary sm:text-7xl lg:ml-2">
-              supercharged
-            </span>
-          </h1>
+          <AnimatedHero />
           <p className="text-md mt-6 text-center leading-8 text-gray-600 sm:max-w-md sm:text-left sm:text-lg lg:max-w-none">
             Upload{" "}
             <span className="font-bold text-primary">just 10 photos</span> and
