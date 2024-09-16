@@ -16,12 +16,12 @@ const PostHogPageView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Get Dates and Jobs | Peacocking Photos",
+  title: "Get Jobs and Dates | Peacocking Photos",
   description: "Get more dates and jobs with your generated photographs.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   metadataBase: new URL("https://peacocking.pro"),
   openGraph: {
-    title: "Get Dates and Jobs | Peacocking Photos",
+    title: "Get Jobs and Dates | Peacocking Photos",
     description: "Get more dates and jobs with your generated photographs.",
     url: "https://peacocking.pro",
     type: "website",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: "Get Dates and Jobs | Peacocking Photos",
+    title: "Get Jobs and Dates | Peacocking Photos",
     description: "Get more dates and jobs with your generated photographs.",
     images: [
       {
