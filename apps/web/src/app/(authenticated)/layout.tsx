@@ -8,6 +8,7 @@ export default async function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerAuthSession();
 
+  // Redirect to signin page if user is not authenticated (though this cannot be treated as a middleware)
   if (!session) redirect("/api/auth/signin?callbackUrl=/dashboard");
 
   return (

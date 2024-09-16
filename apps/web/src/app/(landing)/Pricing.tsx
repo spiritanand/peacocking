@@ -58,8 +58,8 @@ export default function Pricing() {
                     USD
                   </span>
                 </p>
-                <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
-                  <Button>Get access</Button>
+                <Link href={"/dashboard"}>
+                  <Button>I want photos</Button>
                 </Link>
                 <p className="mt-6 text-xs leading-5 text-gray-600">
                   Invoices and receipts available for easy company reimbursement

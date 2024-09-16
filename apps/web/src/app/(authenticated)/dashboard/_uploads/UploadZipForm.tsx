@@ -19,8 +19,6 @@ function UploadZipForm() {
 
   const createModel = api.fal.createModel.useMutation();
 
-  console.log({ files });
-
   const handleFileUpload = (files: File[]) => {
     setFile(files);
   };

@@ -60,7 +60,7 @@ export default function Header() {
                 <DropdownMenuItem>{item.name}</DropdownMenuItem>
               </a>
             ))}
-            <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
+            <Link href={"/dashboard"}>
               <Button>Sign In</Button>
             </Link>
           </DropdownMenuContent>
