@@ -16,9 +16,33 @@ const PostHogPageView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Peacocking",
-  description: "Generate mesmerizing photos for your dating profile.",
+  title: "Get Dates and Jobs | Peacocking Photos",
+  description: "Get more dates and jobs with your generated photographs.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  metadataBase: new URL("https://peacocking.pro"),
+  openGraph: {
+    title: "Get Dates and Jobs | Peacocking Photos",
+    description: "Get more dates and jobs with your generated photographs.",
+    url: "https://peacocking.pro",
+    type: "website",
+    images: [
+      {
+        url: "https://peacocking.pro/images/og-wide.png",
+        alt: "Generate your Photos | Peacocking",
+      },
+    ],
+  },
+  twitter: {
+    title: "Get Dates and Jobs | Peacocking Photos",
+    description: "Get more dates and jobs with your generated photographs.",
+    images: [
+      {
+        url: "https://peacocking.pro/images/og-wide.png",
+        alt: "Generate your Photos | Peacocking",
+      },
+    ],
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

@@ -12,7 +12,7 @@ export function Footer() {
         <h2 className="relative z-10 mx-auto flex max-w-5xl flex-col items-center gap-2 bg-gradient-to-b from-neutral-800 via-white to-white bg-clip-text text-center text-3xl font-medium tracking-tight text-transparent md:flex-row md:gap-8 md:text-5xl md:leading-tight">
           <span>You</span>
           <span className="text-lg font-thin text-white">x</span>
-          <span>Our AI Model</span>
+          <span>AI</span>
         </h2>
         <h2 className="relative z-20 text-center text-2xl font-bold tracking-tight text-black md:text-4xl lg:text-7xl dark:text-white">
           <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">

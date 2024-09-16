@@ -56,19 +56,19 @@ export default function Hero() {
               supercharged
             </span>
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
+          <p className="text-md mt-6 text-center leading-8 text-gray-600 sm:max-w-md sm:text-left sm:text-lg lg:max-w-none">
             Upload{" "}
             <span className="font-bold text-primary">just 10 photos</span> and
             get <span className="font-bold text-primary">mesmerizing</span>{" "}
             results. Never miss a beat.
           </p>
-          <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+          <div className="mt-2 flex items-center justify-center gap-2 text-sm text-gray-500 sm:justify-start">
             <BadgeCheck className="text-emerald-700" /> Certified by dating
             experts
           </div>
-          <div className="mt-10 flex items-center gap-x-6">
-            <Link href={"/api/auth/signin?callbackUrl=/dashboard"}>
-              <Button>Get Started</Button>
+          <div className="mt-10 flex items-center justify-center gap-x-6 sm:justify-start">
+            <Link href={"/dashboard"}>
+              <Button>Click pics now</Button>
             </Link>
             {/* <a
                       href="#"
