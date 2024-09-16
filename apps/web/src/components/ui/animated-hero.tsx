@@ -15,7 +15,7 @@ const AnimatedHero = () => {
         setCurrentOption((prevOption) => (prevOption + 1) % options.length);
         setIsVisible(true);
       }, 0.5 * 1000); // Wait for fade out before changing text
-    }, 5 * 1000); // Change every 5 seconds
+    }, 3.5 * 1000);
 
     return () => clearInterval(intervalId);
   }, []);
