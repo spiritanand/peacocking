@@ -61,12 +61,14 @@ export default function Hero() {
             <Link href={"/dashboard"}>
               <Button>Click pics now</Button>
             </Link>
-            {/* <a
-                      href="#"
-                      className="text-sm font-semibold leading-6 text-gray-900"
-                    >
-                      Demo <span aria-hidden="true">→</span>
-                    </a> */}
+            <a
+              href="https://youtu.be/FIEQbO8zknk"
+              className="text-sm font-semibold leading-6 text-gray-900"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Demo <span aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
         {/* hero grid */}
