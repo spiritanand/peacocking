@@ -3,10 +3,10 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 
 const includedFeatures = [
-  "10 credits to get started with",
-  "Train your own AI model",
-  "Generate upto 20 photos on-demand",
-  "Own your photos forever",
+  "10 total credits to get started with",
+  "Use 5 credits to train your model",
+  "Generate photos on-demand, 0.25 credits per photo",
+  "Own your photos forever, use commercially or personally",
 ];
 
 export default function Pricing() {
