@@ -12,7 +12,7 @@ const PaymentButton = ({
   session,
   usdAmount,
 }: {
-  closeModal: () => void;
+  closeModal?: () => void;
   ctaText: string;
   rzpKey: string;
   session: Session;
@@ -25,7 +25,7 @@ const PaymentButton = ({
     <Button
       type={"button"}
       onClick={async () => {
-        closeModal();
+        closeModal?.();
 
         await makePayment({
           rzpKey,
