@@ -67,20 +67,21 @@ const PricingCard: React.FC<PricingCardProps> = ({
   </div>
 );
 
-const CreditSystem = () => (
+export const CreditSystem = () => (
   <div className="mx-auto mt-10 max-w-fit rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 p-8 text-white shadow-xl">
     <h3 className="mb-6 flex items-center text-3xl font-bold">
       <Zap className="mr-2" /> Credit System
     </h3>
     <ul className="space-y-4 text-xl">
-      <li className="flex items-center">
-        <span className="mr-2 font-bold">2 Credits</span> = Train your model
+      <li className="flex items-center gap-2">
+        <span className="font-bold">2 Credits</span> <span>=</span> Train your
+        model
       </li>
       <li className="flex items-center">
         <span className="mr-2 font-bold">0.5 Credit</span> = 1 Photo
       </li>
       <li className="flex items-center">
-        <span className="mr-2 font-bold">1 Credit</span> = $1 USD
+        <span className="mr-2 font-bold">1 Credit</span> = 1 USD
       </li>
     </ul>
     <p className="mt-6 text-lg">Top up credits anytime you need more!</p>

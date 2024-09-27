@@ -4,6 +4,7 @@ import PaymentButton from "../PaymentButton";
 import { CustomCreditPurchase } from "../CustomCreditPurchase";
 import { env } from "@web/env";
 import { redirect } from "next/navigation";
+import { CreditSystem } from "@web/app/(landing)/Pricing";
 
 export default async function page() {
   const session = await getServerAuthSession();
@@ -12,7 +13,7 @@ export default async function page() {
   if (!session) redirect("/api/auth/signin?callbackUrl=/buy");
 
   return (
-    <div className="container flex h-[75vh] flex-col items-center justify-center py-4">
+    <div className="flex min-h-[75vh] flex-col items-center justify-center px-2 py-4">
       <div className="grid grid-cols-2 items-center gap-4">
         <PaymentButton
           usdAmount={9.99}
@@ -27,6 +28,8 @@ export default async function page() {
       <p className="my-10 text-center text-gray-500">OR</p>
 
       <CustomCreditPurchase session={session} rzpKey={rzpKey} />
+
+      <CreditSystem />
     </div>
   );
 }
