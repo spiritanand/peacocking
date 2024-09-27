@@ -41,3 +41,5 @@ export const RequestStatusDescription: Record<RequestStatus, string> = {
   [RequestStatus.COMPLETED]: "Request has been successfully completed",
   [RequestStatus.FAILED]: "Request processing has failed",
 };
+
+export const INR_TO_USD_RATE = 84;

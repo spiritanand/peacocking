@@ -116,6 +116,15 @@ export const ModelStatusSchema = z.object({
   response_url: z.string().url(),
 });
 
+export const AddCreditsSchema = z.object({
+  credits: z.coerce
+    .number({ message: "Please enter a number" })
+    .min(1, "Please enter a number greater or equal to 1")
+    .int("Please enter a whole number")
+    .positive("Please enter a positive number"),
+});
+export type AddCredits = z.infer<typeof AddCreditsSchema>;
+
 // Types inferred from the schemas
 export type ImageGenerationInput = z.infer<typeof ImageGenerationInputSchema>;
 export type ImageGenerationOutput = z.infer<typeof ImageGenerationOutputSchema>;

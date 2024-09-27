@@ -9,9 +9,9 @@ import {
 import { api } from "@web/trpc/server";
 import Link from "next/link";
 import Credits from "./Credits";
-import PaymentButton from "./PaymentButton";
 import { getServerAuthSession } from "@web/server/auth";
 import { env } from "@web/env";
+import { PaymentModal } from "./PaymentModal";
 
 export default async function Header() {
   const session = await getServerAuthSession();
@@ -51,7 +51,7 @@ export default async function Header() {
           <span className="flex items-center gap-2">
             <Credits placeholderData={data} />
 
-            <PaymentButton session={session} key={env.RAZORPAY_ID} />
+            <PaymentModal session={session} rzpKey={env.RAZORPAY_ID} />
           </span>
 
           <Link

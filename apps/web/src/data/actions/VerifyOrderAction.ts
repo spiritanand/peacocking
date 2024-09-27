@@ -1,23 +1,26 @@
-/* eslint-disable */ //TODO: Remove this line
+"use server";
 
-import { type NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { env } from "@web/env";
 import { db } from "@web/server/db";
 import { users } from "@web/server/db/schema";
 import { eq } from "drizzle-orm";
 
-export const dynamic = "force-dynamic";
-
-export async function POST(req: NextRequest) {
-  const {
-    razorpayOrderId,
-    razorpaySignature,
-    razorpayPaymentId,
-    email,
-    credits,
-    previousBal,
-  } = await req.json();
+export async function VerifyOrderAction({
+  razorpayOrderId,
+  razorpaySignature,
+  razorpayPaymentId,
+  email,
+  credits,
+  previousBal,
+}: {
+  razorpayOrderId: string;
+  razorpaySignature: string;
+  razorpayPaymentId: string;
+  email: string;
+  credits: number;
+  previousBal: number;
+}) {
   const body = razorpayOrderId + "|" + razorpayPaymentId;
 
   const expectedSignature = crypto
@@ -28,10 +31,7 @@ export async function POST(req: NextRequest) {
   const isAuthentic = expectedSignature === razorpaySignature;
 
   if (!isAuthentic)
-    return NextResponse.json(
-      { message: "invalid payment signature", error: true },
-      { status: 400 },
-    );
+    return { success: false, message: "invalid payment signature" };
 
   // connect db and update data
   await db
@@ -39,8 +39,5 @@ export async function POST(req: NextRequest) {
     .set({ credits: previousBal + credits })
     .where(eq(users.email, email));
 
-  return NextResponse.json(
-    { message: "payment success", error: false },
-    { status: 200 },
-  );
+  return { success: true };
 }

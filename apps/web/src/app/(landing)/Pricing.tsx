@@ -1,74 +1,138 @@
+import React from "react";
 import { Button } from "@web/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Zap, Star } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@web/components/ui/badge";
+import { cn } from "@web/lib/utils";
 
-const includedFeatures = [
-  "10 total credits to get started with",
-  "Use 5 credits to train your model",
-  "Generate photos on-demand, 0.25 credits per photo",
-  "Own your photos forever, use commercially or personally",
-];
+interface PricingCardProps {
+  title: string;
+  price: string;
+  features: string[];
+  ctaText: string;
+  recommended?: boolean;
+}
+
+const PricingCard: React.FC<PricingCardProps> = ({
+  title,
+  price,
+  features,
+  ctaText,
+  recommended = false,
+}) => (
+  <div
+    className={cn(
+      `transform rounded-2xl p-8 shadow-xl`,
+      recommended
+        ? "border-4 border-yellow-400 bg-indigo-100"
+        : "border border-gray-200 bg-white",
+    )}
+  >
+    <div className="mb-4 flex items-center justify-between">
+      <h3
+        className={`text-2xl font-bold ${recommended ? "text-indigo-800" : "text-gray-800"}`}
+      >
+        {title}
+      </h3>
+      {recommended ? (
+        <Badge className="flex items-center bg-yellow-400 px-2 py-1 text-xs font-semibold text-indigo-800">
+          <Star className="mr-1 inline h-3 w-3" /> Recommended
+        </Badge>
+      ) : null}
+    </div>
+    <div
+      className={`mb-6 text-5xl font-bold ${recommended ? "text-indigo-600" : "text-gray-700"}`}
+    >
+      {price}
+    </div>
+    <ul className="mb-8 space-y-4">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-center">
+          <Check
+            className={`mr-3 h-5 w-5 flex-shrink-0 ${recommended ? "text-yellow-500" : "text-green-500"}`}
+          />
+          <span className={recommended ? "text-indigo-800" : "text-gray-600"}>
+            {feature}
+          </span>
+        </li>
+      ))}
+    </ul>
+    <Link href="/dashboard">
+      <Button
+        className={`w-full py-3 text-lg ${recommended ? "bg-yellow-400 text-indigo-800 hover:bg-yellow-500" : "bg-indigo-600 text-white hover:bg-indigo-700"}`}
+      >
+        {ctaText}
+      </Button>
+    </Link>
+  </div>
+);
+
+const CreditSystem = () => (
+  <div className="mx-auto mt-10 max-w-fit rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 p-8 text-white shadow-xl">
+    <h3 className="mb-6 flex items-center text-3xl font-bold">
+      <Zap className="mr-2" /> Credit System
+    </h3>
+    <ul className="space-y-4 text-xl">
+      <li className="flex items-center">
+        <span className="mr-2 font-bold">2 Credits</span> = Train your model
+      </li>
+      <li className="flex items-center">
+        <span className="mr-2 font-bold">0.5 Credit</span> = 1 Photo
+      </li>
+      <li className="flex items-center">
+        <span className="mr-2 font-bold">1 Credit</span> = $1 USD
+      </li>
+    </ul>
+    <p className="mt-6 text-lg">Top up credits anytime you need more!</p>
+  </div>
+);
 
 export default function Pricing() {
   return (
-    <div className="bg-white sm:py-24" id="pricing">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl sm:text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Pay once, own your photos forever
-          </h2>
+    <div className="rounded-2xl bg-gray-100 py-20" id="pricing">
+      <div className="container mx-auto px-4">
+        <h2 className="mb-4 text-center text-5xl font-bold">Simple Pricing</h2>
+        <p className="mb-12 text-center text-xl text-gray-600">
+          Pay once, own your photos forever
+        </p>
+
+        <div className="mb-16 grid gap-8 md:grid-cols-2">
+          <PricingCard
+            title="Starter Pack"
+            price="$9.99"
+            features={[
+              "One-time payment, lifetime access",
+              "10 credits included",
+              "Train your AI model (2 credits)",
+              "Generate photos (1 credit per photo)",
+              "Own your photos forever",
+              "Commercial & personal use",
+            ]}
+            ctaText="I want to start"
+            recommended={true}
+          />
+
+          <PricingCard
+            title="Custom Credits"
+            price="You Decide"
+            features={[
+              "Same features as Starter Pack",
+              "Flexible credit purchases",
+              "Buy any amount you need",
+              "Perfect for high-volume users",
+              "Scale up or down as needed",
+              "Unused credits never expire",
+            ]}
+            ctaText="Buy Custom Credits"
+          />
         </div>
-        <div className="mx-auto mt-10 max-w-2xl rounded-3xl ring-1 ring-gray-200 lg:mx-0 lg:flex lg:max-w-none">
-          <div className="p-8 sm:p-10 lg:flex-auto">
-            <h3 className="text-2xl font-bold tracking-tight text-gray-900">
-              One time payment, lifetime access
-            </h3>
-            <div className="mt-10 flex items-center gap-x-4">
-              <h4 className="flex-none text-sm font-semibold leading-6 text-indigo-600">
-                What’s included
-              </h4>
-              <div className="h-px flex-auto bg-gray-100" />
-            </div>
-            <ul
-              role="list"
-              className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6"
-            >
-              {includedFeatures.map((feature) => (
-                <li key={feature} className="flex gap-x-3">
-                  <Check
-                    aria-hidden="true"
-                    className="h-6 w-5 flex-none text-indigo-600"
-                  />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-            <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
-              <div className="mx-auto max-w-xs px-8">
-                <p className="text-base font-semibold text-gray-600">
-                  Pay once, own it forever
-                </p>
-                <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                  <span className="text-5xl font-bold tracking-tight text-gray-900">
-                    9.99
-                  </span>
-                  <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-                    USD
-                  </span>
-                </p>
-                <Link href={"/dashboard"}>
-                  <Button>I want photos</Button>
-                </Link>
-                <p className="mt-6 text-xs leading-5 text-gray-600">
-                  Invoices and receipts available for easy company reimbursement
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <p className="text-center text-lg text-gray-600">
+          Invoices available for easy company reimbursement
+        </p>
       </div>
+
+      <CreditSystem />
     </div>
   );
 }
