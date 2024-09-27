@@ -1,7 +1,7 @@
 import { CreateOrderAction } from "@web/data/actions/CreateOrderAction";
 import { isIndianTimeZone } from "./utils";
-import { toast } from "@web/hooks/use-toast";
 import { VerifyOrderAction } from "@web/data/actions/VerifyOrderAction";
+import { toast } from "sonner";
 
 /* eslint-disable */ //TODO: Remove this line
 
@@ -45,15 +45,8 @@ export const makePayment = async ({
       });
 
       if (success)
-        toast({
-          title: "Payment successful. Credits added to your account.",
-          variant: "default",
-        });
-      else
-        toast({
-          title: "Payment failed. Please try again.",
-          variant: "destructive",
-        });
+        toast.success("Payment successful. Credits added to your account.");
+      else toast.error("Payment failed. Please try again.");
     },
     prefill: {
       email: userEmail,
@@ -64,9 +57,6 @@ export const makePayment = async ({
   paymentObject.open();
 
   paymentObject.on("payment.failed", function () {
-    toast({
-      title: "Payment failed. Please try again.",
-      variant: "destructive",
-    });
+    toast.error("Payment failed. Please try again.");
   });
 };

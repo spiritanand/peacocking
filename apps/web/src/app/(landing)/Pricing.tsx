@@ -57,7 +57,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
         </li>
       ))}
     </ul>
-    <Link href="/dashboard">
+    <Link href="/buy">
       <Button
         className={`w-full py-3 text-lg ${recommended ? "bg-yellow-400 text-indigo-800 hover:bg-yellow-500" : "bg-indigo-600 text-white hover:bg-indigo-700"}`}
       >
