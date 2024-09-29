@@ -74,11 +74,11 @@ export const CreditSystem = () => (
     </h3>
     <ul className="space-y-4 text-xl">
       <li className="flex items-center gap-2">
-        <span className="font-bold">2 Credits</span> <span>=</span> Train your
+        <span className="font-bold">3 Credits</span> <span>=</span> Train your
         model
       </li>
       <li className="flex items-center">
-        <span className="mr-2 font-bold">0.5 Credit</span> = 1 Photo
+        <span className="mr-2 font-bold">1 Credit</span> = 4 Photos
       </li>
       <li className="flex items-center">
         <span className="mr-2 font-bold">1 Credit</span> = 1 USD
@@ -104,8 +104,8 @@ export default function Pricing() {
             features={[
               "One-time payment, lifetime access",
               "10 credits included",
-              "Train your AI model (2 credits)",
-              "Generate photos (1 credit per photo)",
+              "Train your AI model (3 credits)",
+              "Generate photos (0.25 credit per photo)",
               "Own your photos forever",
               "Commercial & personal use",
             ]}

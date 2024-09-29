@@ -74,6 +74,9 @@ async function submitToFalQueue({
   };
 }
 
+const MODEL_TRAINING_COST = 3;
+const IMAGE_GENERATION_COST = 0.25;
+
 export const falRouter = createTRPCRouter({
   createModel: protectedProcedure
     .input(z.object({ zipUrl: z.string() }))
@@ -116,7 +119,7 @@ export const falRouter = createTRPCRouter({
 
       await db
         .update(users)
-        .set({ credits: currentCredits - 5 })
+        .set({ credits: currentCredits - MODEL_TRAINING_COST })
         .where(eq(users.id, userId));
 
       await db.insert(models).values({
@@ -189,7 +192,7 @@ export const falRouter = createTRPCRouter({
 
       await db
         .update(users)
-        .set({ credits: currentCredits - 0.25 })
+        .set({ credits: currentCredits - IMAGE_GENERATION_COST })
         .where(eq(users.id, userId));
 
       return { requestId, responseUrl };
