@@ -32,7 +32,7 @@ export default async function Image() {
             alt={siteConfig.name}
             width="1000"
             height="630"
-            src={`https://peacocking.pro/images/upload-photos.png`}
+            src={`https://peacocking.pro/images/sample.png`}
             style={{
               position: "absolute",
               right: "0",
