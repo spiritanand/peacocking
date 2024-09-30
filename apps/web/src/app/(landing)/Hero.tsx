@@ -54,7 +54,7 @@ export default function Hero() {
           <p className="text-md mt-6 text-center leading-8 text-gray-600 sm:max-w-md sm:text-left sm:text-lg lg:max-w-none">
             Upload{" "}
             <span className="font-bold text-primary">just 10 photos</span> and
-            get <span className="font-bold text-primary">AI Photos</span> .
+            click <span className="font-bold text-primary">AI Photos</span> .
             Never need a photographer again.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6 sm:justify-start">

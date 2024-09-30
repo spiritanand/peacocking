@@ -25,7 +25,7 @@ const BeforeVsAfter = () => {
   return (
     <div className="container my-20 rounded-3xl bg-gray-900 p-4 text-white md:p-8">
       <h1 className="mb-8 text-center text-2xl font-bold md:text-4xl">
-        Selfies to AI photo: It is easy
+        Missed out on clicking good photos? <br /> We got you.
       </h1>
 
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">

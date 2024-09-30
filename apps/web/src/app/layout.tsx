@@ -5,6 +5,7 @@ import { Toaster } from "@web/components/ui/sonner";
 import Script from "next/script";
 import { Providers } from "./providers";
 import dynamic from "next/dynamic";
+import { siteConfig } from "config/site";
 
 const JS = Josefin_Sans({ subsets: ["latin"] });
 
@@ -16,31 +17,19 @@ const PostHogPageView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: "Get Jobs and Dates | Peacocking Photos",
-  description: "Get more dates and jobs with your generated photographs.",
+  title: siteConfig.name,
+  description: siteConfig.description,
   icons: [{ rel: "icon", url: "/favicon.ico" }],
-  metadataBase: new URL("https://peacocking.pro"),
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
-    title: "Get Jobs and Dates | Peacocking Photos",
-    description: "Get more dates and jobs with your generated photographs.",
-    url: "https://peacocking.pro",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
     type: "website",
-    images: [
-      {
-        url: "https://peacocking.pro/images/og.png",
-        alt: "Generate your Photos | Peacocking",
-      },
-    ],
   },
   twitter: {
-    title: "Get Jobs and Dates | Peacocking Photos",
-    description: "Get more dates and jobs with your generated photographs.",
-    images: [
-      {
-        url: "https://peacocking.pro/images/og.png",
-        alt: "Generate your Photos | Peacocking",
-      },
-    ],
+    title: siteConfig.name,
+    description: siteConfig.description,
     card: "summary_large_image",
   },
 };
