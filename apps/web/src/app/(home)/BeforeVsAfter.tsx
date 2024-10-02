@@ -2,30 +2,30 @@ import { Badge } from "@web/components/ui/badge";
 import { ArrowBigRight } from "lucide-react";
 import React from "react";
 
-const selfies = [
-  {
-    src: "selfies/dubai-man.jpg",
-    alt: "Man in Dubai",
-  },
-  {
-    src: "selfies/purple-t-man.jpg",
-    alt: "Man in Purple T-shirt",
-  },
-  {
-    src: "selfies/red-t-man.jpg",
-    alt: "Man in Red T-shirt",
-  },
-  {
-    src: "selfies/yellow-t-man.jpg",
-    alt: "Man in Yellow T-shirt",
-  },
-];
+interface Selfie {
+  src: string;
+  alt: string;
+}
 
-const BeforeVsAfter = () => {
+interface BeforeVsAfterProps {
+  selfies: Selfie[];
+  title: string;
+  finalPhoto: {
+    src: string;
+    alt: string;
+  };
+}
+
+const BeforeVsAfter: React.FC<BeforeVsAfterProps> = ({
+  selfies,
+  title,
+  finalPhoto,
+}) => {
   return (
     <div className="container my-20 rounded-3xl bg-gray-900 p-4 text-white md:p-8">
-      <h1 className="mb-8 text-center text-2xl font-bold md:text-4xl">
-        Missed out on clicking good photos? <br /> We got you.
+      <h1 className="mb-8 flex flex-col items-center justify-center gap-2 text-center text-2xl font-bold md:text-4xl">
+        <span>{title}</span>
+        <span>We got you.</span>
       </h1>
 
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
@@ -48,8 +48,8 @@ const BeforeVsAfter = () => {
 
         <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-700 md:w-5/12">
           <img
-            src="beach-chill.jpg"
-            alt="AI Generated Photo"
+            src={finalPhoto.src}
+            alt={finalPhoto.alt}
             className="h-full w-full object-cover"
           />
           <Badge className="absolute right-2 top-2">AI GENERATED PHOTO</Badge>

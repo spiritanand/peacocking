@@ -8,7 +8,6 @@ const heroImages = {
   topRight: "/man-street-art.jpeg",
   bottomRight: "/hike-man.jpeg",
 };
-
 const heroTextProps = {
   title: {
     line1: "Better Thumbnails",
@@ -28,12 +27,39 @@ const heroTextProps = {
   },
 };
 
+const selfies = [
+  {
+    src: "selfies/dubai-man.jpg",
+    alt: "Man in Dubai",
+  },
+  {
+    src: "selfies/purple-t-man.jpg",
+    alt: "Man in Purple T-shirt",
+  },
+  {
+    src: "selfies/red-t-man.jpg",
+    alt: "Man in Red T-shirt",
+  },
+  {
+    src: "selfies/yellow-t-man.jpg",
+    alt: "Man in Yellow T-shirt",
+  },
+];
+const finalPhoto = {
+  src: "beach-chill.jpg",
+  alt: "AI Generated Photo",
+};
+
 export default function LandingPage() {
   return (
     <>
       <Hero heroImages={heroImages} heroTextProps={heroTextProps} />
 
-      <BeforeVsAfter />
+      <BeforeVsAfter
+        selfies={selfies}
+        title="Stressed about spending too much for the right thumbnail?"
+        finalPhoto={finalPhoto}
+      />
     </>
   );
 }

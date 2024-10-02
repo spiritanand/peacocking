@@ -28,6 +28,29 @@ const heroTextProps = {
     href: "https://youtu.be/FIEQbO8zknk",
   },
 };
+const selfies = [
+  {
+    src: "selfies/dubai-man.jpg",
+    alt: "Man in Dubai",
+  },
+  {
+    src: "selfies/purple-t-man.jpg",
+    alt: "Man in Purple T-shirt",
+  },
+  {
+    src: "selfies/red-t-man.jpg",
+    alt: "Man in Red T-shirt",
+  },
+  {
+    src: "selfies/yellow-t-man.jpg",
+    alt: "Man in Yellow T-shirt",
+  },
+];
+
+const finalPhoto = {
+  src: "beach-chill.jpg",
+  alt: "AI Generated Photo",
+};
 
 export const metadata: Metadata = {
   title: "Dating Profile Photos",
@@ -38,7 +61,11 @@ export default function Page() {
     <>
       <Hero heroImages={heroImages} heroTextProps={heroTextProps} />
 
-      <BeforeVsAfter />
+      <BeforeVsAfter
+        selfies={selfies}
+        title="Missed out on clicking eventful photos?"
+        finalPhoto={finalPhoto}
+      />
     </>
   );
 }
