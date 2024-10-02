@@ -4,6 +4,7 @@ import { api, HydrateClient } from "@web/trpc/server";
 import GensList from "./GensList";
 import EditDialog from "./EditDialog";
 import ModelName from "./ModelName";
+import { ScrollToTop } from "@web/components/ScrollToTop";
 
 export default async function page({
   params,
@@ -33,6 +34,8 @@ export default async function page({
           </HydrateClient>
         </main>
       </div>
+
+      <ScrollToTop />
     </>
   );
 }
