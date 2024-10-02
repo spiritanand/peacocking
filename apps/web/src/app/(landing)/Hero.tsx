@@ -14,7 +14,7 @@ const heroTextProps = {
     line1: "Better Thumbnails",
     line2: "=",
     line3: "More Views",
-    subtitle: "(without an expensive photoshoot)",
+    subtitle: "(without an expensive studio)",
   },
   description:
     'Upload <span class="font-bold text-primary">just 10 photos</span> and click <span class="font-bold text-primary">AI Photos</span>. Never need a photographer again.',

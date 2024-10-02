@@ -10,9 +10,13 @@ import {
 import { copyToClipboard } from "@web/lib/utils";
 import { api } from "@web/trpc/react";
 import { Info } from "lucide-react";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
-export default function GensList({ modelId }: { modelId: string }) {
+export default function GensList() {
+  const params = useParams<{ modelId: string }>();
+  const modelId = params.modelId;
+
   const [gensList] = api.gen.getMyGensByModelId.useSuspenseQuery({
     modelId,
   });
