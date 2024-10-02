@@ -12,13 +12,21 @@ import { api } from "@web/trpc/react";
 import { Copy, Download, Info, Star } from "lucide-react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 interface GenCardProps {
   prompt: string;
   imageUrl: string;
+  featuredPhoto: string;
+  createdAt: Date;
 }
 
-export default function GenCard({ prompt, imageUrl }: GenCardProps) {
+export default function GenCard({
+  prompt,
+  imageUrl,
+  featuredPhoto,
+  createdAt,
+}: GenCardProps) {
   const params = useParams<{ modelId: string }>();
   const modelId = params.modelId;
 
@@ -27,7 +35,7 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
       onSuccess: () => {
         toast.success("Featured photo updated");
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("Failed to update featured photo");
       },
     });
@@ -98,12 +106,15 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
               <Button
                 className="absolute left-2 top-2 h-10 w-10 rounded-full p-0"
                 aria-label="Set as featured photo"
-                disabled={isPending}
+                disabled={isPending || featuredPhoto === imageUrl}
                 onClick={() => {
                   updateFeaturedPhoto({ id: modelId, photoUrl: imageUrl });
                 }}
               >
-                <Star size={16} />
+                <Star
+                  size={16}
+                  fill={featuredPhoto === imageUrl ? "white" : "none"}
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Set as featured photo</TooltipContent>
@@ -153,6 +164,9 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
             <TooltipContent>Copy image to clipboard</TooltipContent>
           </Tooltip>
         </TooltipProvider>
+        <div className="absolute bottom-1 left-1 right-0 w-fit rounded-lg bg-black/50 p-2 text-xs text-white">
+          {format(new Date(createdAt), "h:mm a")}
+        </div>
       </div>
     </li>
   );

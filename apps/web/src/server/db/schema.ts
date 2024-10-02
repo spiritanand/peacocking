@@ -188,6 +188,8 @@ export const gens = createTable("gen", {
   input: json("input").$type<ImageGenerationInput>(),
   output: json("output").$type<ImageGenerationOutput>(),
 });
+export type Gen = typeof gens.$inferSelect; // return type when queried
+export type NewGen = typeof gens.$inferInsert; // insert type
 
 // Relations
 export const requestsRelations = relations(requests, ({ one }) => ({
