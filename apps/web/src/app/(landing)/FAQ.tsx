@@ -11,7 +11,8 @@ const faqs: {
   },
   {
     question: "How long does the whole process take?",
-    answer: "It takes less than 5 minutes for the model to train.",
+    answer:
+      "It takes less than 5 minutes for the model to train. After that each image you want takes less than 10 seconds.",
   },
   {
     question: "What file formats of images are accepted?",
@@ -58,7 +59,7 @@ const faqs: {
 
 export default function FAQ() {
   return (
-    <div className="mx-auto mb-20 max-w-7xl px-6 py-10">
+    <div className="mx-auto mb-20 max-w-7xl px-6 py-10" id="faq">
       <div className="lg:grid lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">

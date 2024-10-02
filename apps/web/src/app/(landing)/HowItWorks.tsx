@@ -1,6 +1,6 @@
 import React from "react";
-import CustomImage from "@web/components/ui/custom-image";
 import UploadGuide from "../../components/UploadGuide";
+import { HeroGrid } from "@web/components/landing/HeroGrid";
 
 export default function HowItWorks() {
   return (
@@ -37,50 +37,16 @@ export default function HowItWorks() {
           <span className="font-semibold text-primary">sports superstar</span>
         </p>
       </div>
-      <div className="hero-photos-grid mt-14 grid grid-cols-3">
-        {/* First Column */}
-        <div className="relative" style={{ gridArea: "suit" }}>
-          <CustomImage
-            alt="green-lantern"
-            src="/green-lantern.jpg"
-            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
-          />
-        </div>
 
-        <div className="relative" style={{ gridArea: "water" }}>
-          <CustomImage
-            alt="model"
-            src="/model.jpg"
-            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
-          />
-        </div>
-
-        {/* Second Column */}
-        <div className="relative" style={{ gridArea: "red" }}>
-          <CustomImage
-            alt="professional"
-            src="/professional.jpg"
-            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
-          />
-        </div>
-
-        {/* Third Column */}
-        <div className="relative" style={{ gridArea: "street" }}>
-          <CustomImage
-            alt="footballer"
-            src="/footballer.jpg"
-            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
-          />
-        </div>
-
-        <div className="relative" style={{ gridArea: "hiker" }}>
-          <CustomImage
-            alt="GOT"
-            src="/got.jpg"
-            className="h-full w-full rounded-md bg-gray-900/5 object-cover shadow-lg lg:rounded-xl"
-          />
-        </div>
-      </div>
+      <HeroGrid
+        images={{
+          topLeft: "/green-lantern.jpg",
+          bottomLeft: "/model.jpg",
+          middle: "/professional.jpg",
+          topRight: "/footballer.jpg",
+          bottomRight: "/got.jpg",
+        }}
+      />
     </div>
   );
 }

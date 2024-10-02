@@ -9,8 +9,9 @@ type SiteConfig = {
 };
 
 export const siteConfig: SiteConfig = {
-  name: "More Dates with AI Photos | Peacocking Photos",
-  description: "Get more dates with your genuine AI photographs.",
+  name: "Professional AI Photo Studio",
+  description:
+    "Never need a photographer again. Get professional photos with AI.",
   url: "https://peacocking.pro",
   links: {
     twitter: "https://x.com/spiritanand",

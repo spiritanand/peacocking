@@ -1,5 +1,6 @@
 import { HeroGrid } from "@web/components/landing/HeroGrid";
 import { HeroText } from "@web/components/landing/HeroText";
+import { type Metadata } from "next";
 
 const heroImages = {
   topLeft: "/man-in-suit.jpeg",
@@ -11,21 +12,25 @@ const heroImages = {
 
 const heroTextProps = {
   title: {
-    line1: "Better Thumbnails",
+    line1: "Better Photos",
     line2: "=",
-    line3: "More Views",
+    line3: "More Dates",
     subtitle: "(without an expensive photoshoot)",
   },
   description:
     'Upload <span class="font-bold text-primary">just 10 photos</span> and click <span class="font-bold text-primary">AI Photos</span>. Never need a photographer again.',
   ctaButton: {
-    text: "Generate Thumbnails",
+    text: "Click pics now",
     href: "/dashboard",
   },
   demoLink: {
     text: "Demo",
     href: "https://youtu.be/FIEQbO8zknk",
   },
+};
+
+export const metadata: Metadata = {
+  title: "Dating Profile Photos",
 };
 
 export default function Hero() {

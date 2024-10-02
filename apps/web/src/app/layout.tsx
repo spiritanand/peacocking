@@ -17,7 +17,10 @@ const PostHogPageView = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   metadataBase: new URL(siteConfig.url),
