@@ -8,7 +8,9 @@ import {
   TooltipTrigger,
 } from "@web/components/ui/tooltip";
 import { copyToClipboard } from "@web/lib/utils";
-import { Copy, Download, Info } from "lucide-react";
+import { api } from "@web/trpc/react";
+import { Copy, Download, Info, Star } from "lucide-react";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 interface GenCardProps {
@@ -17,6 +19,19 @@ interface GenCardProps {
 }
 
 export default function GenCard({ prompt, imageUrl }: GenCardProps) {
+  const params = useParams<{ modelId: string }>();
+  const modelId = params.modelId;
+
+  const { mutate: updateFeaturedPhoto, isPending } =
+    api.model.updateFeaturedPhoto.useMutation({
+      onSuccess: () => {
+        toast.success("Featured photo updated");
+      },
+      onError: (error) => {
+        toast.error("Failed to update featured photo");
+      },
+    });
+
   const handleDownload = async () => {
     try {
       const response = await fetch(imageUrl);
@@ -69,7 +84,7 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
   };
 
   return (
-    <li className="group relative mx-auto h-fit w-fit bg-primary/10">
+    <li className="group relative mx-auto h-fit w-fit overflow-hidden rounded-lg bg-primary/10">
       <img
         src={imageUrl}
         alt="Peacocked"
@@ -78,6 +93,22 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
       />
       <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-100 transition-opacity sm:bg-transparent sm:opacity-0 sm:group-hover:opacity-100">
         <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="absolute left-2 top-2 h-10 w-10 rounded-full p-0"
+                aria-label="Set as featured photo"
+                disabled={isPending}
+                onClick={() => {
+                  updateFeaturedPhoto({ id: modelId, photoUrl: imageUrl });
+                }}
+              >
+                <Star size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Set as featured photo</TooltipContent>
+          </Tooltip>
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -95,22 +126,33 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
               <p className="max-w-xs text-sm">{prompt}</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
 
-        <Button
-          className="absolute bottom-2 right-2 h-10 w-10 rounded-full p-0"
-          aria-label="Download image"
-          onClick={handleDownload}
-        >
-          <Download size={16} />
-        </Button>
-        <Button
-          className="absolute bottom-2 right-14 h-10 w-10 rounded-full p-0"
-          aria-label="Copy image URL"
-          onClick={copyImageToClipboard}
-        >
-          <Copy size={16} />
-        </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="absolute bottom-2 right-2 h-10 w-10 rounded-full p-0"
+                aria-label="Download image"
+                onClick={handleDownload}
+              >
+                <Download size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Download image</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="absolute bottom-2 right-14 h-10 w-10 rounded-full p-0"
+                aria-label="Copy image to clipboard"
+                onClick={copyImageToClipboard}
+              >
+                <Copy size={16} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Copy image to clipboard</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </li>
   );

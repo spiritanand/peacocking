@@ -23,4 +23,16 @@ export const modelRouter = createTRPCRouter({
 
       return { success: true, message: "Model name updated" };
     }),
+  updateFeaturedPhoto: protectedProcedure
+    .input(z.object({ id: z.string(), photoUrl: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id, photoUrl } = input;
+
+      await db
+        .update(models)
+        .set({ featurePhotoUrl: photoUrl })
+        .where(and(eq(models.id, id), eq(models.userId, ctx.session.user.id)));
+
+      return { success: true, message: "Featured photo updated" };
+    }),
 });
