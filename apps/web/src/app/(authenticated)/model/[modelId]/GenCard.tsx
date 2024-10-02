@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@web/components/ui/tooltip";
 import { copyToClipboard } from "@web/lib/utils";
-import { Download, Info, Link } from "lucide-react";
+import { Copy, Download, Info } from "lucide-react";
 import { toast } from "sonner";
 
 interface GenCardProps {
@@ -34,6 +34,38 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
       console.error("Error downloading image:", error);
       toast.error("Failed to download image");
     }
+  };
+
+  const copyImageToClipboard = async () => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+
+    img.onload = async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0);
+
+      try {
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob(resolve),
+        );
+        if (blob) {
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/png": blob }),
+          ]);
+          toast.success("Image copied to clipboard");
+        } else {
+          throw new Error("Failed to create blob from canvas");
+        }
+      } catch (err) {
+        console.error("Failed to copy image: ", err);
+        toast.error("Failed to copy image");
+        alert("Failed to copy image. See console for details.");
+      }
+    };
   };
 
   return (
@@ -75,12 +107,9 @@ export default function GenCard({ prompt, imageUrl }: GenCardProps) {
         <Button
           className="absolute bottom-2 right-14 h-10 w-10 rounded-full p-0"
           aria-label="Copy image URL"
-          onClick={() => {
-            void copyToClipboard(imageUrl);
-            toast.success("Image URL copied to clipboard");
-          }}
+          onClick={copyImageToClipboard}
         >
-          <Link size={16} />
+          <Copy size={16} />
         </Button>
       </div>
     </li>
