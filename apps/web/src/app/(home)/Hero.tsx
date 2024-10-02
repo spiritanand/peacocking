@@ -1,34 +1,34 @@
 import { HeroGrid } from "@web/components/landing/HeroGrid";
 import { HeroText } from "@web/components/landing/HeroText";
 
-const heroImages = {
-  topLeft: "/man-in-suit.jpeg",
-  bottomLeft: "/man-water.jpeg",
-  middle: "/red-hair.jpeg",
-  topRight: "/man-street-art.jpeg",
-  bottomRight: "/hike-man.jpeg",
-};
+interface HeroProps {
+  heroImages: {
+    topLeft: string;
+    bottomLeft: string;
+    middle: string;
+    topRight: string;
+    bottomRight: string;
+  };
+  heroTextProps: {
+    title: {
+      line1: string;
+      line2: string;
+      line3: string;
+      subtitle: string;
+    };
+    description: string;
+    ctaButton: {
+      text: string;
+      href: string;
+    };
+    demoLink: {
+      text: string;
+      href: string;
+    };
+  };
+}
 
-const heroTextProps = {
-  title: {
-    line1: "Better Thumbnails",
-    line2: "=",
-    line3: "More Views",
-    subtitle: "(without an expensive studio)",
-  },
-  description:
-    'Upload <span class="font-bold text-primary">just 10 photos</span> and click <span class="font-bold text-primary">AI Photos</span>. Never need a photographer again.',
-  ctaButton: {
-    text: "Generate Thumbnails",
-    href: "/dashboard",
-  },
-  demoLink: {
-    text: "Demo",
-    href: "https://youtu.be/FIEQbO8zknk",
-  },
-};
-
-export default function Hero() {
+export default function Hero({ heroImages, heroTextProps }: HeroProps) {
   return (
     <div className="relative isolate">
       <svg
