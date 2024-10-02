@@ -20,11 +20,20 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Textarea } from "@web/components/ui/textarea";
 import { LoaderCircle } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@web/components/ui/select";
+import { ImageSize } from "@web/lib/constants";
 
 const formSchema = z.object({
   prompt: z.string().min(5, {
     message: "Must be at least 5 characters",
   }),
+  imageSize: z.nativeEnum(ImageSize),
 });
 
 fal.config({
@@ -67,6 +76,7 @@ function CustomGenerateForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
+      imageSize: ImageSize.LANDSCAPE_16_9,
     },
   });
 
@@ -96,11 +106,11 @@ function CustomGenerateForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { prompt } = values;
+    const { prompt, imageSize } = values;
 
     setIsPending(true);
     await utils.user.getUser.invalidate();
-    createImage.mutate({ modelId, prompt });
+    createImage.mutate({ modelId, prompt, imageSize });
     toast.info("Generating image...");
   }
 
@@ -127,6 +137,37 @@ function CustomGenerateForm() {
                   <span className="font-semibold text-primary">
                     {"woman..."}
                   </span>
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="imageSize"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image Size</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select image size" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.entries(ImageSize).map(([key, value]) => (
+                      <SelectItem key={key} value={value}>
+                        {key.replace(/_/g, " ").toLowerCase()}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>
+                  Choose the desired size for your generated image.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -1,10 +1,10 @@
 export enum ImageSize {
-  SQUARE_HD = "square_hd",
-  SQUARE = "square",
-  PORTRAIT_4_3 = "portrait_4_3",
-  PORTRAIT_16_9 = "portrait_16_9",
-  LANDSCAPE_4_3 = "landscape_4_3",
   LANDSCAPE_16_9 = "landscape_16_9",
+  LANDSCAPE_4_3 = "landscape_4_3",
+  PORTRAIT_16_9 = "portrait_16_9",
+  PORTRAIT_4_3 = "portrait_4_3",
+  SQUARE = "square",
+  SQUARE_HD = "square_hd",
 }
 export enum OutputFormat {
   JPEG = "jpeg",

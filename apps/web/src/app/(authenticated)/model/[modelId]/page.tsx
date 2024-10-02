@@ -17,8 +17,8 @@ export default async function page({
 
   return (
     <>
-      <div className="container flex items-start justify-center">
-        <aside className="">
+      <div className="container flex flex-col items-start justify-center gap-10 lg:flex-row">
+        <aside className="self-center lg:self-start">
           <div className="my-10 flex items-center justify-center gap-10">
             <ModelName />
             <EditDialog />

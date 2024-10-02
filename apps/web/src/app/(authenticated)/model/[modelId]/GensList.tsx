@@ -1,17 +1,8 @@
 "use client";
 
-import { Button } from "@web/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@web/components/ui/tooltip";
-import { copyToClipboard } from "@web/lib/utils";
 import { api } from "@web/trpc/react";
-import { Info } from "lucide-react";
 import { useParams } from "next/navigation";
-import { toast } from "sonner";
+import GenCard from "./GenCard";
 
 export default function GensList() {
   const params = useParams<{ modelId: string }>();
@@ -22,35 +13,14 @@ export default function GensList() {
   });
 
   return (
-    <ul className="mt-10 flex flex-wrap justify-center gap-2">
+    <ul className="mt-10 grid grid-cols-1 items-center justify-center gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {gensList?.map((gen) =>
         gen.output?.images.map((image) => (
-          <li key={image.url} className="relative">
-            <img
-              src={image.url}
-              alt="Peacocked"
-              className="h-72 w-auto min-w-[216.5px] rounded-lg border border-transparent object-cover hover:border-primary"
-            />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    className="absolute bottom-2 right-2 h-10 w-10 rounded-full bg-opacity-50 p-0 hover:bg-opacity-75"
-                    aria-label="Show prompt"
-                    onClick={() => {
-                      void copyToClipboard(gen.input?.prompt.trim());
-                      toast.success("Prompt copied to clipboard");
-                    }}
-                  >
-                    <Info size={16} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs text-sm">{gen.input?.prompt.trim()}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </li>
+          <GenCard
+            key={image.url}
+            prompt={gen.input?.prompt?.trim() ?? ""}
+            imageUrl={image.url}
+          />
         )),
       )}
     </ul>

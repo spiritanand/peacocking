@@ -130,7 +130,13 @@ export const falRouter = createTRPCRouter({
       return result;
     }),
   createImage: protectedProcedure
-    .input(z.object({ modelId: z.string(), prompt: z.string() }))
+    .input(
+      z.object({
+        modelId: z.string(),
+        prompt: z.string(),
+        imageSize: z.nativeEnum(ImageSize),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const currentCredits = ctx.session.user.credits;
@@ -167,7 +173,7 @@ export const falRouter = createTRPCRouter({
           // },
         ],
         prompt: `${trigger_word}${prompt}`,
-        image_size: ImageSize.PORTRAIT_4_3,
+        image_size: input.imageSize,
         num_images: 1,
         output_format: OutputFormat.JPEG,
         num_inference_steps: 28,
