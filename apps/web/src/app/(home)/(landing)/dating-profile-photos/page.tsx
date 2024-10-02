@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   title: "Dating Profile Photos",
 };
 
-export default function Hero() {
+export default function Page() {
   return (
     <div className="relative isolate">
       <svg

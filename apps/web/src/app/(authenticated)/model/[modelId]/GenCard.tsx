@@ -41,6 +41,9 @@ export default function GenCard({
     });
 
   const handleDownload = async () => {
+    toast.loading("Downloading image...", {
+      id: "download-image",
+    });
     try {
       const response = await fetch(imageUrl);
       const blob = await response.blob();
@@ -52,7 +55,9 @@ export default function GenCard({
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
-      toast.success("Image downloaded successfully");
+      toast.success("Image downloaded successfully", {
+        id: "download-image",
+      });
     } catch (error) {
       console.error("Error downloading image:", error);
       toast.error("Failed to download image");
@@ -60,6 +65,9 @@ export default function GenCard({
   };
 
   const copyImageToClipboard = async () => {
+    toast.loading("Copying image to clipboard...", {
+      id: "copy-image",
+    });
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.src = imageUrl;
@@ -79,7 +87,9 @@ export default function GenCard({
           await navigator.clipboard.write([
             new ClipboardItem({ "image/png": blob }),
           ]);
-          toast.success("Image copied to clipboard");
+          toast.success("Image copied to clipboard", {
+            id: "copy-image",
+          });
         } else {
           throw new Error("Failed to create blob from canvas");
         }

@@ -1,5 +1,6 @@
 import "@web/styles/globals.css";
 import Header from "./Header";
+import { Footer } from "./Footer";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,11 @@ export default function RootLayout({
     <>
       <Header />
 
-      {children}
+      <main className="flex flex-col items-center justify-center">
+        {children}
+      </main>
+
+      <Footer />
     </>
   );
 }
