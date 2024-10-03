@@ -11,15 +11,15 @@ const heroImages = {
 };
 const heroTextProps = {
   title: {
-    line1: "Better Thumbnails",
-    line2: "=",
-    line3: "More Views",
-    subtitle: "(without an expensive studio)",
+    line1: "AI-Powered",
+    line2: "Thumbnail Generator",
+    line3: "Fast. Professional.",
+    subtitle: "(no design skills needed)",
   },
   description:
-    '<span class="font-bold text-primary">Save time and money</span>, generate <span class="font-bold text-primary">amazing thumbnails</span> for your social media content. Never need an expensive photoshoot again!',
+    'Create <span class="font-bold text-primary">eye-catching thumbnails</span> in seconds. <span class="font-bold text-primary">Boost your content\'s visibility</span> without expensive software or design skills.',
   ctaButton: {
-    text: "Generate Thumbnails",
+    text: "Create Your Thumbnail",
     href: "/dashboard",
   },
 };
@@ -48,8 +48,9 @@ const finalPhoto = {
 };
 
 export const metadata = {
-  title: "Generate Thumbnails",
-  description: "Generate thumbnails for your social media content",
+  title: "AI Thumbnail Generator",
+  description:
+    "Generate professional, eye-catching thumbnails for your videos and social media content in seconds with our AI-powered tool.",
 };
 
 export default function LandingPage() {
@@ -60,20 +61,20 @@ export default function LandingPage() {
       <Testimonial />
 
       <BeforeVsAfter
-        title="Stressed about spending too much for the right thumbnail?"
+        title="Struggling to create thumbnails that get clicks?"
         beforePhotos={beforePhotos}
         beforeList={[
-          { text: "Time-consuming design process" },
-          { text: "Inconsistent quality" },
-          { text: "Limited creative ideas" },
-          { text: "Difficulty standing out" },
+          { text: "Hours spent on thumbnail design" },
+          { text: "Inconsistent thumbnail quality" },
+          { text: "Limited design skills" },
+          { text: "Low click-through rates" },
         ]}
         finalPhoto={finalPhoto}
         afterList={[
-          { text: "Generation in under 10 seconds" },
-          { text: "Consistently eye-catching results" },
-          { text: "Endless creative possibilities" },
-          { text: "Guaranteed to grab attention" },
+          { text: "Generate thumbnails in seconds" },
+          { text: "Consistently professional results" },
+          { text: "No design skills required" },
+          { text: "Boost your click-through rates" },
         ]}
         isLandscape
       />
