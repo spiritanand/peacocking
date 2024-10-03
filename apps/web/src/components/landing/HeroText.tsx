@@ -42,7 +42,9 @@ export function HeroText({
       />
       <div className="mt-10 flex items-center justify-center gap-x-6 sm:justify-start">
         <Link href={ctaButton.href}>
-          <Button>{ctaButton.text}</Button>
+          <Button className="text-xl" size="lg">
+            {ctaButton.text}
+          </Button>
         </Link>
         {demoLink && (
           <a

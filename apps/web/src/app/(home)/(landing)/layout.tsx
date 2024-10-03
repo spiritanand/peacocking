@@ -24,8 +24,8 @@ export default function RootLayout({
       <FAQ />
 
       <Link href="/dashboard">
-        <Button size="lg" className="mb-12 text-2xl">
-          I want to click pictures now!{" "}
+        <Button size="lg" className="mb-12 text-xl md:text-2xl">
+          I want to click pictures now{" "}
           <ArrowRightIcon className="ml-2 h-5 w-5" />
         </Button>
       </Link>

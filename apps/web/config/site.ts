@@ -9,7 +9,7 @@ type SiteConfig = {
 };
 
 export const siteConfig: SiteConfig = {
-  name: "Professional AI Photo Studio",
+  name: "Peacocking AI Photo Studio",
   description:
     "Never need a photographer again. Get professional photos with AI.",
   url: "https://peacocking.pro",

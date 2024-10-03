@@ -62,9 +62,21 @@ export default function Page() {
       <Hero heroImages={heroImages} heroTextProps={heroTextProps} />
 
       <BeforeVsAfter
-        selfies={selfies}
+        beforePhotos={selfies}
         title="Missed out on clicking eventful photos?"
         finalPhoto={finalPhoto}
+        beforeList={[
+          { text: "Limited selection of photos" },
+          { text: "Awkward selfies or group shots" },
+          { text: "Outdated or repetitive images" },
+          { text: "Lack of variety in settings" },
+        ]}
+        afterList={[
+          { text: "Diverse, high-quality photos" },
+          { text: "Professional-looking solo shots" },
+          { text: "Fresh, current appearance" },
+          { text: "Showcase various interests and locations" },
+        ]}
       />
     </>
   );

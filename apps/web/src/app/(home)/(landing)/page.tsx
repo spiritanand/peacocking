@@ -23,27 +23,32 @@ const heroTextProps = {
   },
 };
 
-const selfies = [
+const beforePhotos = [
   {
-    src: "selfies/dubai-man.jpg",
-    alt: "Man in Dubai",
+    src: "bad/thumbnails/overload.png",
+    alt: "Information Overload",
   },
   {
-    src: "selfies/purple-t-man.jpg",
-    alt: "Man in Purple T-shirt",
+    src: "bad/thumbnails/gamer.webp",
+    alt: "Gamer",
   },
   {
-    src: "selfies/red-t-man.jpg",
-    alt: "Man in Red T-shirt",
+    src: "bad/thumbnails/awkward.png",
+    alt: "Awkward",
   },
   {
-    src: "selfies/yellow-t-man.jpg",
-    alt: "Man in Yellow T-shirt",
+    src: "bad/thumbnails/cli.jpg",
+    alt: "CLI App",
   },
 ];
 const finalPhoto = {
-  src: "beach-chill.jpg",
-  alt: "AI Generated Photo",
+  src: "outputs/thumbnails/adventure.jpg",
+  alt: "Adventure of a Lifetime",
+};
+
+export const metadata = {
+  title: "Generate Thumbnails",
+  description: "Generate thumbnails for your social media content",
 };
 
 export default function LandingPage() {
@@ -52,9 +57,22 @@ export default function LandingPage() {
       <Hero heroImages={heroImages} heroTextProps={heroTextProps} isLandscape />
 
       <BeforeVsAfter
-        selfies={selfies}
         title="Stressed about spending too much for the right thumbnail?"
+        beforePhotos={beforePhotos}
+        beforeList={[
+          { text: "Time-consuming design process" },
+          { text: "Inconsistent quality" },
+          { text: "Limited creative ideas" },
+          { text: "Difficulty standing out" },
+        ]}
         finalPhoto={finalPhoto}
+        afterList={[
+          { text: "Generation in under 10 seconds" },
+          { text: "Consistently eye-catching results" },
+          { text: "Endless creative possibilities" },
+          { text: "Guaranteed to grab attention" },
+        ]}
+        isLandscape
       />
     </>
   );
