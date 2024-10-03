@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import * as fal from "@fal-ai/serverless-client";
 import { Button } from "@web/components/ui/button";
 import { api } from "@web/trpc/react";
@@ -19,7 +19,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Textarea } from "@web/components/ui/textarea";
-import { LoaderCircle } from "lucide-react";
+import { Command, CornerDownLeft, LoaderCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -107,14 +107,33 @@ function CustomGenerateForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { prompt, imageSize } = values;
+  const onSubmit = useCallback(
+    async (values: z.infer<typeof formSchema>) => {
+      const { prompt, imageSize } = values;
 
-    setIsPending(true);
-    await utils.user.getUser.invalidate();
-    createImage.mutate({ modelId, prompt, imageSize });
-    toast.info("Generating image...");
-  }
+      setIsPending(true);
+      await utils.user.getUser.invalidate();
+      createImage.mutate({ modelId, prompt, imageSize });
+      toast.info("Generating image...");
+    },
+    [utils, createImage, modelId],
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+        event.preventDefault();
+
+        if (!isPending) void form.handleSubmit(onSubmit)();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [form, isPending, onSubmit]);
 
   return (
     <>
@@ -188,7 +207,10 @@ function CustomGenerateForm() {
                   <LoaderCircle className="ml-2 h-5 w-5 animate-spin" />
                 </>
               ) : (
-                "Generate"
+                <>
+                  Generate (<Command size={12} /> + <CornerDownLeft size={12} />
+                  )
+                </>
               )}
             </Button>
             <p className="mt-4 text-sm text-gray-500">

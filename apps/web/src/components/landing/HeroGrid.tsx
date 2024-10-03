@@ -1,4 +1,5 @@
 import CustomImage from "@web/components/ui/custom-image";
+import { cn } from "@web/lib/utils";
 
 interface HeroGridProps {
   images: {
@@ -8,11 +9,17 @@ interface HeroGridProps {
     topRight: string;
     bottomRight: string;
   };
+  isLandscape?: boolean;
 }
 
-export function HeroGrid({ images }: HeroGridProps) {
+export function HeroGrid({ images, isLandscape = false }: HeroGridProps) {
   return (
-    <div className="hero-photos-grid mt-14 grid grid-cols-3 gap-4">
+    <div
+      className={cn(
+        isLandscape ? "landscape" : "portrait",
+        "hero-photos-grid mt-14 grid gap-4",
+      )}
+    >
       <div className="relative" style={{ gridArea: "topLeft" }}>
         <CustomImage
           isAiGenerated

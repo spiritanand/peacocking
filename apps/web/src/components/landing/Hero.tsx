@@ -26,9 +26,14 @@ interface HeroProps {
       href: string;
     };
   };
+  isLandscape?: boolean;
 }
 
-export default function Hero({ heroImages, heroTextProps }: HeroProps) {
+export default function Hero({
+  heroImages,
+  heroTextProps,
+  isLandscape = false,
+}: HeroProps) {
   return (
     <div className="relative isolate">
       <svg
@@ -74,7 +79,7 @@ export default function Hero({ heroImages, heroTextProps }: HeroProps) {
       </div>
       <div className="container flex flex-col items-center justify-center pb-20 pt-32 lg:flex-row lg:py-32">
         <HeroText {...heroTextProps} />
-        <HeroGrid images={heroImages} />
+        <HeroGrid images={heroImages} isLandscape={isLandscape} />
       </div>
     </div>
   );

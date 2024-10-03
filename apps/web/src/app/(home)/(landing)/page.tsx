@@ -2,11 +2,11 @@ import BeforeVsAfter from "../../../components/landing/BeforeVsAfter";
 import Hero from "../../../components/landing/Hero";
 
 const heroImages = {
-  topLeft: "/man-in-suit.jpeg",
-  bottomLeft: "/outputs/thumbnails/shocked.png",
-  middle: "/outputs/thumbnails/stressed.png",
-  topRight: "/outputs/thumbnails/laughing.png",
-  bottomRight: "/hike-man.jpeg",
+  topLeft: "/outputs/thumbnails/protein.png",
+  bottomLeft: "/outputs/thumbnails/screaming.jpg",
+  middle: "/outputs/thumbnails/phoneWars.png",
+  topRight: "/outputs/thumbnails/waddiyars.png",
+  bottomRight: "/outputs/thumbnails/monk.jpg",
 };
 const heroTextProps = {
   title: {
@@ -49,7 +49,7 @@ const finalPhoto = {
 export default function LandingPage() {
   return (
     <>
-      <Hero heroImages={heroImages} heroTextProps={heroTextProps} />
+      <Hero heroImages={heroImages} heroTextProps={heroTextProps} isLandscape />
 
       <BeforeVsAfter
         selfies={selfies}

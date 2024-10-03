@@ -70,25 +70,39 @@
 
 .hero-photos-grid {
   grid-template-areas:
-    "topLeft    middle     bottomLeft"
-    "topLeft    middle  bottomLeft"
-    "bottomRight   topRight  bottomLeft";
-  gap: 10px;
-
-  @media (min-width: 1064px) {
-    grid-template-areas:
-      "topLeft    .    topRight"
-      "topLeft middle topRight"
-      "bottomLeft middle bottomRight"
-      "bottomLeft middle bottomRight"
-      "bottomLeft . bottomRight";
-  }
+    "middle middle"
+    "topLeft topLeft "
+    "topRight topRight"
+    "bottomRight bottomRight"
+    "bottomLeft bottomLeft";
 }
 
 .hero-photos-grid img {
-  min-height: 280px;
+  min-height: 50px;
+}
 
-  @media (min-width: 1064px) {
-    min-height: 280px;
+.hero-photos-grid.landscape img {
+  aspect-ratio: 16/9;
+}
+
+.hero-photos-grid.portrait img {
+  aspect-ratio: 3/4;
+}
+
+@media (min-width: 1064px) {
+  .hero-photos-grid.portrait {
+    grid-template-areas:
+      "topLeft    .         topRight"
+      "topLeft    middle    topRight"
+      "bottomLeft middle    bottomRight"
+      "bottomLeft middle    bottomRight"
+      "bottomLeft .         bottomRight";
+  }
+
+  .hero-photos-grid.landscape {
+    grid-template-areas:
+      "topLeft    topLeft    topRight    topRight"
+      "middle     middle     middle     middle"
+      "bottomLeft bottomLeft bottomRight bottomRight";
   }
 }
