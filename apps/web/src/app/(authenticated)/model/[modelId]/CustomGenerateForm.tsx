@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import * as fal from "@fal-ai/serverless-client";
 import { Button } from "@web/components/ui/button";
 import { api } from "@web/trpc/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@web/components/ui/select";
-import { ImageSize } from "@web/lib/constants";
+import { IMAGE_GENERATION_COST, ImageSize } from "@web/lib/constants";
 
 const formSchema = z.object({
   prompt: z.string().min(5, {
@@ -68,8 +68,9 @@ async function periodicFetch({
 function CustomGenerateForm() {
   const params = useParams<{ modelId: string }>();
   const { modelId } = params;
-  const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
 
+  const [isPending, setIsPending] = useState(false);
   const utils = api.useUtils();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -102,6 +103,7 @@ function CustomGenerateForm() {
     onError: (error) => {
       toast.error(error.message);
       setIsPending(false);
+      router.push("/buy");
     },
   });
 
@@ -191,7 +193,10 @@ function CustomGenerateForm() {
             </Button>
             <p className="mt-4 text-sm text-gray-500">
               It costs{" "}
-              <span className="text-primary">0.25 credits per image</span>.
+              <span className="text-primary">
+                {IMAGE_GENERATION_COST} credits per image
+              </span>
+              .
             </p>
           </div>
         </form>

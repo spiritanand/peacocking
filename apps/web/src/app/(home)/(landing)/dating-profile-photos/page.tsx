@@ -1,5 +1,5 @@
-import BeforeVsAfter from "../../BeforeVsAfter";
-import Hero from "../../Hero";
+import BeforeVsAfter from "../../../../components/landing/BeforeVsAfter";
+import Hero from "../../../../components/landing/Hero";
 import { type Metadata } from "next";
 
 const heroImages = {

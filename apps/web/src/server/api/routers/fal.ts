@@ -3,7 +3,13 @@ import { createTRPCRouter, protectedProcedure } from "@web/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@web/server/db";
 import { gens, models, requests, users } from "@web/server/db/schema";
-import { ImageSize, OutputFormat, RequestType } from "@web/lib/constants";
+import {
+  IMAGE_GENERATION_COST,
+  ImageSize,
+  MODEL_TRAINING_COST,
+  OutputFormat,
+  RequestType,
+} from "@web/lib/constants";
 import { and, eq } from "drizzle-orm";
 import * as fal from "@fal-ai/serverless-client";
 import { env } from "@web/env";
@@ -74,9 +80,6 @@ async function submitToFalQueue({
   };
 }
 
-const MODEL_TRAINING_COST = 3;
-const IMAGE_GENERATION_COST = 0.25;
-
 export const falRouter = createTRPCRouter({
   createModel: protectedProcedure
     .input(z.object({ zipUrl: z.string() }))
@@ -84,7 +87,8 @@ export const falRouter = createTRPCRouter({
       const userId = ctx.session.user.id;
       const currentCredits = ctx.session.user.credits;
 
-      if (currentCredits < 5) throw new TRPCError({ code: "FORBIDDEN" });
+      if (currentCredits < MODEL_TRAINING_COST)
+        throw new TRPCError({ code: "FORBIDDEN" });
 
       const posthog = PostHogClient();
       posthog.capture({
@@ -140,8 +144,13 @@ export const falRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const currentCredits = ctx.session.user.credits;
+      const numOfImages = 1;
 
-      if (currentCredits < 0.25) throw new TRPCError({ code: "FORBIDDEN" });
+      if (currentCredits < IMAGE_GENERATION_COST * numOfImages)
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Not enough credits",
+        });
 
       const { modelId, prompt } = input;
 
@@ -174,7 +183,7 @@ export const falRouter = createTRPCRouter({
         ],
         prompt: `${trigger_word}${prompt}`,
         image_size: input.imageSize,
-        num_images: 1,
+        num_images: numOfImages,
         output_format: OutputFormat.JPEG,
         num_inference_steps: 28,
         guidance_scale: 3.5,
@@ -198,7 +207,7 @@ export const falRouter = createTRPCRouter({
 
       await db
         .update(users)
-        .set({ credits: currentCredits - IMAGE_GENERATION_COST })
+        .set({ credits: currentCredits - IMAGE_GENERATION_COST * numOfImages })
         .where(eq(users.id, userId));
 
       return { requestId, responseUrl };

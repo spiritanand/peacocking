@@ -4,7 +4,7 @@ import PaymentButton from "../PaymentButton";
 import { CustomCreditPurchase } from "../CustomCreditPurchase";
 import { env } from "@web/env";
 import { redirect } from "next/navigation";
-import { CreditSystem } from "@web/app/(landing)/Pricing";
+import { CreditSystem } from "@web/components/landing/Pricing";
 
 export default async function page() {
   const session = await getServerAuthSession();

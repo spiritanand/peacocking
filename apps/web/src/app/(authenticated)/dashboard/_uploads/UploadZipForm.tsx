@@ -7,6 +7,7 @@ import { FileUpload } from "@web/components/ui/file-upload";
 import { api } from "@web/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { MODEL_TRAINING_COST } from "@web/lib/constants";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -62,7 +63,7 @@ function UploadZipForm() {
         />
 
         <Button type="submit" disabled={!files.length || isPending}>
-          Upload ZIP (requires 5 credits)
+          Upload ZIP (requires {MODEL_TRAINING_COST} credits)
         </Button>
       </form>
     </>

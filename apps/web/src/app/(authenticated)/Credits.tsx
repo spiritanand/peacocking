@@ -16,7 +16,7 @@ export default function Credits({
   return (
     <>
       <span className="hidden lg:block">Credits: </span>
-      {user?.credits}{" "}
+      {user?.credits.toFixed(1)}{" "}
     </>
   );
 }

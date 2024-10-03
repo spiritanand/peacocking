@@ -5,32 +5,32 @@ import React from "react";
 
 const uploadGuideImages = [
   {
-    src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "/images/HIW/woman.avif",
     alt: "Woman",
     valid: true,
   },
   {
-    src: "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNsb3NldXAlMjBmYWNlJTIwc2hvdHMlMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D",
+    src: "/images/HIW/man.avif",
     alt: "Man in blue shirt",
     valid: true,
   },
   {
-    src: "https://images.unsplash.com/photo-1724709972210-4beb408de580?q=80&w=3287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "/images/HIW/blonde.avif",
     alt: "Blonde model with short hair closeup",
     valid: true,
   },
   {
-    src: "https://images.unsplash.com/photo-1478061653917-455ba7f4a541?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNsb3NldXAlMjBmYWNlJTIwc2hvdHMlMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D",
+    src: "/images/HIW/family.avif",
     alt: "Family",
     valid: false,
   },
   {
-    src: "https://images.unsplash.com/photo-1628591765015-aae219c65a82?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZmFjZSUyMHNob3RzJTIwcGVvcGxlfGVufDB8fDB8fHww",
+    src: "/images/HIW/accessories.avif",
     alt: "Woman with sunglasses",
     valid: false,
   },
   {
-    src: "https://plus.unsplash.com/premium_photo-1663054774427-55adfb2be76f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVvcGxlfGVufDB8fDB8fHww",
+    src: "/images/HIW/couple.avif",
     alt: "Couple photo",
     valid: false,
   },
@@ -87,6 +87,17 @@ export default function UploadGuide({
           </div>
         ))}
       </div>
+
+      <video
+        playsInline
+        autoPlay
+        muted
+        loop
+        width="100%"
+        className="mx-auto my-4 max-w-4xl rounded-xl shadow-2xl ring-1 ring-gray-900/10"
+      >
+        <source src="/videos/upload.mp4" type="video/mp4" />
+      </video>
     </>
   );
 }

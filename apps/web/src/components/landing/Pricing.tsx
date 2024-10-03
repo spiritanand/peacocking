@@ -4,6 +4,7 @@ import { Check, Zap, Star } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@web/components/ui/badge";
 import { cn } from "@web/lib/utils";
+import { IMAGE_GENERATION_COST, MODEL_TRAINING_COST } from "@web/lib/constants";
 
 interface PricingCardProps {
   title: string;
@@ -74,11 +75,11 @@ export const CreditSystem = () => (
     </h3>
     <ul className="space-y-4 text-xl">
       <li className="flex items-center gap-2">
-        <span className="font-bold">3 Credits</span> <span>=</span> Train your
-        model
+        <span className="font-bold">{MODEL_TRAINING_COST} Credits</span>{" "}
+        <span>=</span> Train your model
       </li>
       <li className="flex items-center">
-        <span className="mr-2 font-bold">1 Credit</span> = 4 Photos
+        <span className="mr-2 font-bold">1 Credit</span> = 10 Photos
       </li>
       <li className="flex items-center">
         <span className="mr-2 font-bold">1 Credit</span> = 1 USD
@@ -104,8 +105,8 @@ export default function Pricing() {
             features={[
               "One-time payment, lifetime access",
               "10 credits included",
-              "Train your AI model (3 credits)",
-              "Generate photos (0.25 credit per photo)",
+              `Train your AI model (${MODEL_TRAINING_COST} credits)`,
+              `Generate photos (${IMAGE_GENERATION_COST} credits per photo)`,
               "Own your photos forever",
               "Commercial & personal use",
             ]}

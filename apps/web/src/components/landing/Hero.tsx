@@ -21,7 +21,7 @@ interface HeroProps {
       text: string;
       href: string;
     };
-    demoLink: {
+    demoLink?: {
       text: string;
       href: string;
     };

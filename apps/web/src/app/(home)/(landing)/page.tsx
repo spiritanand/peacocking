@@ -1,11 +1,11 @@
-import BeforeVsAfter from "../BeforeVsAfter";
-import Hero from "../Hero";
+import BeforeVsAfter from "../../../components/landing/BeforeVsAfter";
+import Hero from "../../../components/landing/Hero";
 
 const heroImages = {
   topLeft: "/man-in-suit.jpeg",
-  bottomLeft: "/man-water.jpeg",
-  middle: "/red-hair.jpeg",
-  topRight: "/man-street-art.jpeg",
+  bottomLeft: "/outputs/thumbnails/shocked.png",
+  middle: "/outputs/thumbnails/stressed.png",
+  topRight: "/outputs/thumbnails/laughing.png",
   bottomRight: "/hike-man.jpeg",
 };
 const heroTextProps = {
@@ -16,14 +16,10 @@ const heroTextProps = {
     subtitle: "(without an expensive studio)",
   },
   description:
-    'Upload <span class="font-bold text-primary">just 10 photos</span> and click <span class="font-bold text-primary">AI Photos</span>. Never need a photographer again.',
+    '<span class="font-bold text-primary">Save time and money</span>, generate <span class="font-bold text-primary">amazing thumbnails</span> for your social media content. Never need an expensive photoshoot again!',
   ctaButton: {
     text: "Generate Thumbnails",
     href: "/dashboard",
-  },
-  demoLink: {
-    text: "Demo",
-    href: "https://youtu.be/FIEQbO8zknk",
   },
 };
 

@@ -6,6 +6,10 @@ export enum ImageSize {
   SQUARE = "square",
   SQUARE_HD = "square_hd",
 }
+
+export const MODEL_TRAINING_COST = 3;
+export const IMAGE_GENERATION_COST = 0.1;
+
 export enum OutputFormat {
   JPEG = "jpeg",
   PNG = "png",

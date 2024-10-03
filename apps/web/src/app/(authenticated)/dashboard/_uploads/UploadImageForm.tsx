@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { env } from "@web/env";
 import { LoaderCircle } from "lucide-react";
+import { MODEL_TRAINING_COST } from "@web/lib/constants";
 
 fal.config({
   proxyUrl: "/api/fal/proxy",
@@ -106,7 +107,7 @@ function UploadImageForm() {
               Uploading <LoaderCircle className="ml-2 h-5 w-5 animate-spin" />
             </>
           ) : (
-            "Upload Images (requires 5 credits)"
+            `Upload Images (requires ${MODEL_TRAINING_COST} credits)`
           )}
         </Button>
       </form>

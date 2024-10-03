@@ -26,8 +26,8 @@ const corsOptions: CorsOptions = {
         callback(new Error("Not allowed by CORS"));
       }
     } else {
-      // Allow localhost:3000 in development
-      if (origin === "http://localhost:3000") {
+      // Allow localhost:3001 in development
+      if (origin === "http://localhost:3001") {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));

@@ -75,12 +75,15 @@ export default function FAQ() {
             </a>{" "}
             team.
           </p>
-          <CustomImage
-            src="/man-book-faq.jpeg"
-            alt="faq guy"
-            className="mt-8 h-auto rounded-md"
-            loading="lazy"
-          />
+          <span className="relative">
+            <CustomImage
+              src="/man-book-faq.jpeg"
+              alt="faq guy"
+              className="mt-8 h-auto rounded-md"
+              loading="lazy"
+              isAiGenerated
+            />
+          </span>
         </div>
         <div className="mt-10 lg:col-span-7 lg:mt-0">
           <dl className="space-y-8">
