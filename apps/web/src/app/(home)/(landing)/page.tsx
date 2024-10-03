@@ -1,3 +1,4 @@
+import Testimonial from "@web/components/landing/Testimonial";
 import BeforeVsAfter from "../../../components/landing/BeforeVsAfter";
 import Hero from "../../../components/landing/Hero";
 
@@ -55,6 +56,8 @@ export default function LandingPage() {
   return (
     <>
       <Hero heroImages={heroImages} heroTextProps={heroTextProps} isLandscape />
+
+      <Testimonial />
 
       <BeforeVsAfter
         title="Stressed about spending too much for the right thumbnail?"
