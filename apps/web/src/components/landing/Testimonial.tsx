@@ -24,7 +24,9 @@ export default function Testimonial() {
               className="mx-auto h-10 w-10 rounded-full object-cover"
             />
             <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-              <div className="font-semibold text-gray-900">Suryansh Anand</div>
+              <div className="font-semibold text-gray-900">
+                Suryansh &quot;Spirit&quot; Anand
+              </div>
               <svg
                 width={3}
                 height={3}
@@ -35,7 +37,7 @@ export default function Testimonial() {
                 <circle r={1} cx={1} cy={1} />
               </svg>
               <div className="text-gray-600">
-                Entrepreneur | Content Creator
+                Builder 🛠 | Content Creator 📸
               </div>
             </div>
           </figcaption>
