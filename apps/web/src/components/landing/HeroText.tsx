@@ -41,10 +41,17 @@ export function HeroText({
         dangerouslySetInnerHTML={{ __html: description }}
       />
       <div className="mt-10 flex items-center justify-center gap-x-6 sm:justify-start">
-        <Link href={ctaButton.href}>
+        <Link
+          href={ctaButton.href}
+          className="flex flex-col items-center gap-1"
+        >
           <Button className="text-xl" size="lg">
             {ctaButton.text}
           </Button>
+
+          <p className="text-sm leading-6 text-gray-500">
+            No Design Skills Required
+          </p>
         </Link>
         {demoLink && (
           <a
