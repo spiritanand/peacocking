@@ -11,9 +11,9 @@ const heroImages = {
 };
 const heroTextProps = {
   title: {
-    line1: "AI-Powered",
-    line2: "Thumbnail Generator",
-    line3: "Fast. Professional.",
+    line1: "Professional YouTube",
+    line2: "Thumbnails",
+    line3: "in 10 seconds",
     subtitle: "(no design skills needed)",
   },
   description:

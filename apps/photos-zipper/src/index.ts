@@ -71,12 +71,6 @@ app.post("/zip", upload.array("photos", 30), async (req, res) => {
       const zipUrl = await createSignedUrl(localZipPath);
       return res.json({ success: true, zipUrl });
     });
-
-    // FAL
-    // const zipFileBuffer = fs.readFileSync(localZipPath);
-    // const zipFileBlob = new Blob([zipFileBuffer], { type: "application/zip" });
-    // const zipUrl = await fal.storage.upload(zipFileBlob);
-    // return res.json({ success: true, zipUrl });
   } catch (err) {
     console.log({ err });
 
@@ -88,7 +82,7 @@ app.post("/zip", upload.array("photos", 30), async (req, res) => {
     if (files && Array.isArray(files))
       await Promise.allSettled(files.map((file) => unlinkFile(file.path)));
 
-    // if (zipPath) await unlinkFile(zipPath);
+    if (localZipPath) await unlinkFile(localZipPath);
   }
 });
 
