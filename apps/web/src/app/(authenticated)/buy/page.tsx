@@ -12,6 +12,8 @@ export default async function page() {
 
   if (!session) redirect("/api/auth/signin?callbackUrl=/buy");
 
+  if (session.user.credits >= 1) redirect("/dashboard");
+
   return (
     <div className="flex min-h-[75vh] flex-col items-center justify-center px-2 py-4">
       <div className="grid grid-cols-2 items-center gap-4">
