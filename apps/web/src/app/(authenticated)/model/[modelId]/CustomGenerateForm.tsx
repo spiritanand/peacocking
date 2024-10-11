@@ -95,7 +95,7 @@ function CustomGenerateForm() {
           await utils.gen.getMyGensByModelId.invalidate({ modelId });
 
           setIsPending(false);
-          form.reset();
+          form.reset({ prompt: "", imageSize: form.getValues("imageSize") });
           toast.success("Image generated successfully");
         },
       });
